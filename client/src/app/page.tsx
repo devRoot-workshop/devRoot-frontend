@@ -1,7 +1,10 @@
+import { Button } from "@/components/ui/button"
+
 export default function Home() {
   return (
     <div>
-      <p>test</p>
+      <p>Text</p>
+      <Button variant="default">Button</Button>
     </div>
   );
 }
