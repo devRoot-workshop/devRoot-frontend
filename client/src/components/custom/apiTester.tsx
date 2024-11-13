@@ -28,7 +28,7 @@ const ApiTester: React.FC<RequestComponentProps> = ({ getUrl, postUrl }) => {
 
   const handlePostRequest = async () => {
     try {
-      const response = await axios.post(postUrl, { name: 'budos patkany', type: 44 });
+      const response = await axios.post(postUrl, { name: 'budos patkany', type: 0});
       setPostResponse(response.data);
     } catch (error) {
       console.error('Error posting data:', error);
