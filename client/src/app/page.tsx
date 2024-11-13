@@ -1,10 +1,9 @@
-import { Button } from "@/components/ui/button"
+import ApiTester from "@/components/custom/apiTester";
 
 export default function Home() {
   return (
     <div>
-      <p>Text</p>
-      <Button variant="default">Button</Button>
+      <ApiTester getUrl="http://localhost:5000/api/" postUrl="http://localhost:5000/api/" />
     </div>
   );
 }
