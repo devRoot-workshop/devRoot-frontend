@@ -1,62 +1,68 @@
 "use client";
-
+ 
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { signInWithGoogle, signOutWithGoogle } from '../../lib/firebase/auth';
 import { Button } from '../ui/button';
 import { onAuthStateChanged } from 'firebase/auth';
 import { firebaseAuth } from '../../../firebase';
-
+ 
 interface RequestComponentProps {
   getUrl: string;
   postUrl: string;
 }
-
+ 
 interface User {
+  idToken: string;
   uid: string;
   displayName: string;
   photoURL: string;
   email: string;
 }
-
+ 
 const ApiTester: React.FC<RequestComponentProps> = ({ getUrl, postUrl }) => {
   const [data, setData] = useState<Record<string, any> | null>(null);
   const [postResponse, setPostResponse] = useState<Record<string, any> | null>(null);
   const [user, setUser] = useState<User | null>(null);
-
+ 
   useEffect(() => {
     const fetchData = async () => {
       if (!user) return;
-
+ 
       try {
-        const response = await axios.get(getUrl);
-        setData(response.data);
+        const response = await axios.get(getUrl, {headers: {'Authorization': `Bearer ${user.idToken}`}});
+        setData(response);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
-
+ 
     fetchData();
   }, [getUrl, user]);
-
+ 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(firebaseAuth, (currentUser) => {
+    const handleAuthChange = async (currentUser: any) => {
       if (currentUser) {
+        const idToken = await currentUser.getIdToken();
         setUser({
+          idToken,
           uid: currentUser.uid,
-          displayName: currentUser.displayName || 'Unknown User',
-          photoURL: currentUser.photoURL || '',
-          email: currentUser.email || 'No Email',
+          displayName: currentUser.displayName || "Unknown User",
+          photoURL: currentUser.photoURL || "",
+          email: currentUser.email || "No Email",
         });
       } else {
         setUser(null);
       }
+    };
+ 
+    const unsubscribe = onAuthStateChanged(firebaseAuth, (currentUser) => {
+      handleAuthChange(currentUser);
     });
-  
-    // Cleanup subscription on unmount
+ 
     return () => unsubscribe();
   }, []);
-
+ 
   const handlePostRequest = async () => {
     try {
       const response = await axios.post(postUrl, { name: 'budos patkany', type: 0 });
@@ -65,11 +71,12 @@ const ApiTester: React.FC<RequestComponentProps> = ({ getUrl, postUrl }) => {
       console.error('Error posting data:', error);
     }
   };
-
+ 
   const handleLogin = async () => {
     try {
       const userData = await signInWithGoogle();
       setUser({
+        idToken: await userData!.getIdToken(),
         uid: userData!.uid,
         displayName: userData!.displayName || 'Unknown User',
         photoURL: userData!.photoURL || '',
@@ -79,7 +86,7 @@ const ApiTester: React.FC<RequestComponentProps> = ({ getUrl, postUrl }) => {
       console.error('Login error:', error);
     }
   };
-
+ 
   const handleLogout = async () => {
     try {
       await signOutWithGoogle();
@@ -90,7 +97,7 @@ const ApiTester: React.FC<RequestComponentProps> = ({ getUrl, postUrl }) => {
       console.error('Logout error:', error);
     }
   };
-
+ 
   return (
     <div>
         <div>
@@ -106,8 +113,8 @@ const ApiTester: React.FC<RequestComponentProps> = ({ getUrl, postUrl }) => {
               <Button onClick={handleLogin}>loginolj</Button>
             </div>
           }
-          
-
+ 
+ 
           <div>
             <h2>GET</h2>
             <pre>{JSON.stringify(data, null, 2)}</pre>
@@ -120,5 +127,5 @@ const ApiTester: React.FC<RequestComponentProps> = ({ getUrl, postUrl }) => {
     </div>
   );
 };
-
+ 
 export default ApiTester;
