@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { signInWithGoogle, signOutWithGoogle } from '../../lib/firebase/auth';
-import { Button } from '../ui/button';
 import { onAuthStateChanged } from 'firebase/auth';
 import { firebaseAuth } from '../../../firebase';
  
@@ -105,12 +104,12 @@ const ApiTester: React.FC<RequestComponentProps> = ({ getUrl, postUrl }) => {
             <div>
             <h1>Welcome, {user.displayName}</h1>
             <img src={user.photoURL} alt="User Profile" width={100} />
-            <Button onClick={handleLogout} variant="destructive">Logout</Button>
+            <button onClick={handleLogout}>Logout</button>
           </div>
           ) : 
             <div>
               <h1>nem vagy bejelentkezve lol. tedd meg itt:</h1>
-              <Button onClick={handleLogin}>loginolj</Button>
+              <button onClick={handleLogin}>loginolj</button>
             </div>
           }
  
@@ -119,7 +118,7 @@ const ApiTester: React.FC<RequestComponentProps> = ({ getUrl, postUrl }) => {
             <h2>GET</h2>
             <pre>{JSON.stringify(data, null, 2)}</pre>
             <br />
-            <Button onClick={handlePostRequest} variant="default">Send POST Request</Button>
+            <button onClick={handlePostRequest}>Send POST Request</button>
             <h2>POST</h2>
             <pre>{JSON.stringify(postResponse, null, 2)}</pre>
           </div>
