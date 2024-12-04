@@ -1,24 +1,44 @@
 "use client"
 
-import ApiTester from "@/components/custom/apiTester";
+import styles from './Header.module.css'
 import { useAuth } from "@/lib/authContext";
+import Button from "../button/Button";
 
 export default function Header() {
   const { user, login, logout } = useAuth();
 
   return (
-    <div>
-      {user ? (
-        <div>
-          <p>Welcome, {user.displayName || user.email}</p>
-          <button onClick={logout}>Logout</button>
-        </div>
-      ) : (
-        <div>
-          <p>Please log in to access the app.</p>
-          <button onClick={login}>Login with Google</button>
-        </div>
-      )}
+    <div className={styles['header-container']}>
+      <div className="flex space-x-12">
+        <a href="/feladatok" className={styles['header-element']}>Feladatok</a>
+        <a href="/kategoriak" className={styles['header-element']}>Kategóriák</a>
+      </div>
+
+      <div>
+        {user ? (
+          <div>
+            <Button
+              size="small"
+              type="pale"
+              ghost={false}
+              onClick={logout}
+            >
+              Kijelentkezés
+            </Button>
+          </div>
+        ) : (
+          <div>
+            <Button
+              size="small"
+              type="pale"
+              ghost={false}
+              onClick={login}
+            >
+              Regisztráció
+            </Button>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

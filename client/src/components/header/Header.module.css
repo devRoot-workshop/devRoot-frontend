@@ -1,0 +1,29 @@
+.header-container {
+    border-radius: 25px;
+    border: 1.5px solid #2FAA96;
+
+    margin: 25px auto;
+    padding: 1rem 0.65rem 1rem 1.5rem;
+    
+    max-width: 800px;
+    height: 65px;
+    
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+  
+.header-element {
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    color: white;
+    transition: color 0.1s ease;
+}
+
+.header-element:hover {
+    color: #2FAA96;
+}
