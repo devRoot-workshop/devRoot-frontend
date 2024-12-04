@@ -3,7 +3,8 @@ import styles from './button.module.css';
 
 interface ButtonProps {
   size?: 'small' | 'big';
-  type?: 'normal' | 'pale' | 'ghost';
+  type?: 'normal' | 'pale';
+  ghost?: true | false;
   children: React.ReactNode;
   onClick?: () => void;
 }
@@ -11,6 +12,7 @@ interface ButtonProps {
 const Button: FC<ButtonProps> = ({
   size = 'big',
   type = 'normal',
+  ghost = false,
   children,
   onClick,
 }) => {
@@ -18,11 +20,11 @@ const Button: FC<ButtonProps> = ({
   const typeClass = {
     normal: styles.normal,
     pale: styles.pale,
-    ghost: styles.ghost,
   }[type] || styles.normal;
+  const ghostClass = ghost ? styles.ghost : "";
 
   return (
-    <button className={`${styles.button} ${sizeClass} ${typeClass}`} onClick={onClick}>
+    <button className={`${styles.button} ${sizeClass} ${typeClass} ${ghostClass}`} onClick={onClick}>
       {children}
     </button>
   );
