@@ -1,34 +1,50 @@
 .button {
-    font-family: Arial, sans-serif;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-  
-  .small {
-    padding: 8px 12px;
-    font-size: 14px;
-  }
-  
-  .big {
-    padding: 12px 20px;
-    font-size: 18px;
-  }
-  
-  .normal {
-    background-color: #007bff;
-    color: #fff;
-  }
-  
-  .pale {
-    background-color: #f0f0f0;
-    color: #333;
-  }
-  
-  .ghost {
-    background-color: transparent;
-    border: 1px solid #007bff;
-    color: #007bff;
-  }
-  
+  font-family: 'Inter', sans-serif;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.small {
+  min-width: 120px;
+  padding: 12px 16px;
+  font-size: 14px;
+}
+
+.big {
+  min-width: 200px;
+  padding: 16px 28px;
+  font-size: 18px;
+}
+
+.normal {
+  background-color: #90FFD2;
+  border-color: #90FFD2 !important;
+  color: black;
+}
+
+.pale {
+  background-color: #ffffff;
+  border-color: #ffffff !important;
+  color: #333;
+}
+
+.ghost {
+  background-color: transparent;
+  border: 2px solid;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.normal:hover {
+  background-color: #80e7c2;
+}
+
+.pale:hover {
+  background-color: gainsboro;
+}
+
+.ghost:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
