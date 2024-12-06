@@ -21,7 +21,7 @@ export default function Home() {
       </div>
     
       <div className={styles["about-section-container"]}>
-        <h2 className='subtitle'>Mi az a devRoot?</h2>
+        <h2 className='subtitle text-center'>Mi az a devRoot?</h2>
 
         <div className={styles["about-section-box-container"]}>
           <div>
@@ -32,14 +32,40 @@ export default function Home() {
           </div>
           <div>
             <DescriptionBox width={469} height={125}>
-              <p className='appearent-tag-text mb-1 font-light'>Minden kategorizálva</p>
-              <p className='font-light'>A feladatokat címkékkel rendszerezzük, megkönnyítve a keresést, tanulást, tanítást és az együttműködést.</p>
+              <p className='apparent large-tag-text mb-1 font-light'>Minden kategorizálva</p>
+              <p className='font-light inapparent'>A feladatokat címkékkel rendszerezzük, megkönnyítve a keresést, tanulást, tanítást és az együttműködést.</p>
             </DescriptionBox>
             <DescriptionBox width={469} height={149}>
-              <p className='appearent-tag-text mb-1 font-light'>A közösségnek</p>
-              <p className='font-light'>A devRoot összeköti a tanárokat és diákokat, hogy megosszák, értékeljék és bővítsék egymás programozási tudását.</p>
+              <p className='apparent large-tag-text mb-1 font-light'>A közösségnek</p>
+              <p className='font-light inapparent'>A devRoot összeköti a tanárokat és diákokat, hogy megosszák, értékeljék és bővítsék egymás programozási tudását.</p>
             </DescriptionBox>
           </div>
+        </div>
+      </div>
+   
+      <div className={styles["categories-section-container"]}>
+        <h2 className='subtitle text-left leading-tight'>
+          A platformon található feladatokat 
+            <br/> 
+          gondosan kategorizáltuk címkék segítségével.
+        </h2>
+        <div className={'my-7 ' + styles["categories-button-container"]}>
+          <Button size='small'>Feladatok</Button>
+          <Button size='small' ghost={true}>Regisztráció</Button>
+        </div>
+        <div className={styles['categories-list']}>
+          <DescriptionBox width={343} height={209} url='example.com'>
+            <h3 className='large-tag-text mb-1'>Nehézségi szint</h3>
+            <p className='font-light inapparent'>Kezdő, haladó feladat, vagy középszintű, emelt szintű érettségi...</p>
+          </DescriptionBox>
+          <DescriptionBox width={343} height={209} url='example.com'>
+            <h3 className='large-tag-text mb-1'>Téma</h3>
+            <p className='font-light inapparent'>Algoritmusos feladat, adatbáziskezelés, front-end, back-end...</p>
+          </DescriptionBox>
+          <DescriptionBox width={343} height={209} url='example.com'>
+            <h3 className='large-tag-text mb-1'>Feladat típusa</h3>
+            <p className='font-light inapparent'>Gyakorlófeladat, projektfeladat, vizsgafelkészítő, versenyfeladat...</p>
+          </DescriptionBox>
         </div>
       </div>
     </div>

@@ -33,6 +33,7 @@
 }
 
 .about-section-box-container {
+    margin-top: 15px;
     justify-content: center;
     display: flex;
     gap: 10px;
@@ -42,5 +43,24 @@
     display: flex;
     gap: 10px;
     flex-direction: column;
+    justify-content: center; /* Center the boxes horizontally */
+}
+
+.categories-section-container {
+    margin-top: 225px;
+}
+
+.categories-button-container {
+    margin: 25px auto 30px auto;
+    max-width: 1050px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.categories-list {
+    display: flex;
+    gap: 10px;
+    flex-direction: row;
     justify-content: center; /* Center the boxes horizontally */
 }
