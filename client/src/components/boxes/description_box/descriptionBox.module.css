@@ -9,16 +9,19 @@
     background-size: cover;
     background-position: center;
     position: relative;
-    cursor: pointer;
     text-decoration: none;
     color: inherit;
-  }
+}
+ 
+.descriptionBox:hover {
+  filter: brightness(1.1);
+}
+
+.descriptionBoxHover {
+    cursor: pointer;
+}
   
-  .descriptionBox:hover {
-    filter: brightness(1.1);
-  }
-  
-  .arrow {
+.arrow {
     position: absolute;
     bottom: 16px;
     right: 24px;
@@ -33,10 +36,10 @@
     align-items: center;
     justify-content: center;
     background: rgba(255, 255, 255, 0.1);
-  }
+}
   
-  .linkWrapper {
+.linkWrapper {
     display: inline-block;
     width: fit-content;
-  }
+}
   
