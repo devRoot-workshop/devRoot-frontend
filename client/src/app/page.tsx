@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <div>
       <Header />
-      <div className={styles["hero-background"]}></div>
+      <div className={styles["hero-background"]} />
 
       <div className={styles["text-wrapper"]}>
         <h1 className="title">Közösen írjuk a jövőd kódját</h1>
@@ -68,6 +68,21 @@ export default function Home() {
           </DescriptionBox>
         </div>
       </div>
+
+      <div className={styles["cta-section-container"]}>
+        <div className={styles["cta-background"]} />
+        <div className="relative z-10 text-center">
+          <h2 className='subtitle text-center leading-tight'>
+            Csatlakozz most egy fejlődő, erős
+            <br/>
+            programozói közösséghez!
+          </h2>
+          <div className={styles['cta-button-container']}>
+            <Button>Csatlakozás</Button>
+          </div>
+        </div>
+      </div>
+
     </div>
   );
 }
