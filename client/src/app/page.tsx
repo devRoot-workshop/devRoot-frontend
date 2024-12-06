@@ -9,7 +9,7 @@ export default function Home() {
       <Header />
       <div className={styles["hero-background"]} />
 
-      <div className={styles["text-wrapper"]}>
+      <div className={styles["hero-section-container"]}>
         <h1 className="title">Közösen írjuk a jövőd kódját</h1>
         <h3 className="my-4 title-description">
           Egy közösség, ahol tanárok és diákok programozási feladatokat oszthatnak meg és használhatnak.
