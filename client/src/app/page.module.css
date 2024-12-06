@@ -1,4 +1,4 @@
-.hero-section {
+.hero-background {
     position: absolute;
     top: 0px;
     left: 0;
@@ -27,4 +27,20 @@
     justify-content: center;
     gap: 25px;
 }
-  
+
+.about-section-container {
+    margin-top: 125px;
+}
+
+.about-section-box-container {
+    justify-content: center;
+    display: flex;
+    gap: 10px;
+}
+
+.about-section-box-container > div {
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    justify-content: center; /* Center the boxes horizontally */
+}

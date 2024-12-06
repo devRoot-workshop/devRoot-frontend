@@ -23,7 +23,7 @@ const DescriptionBox: React.FC<DescriptionBoxProps> = ({ width, height, url, chi
   );
 
   return url ? (
-    <a href={url} target="_blank" rel="noopener noreferrer" className={styles.linkWrapper}>
+    <a href={url} target="_blank" rel="noopener noreferrer" className={styles.linkWrapper + styles.descriptionBoxHover}>
       {boxContent}
     </a>
   ) : (
