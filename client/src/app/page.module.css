@@ -1,0 +1,30 @@
+.hero-section {
+    position: absolute;
+    top: 0px;
+    left: 0;
+    width: 100%;
+    background: 
+      repeating-linear-gradient(0deg, transparent 0px, transparent 199px, #f0f0f0 200px, #f0f0f0 201px),
+      repeating-linear-gradient(90deg, transparent 0px, transparent 199px, #f0f0f0 200px, #f0f0f0 201px);
+    background-size: 200px 200px;
+    background-position: top center;
+    height: 100%;
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
+    z-index: -1;
+}
+
+.text-wrapper {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 40px;
+}
+  
+.hero-button-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+}
+  
