@@ -1,0 +1,10 @@
+/* styles/Home.module.css */
+.container {
+    padding: 2rem;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+  }
+  .heading {
+    font-size: 2rem;
+    color: #333;
+  }
