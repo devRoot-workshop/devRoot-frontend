@@ -5,6 +5,7 @@ import axios from 'axios';
 import { signInWithGoogle, signOutWithGoogle } from '../../lib/firebase/auth';
 import { onAuthStateChanged } from 'firebase/auth';
 import { firebaseAuth } from '../../../firebase';
+import Image from 'next/image';
  
 interface RequestComponentProps {
   getUrl: string;
@@ -103,7 +104,7 @@ const ApiTester: React.FC<RequestComponentProps> = ({ getUrl, postUrl }) => {
           {user! ? (
             <div>
             <h1>Welcome, {user.displayName}</h1>
-            <img src={user.photoURL} alt="User Profile" width={100} />
+            <Image src={user.photoURL} alt="User Profile" width={100} />
             <button onClick={handleLogout}>Logout</button>
           </div>
           ) : 
