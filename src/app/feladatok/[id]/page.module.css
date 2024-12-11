@@ -1,14 +1,13 @@
-.titlle{
-    font-family: "InterVariable", sans-serif; font-optical-sizing: auto;
+.title {
+    font-family: "InterVariable", sans-serif;
     font-weight: bold;
-    
-  }
-  .fleiras{
-  font-family: "InterVariable", sans-serif; font-optical-sizing: auto;
-  color: #bababa;
-  }
-  
-  #console_fasztudja{
+}
+.description {
+    font-family: "InterVariable", sans-serif; font-optical-sizing: auto;
+    color: #bababa;
+}
+
+#console-container{
     font-family: Fira Code, Consolas, Ubuntu mono,monospace;
     background-color: #212222;
     border-radius: 15px;
@@ -16,8 +15,8 @@
     padding-top: 10px;
     width: 80%;
     margin: 20px;
-  }
-  .console {
+}
+.console {
     font-family: Fira Code, Consolas, Ubuntu mono,monospace;
     background-color: #101313;
     color: #ededed;
@@ -27,8 +26,8 @@
     border-bottom-right-radius: 12px;
     margin-top: 10px;
     text-align: left,;
-  }
-  .leftPanel {
+}
+.leftPanel {
     background-color: #2c2c2c ;
     color: #ffffff;
     padding: 10px;
@@ -40,8 +39,8 @@
     float: left;
     width: 48%;
     height: 800;
-  }
-  .rightPanel {
+}
+.rightPanel {
     background-color: #2c2c2c;
     color: #ffffff;
     padding: 10px;
@@ -53,8 +52,8 @@
     float: right;
     width: 48%;
     height: 800;
-  }
-  #megoldas{
+}
+#solution{
     background-color: #2c2c2c;
     color: #ffffff;
     padding: 3px;
@@ -62,4 +61,4 @@
     border-radius: 10px;
     margin: 20px;
     float: center;
-  }
+}
