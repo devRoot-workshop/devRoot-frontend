@@ -7,19 +7,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import axios from "axios";
 import { useAuth } from "@/lib/authContext";
-
-interface QuestType {
-  id: number;
-  title: string;
-  taskDescription: string;
-  created: Date;
-  tags: [{
-    id: string;
-    name: string;
-    description: string;
-    }
-  ];
-}
+import { mapToQuestType } from "@/lib/global/functions/quest";
 
 export default function ExercisePage() {
   const codeSnippet = `
@@ -49,20 +37,6 @@ export default function ExercisePage() {
   const { user } = useAuth();
   const [quest, setQuest] = useState<QuestType | undefined>();
   const params = useParams<{ id: string }>();
-
-  const mapToQuestType = (data: any): QuestType => {
-    return {
-      id: data.id,
-      title: data.title,
-      taskDescription: data.taskDescription,
-      created: new Date(data.created),
-      tags: (data.tags ?? []).map((tag: any) => ({
-        id: tag.id,
-        name: tag.name,
-        description: tag.description,
-      })),
-    };
-  };
   
   useEffect(() => {
     const fetchData = async () => {
@@ -102,10 +76,10 @@ export default function ExercisePage() {
             <div>
               <pre className={`${styles.console} bg-gray-900 text-green-400 p-4 rounded-lg`}>
                 {`
-  alma
-  banán
-  körte
-  szilva
+                  alma
+                  banán
+                  körte
+                  szilva
                 `}
               </pre>
             </div>
