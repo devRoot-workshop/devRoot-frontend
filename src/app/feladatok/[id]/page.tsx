@@ -9,7 +9,7 @@ import axios from "axios";
 import { useAuth } from "@/lib/authContext";
 import { mapToQuestType } from "@/lib/global/functions/quest";
 
-export default function ExercisePage() {
+export default function QuestPage() {
   const codeSnippet = `
   using System;
   using System.IO;
@@ -45,7 +45,7 @@ export default function ExercisePage() {
       try {
         const response = await axios.get(
           `http://localhost:8080/${params.id}/GetQuest`,
-          { headers: { Authorization: `Bearer ${user?.getIdToken()}` } }
+          { headers: { Authorization: `Bearer ${await user?.getIdToken()}` } }
         );
         console.log(response.data)
         const questData: QuestType = mapToQuestType(response.data);

@@ -1,12 +1,12 @@
 interface QuestType {
-    id: number;
+    id?: number;
     title: string;
     taskDescription: string;
-    created: Date;
+    created: string;
     tags: [{
-        id: string;
-        name: string;
-        description: string;
+            id: string;
+            name?: string;
+            description?: string;
         }
     ];
 }
