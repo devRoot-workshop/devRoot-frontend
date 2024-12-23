@@ -1,0 +1,53 @@
+.container {
+    margin: 0 auto;
+    width: 90%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 25px;
+    padding: 24px;
+    position: relative;
+}
+
+.pageTitle {
+    font-size: 24px;
+    font-family: "Inter", sans-serif;
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.container > * {
+    display: block;
+    margin-bottom: 12px;
+}
+
+.buttonGroup {
+    text-align: center; /* Center buttons on smaller screens */
+    margin-top: 16px;
+}
+
+.buttonGroup > button {
+    margin-left: 8px; /* Ensure spacing between buttons */
+    margin-top: 8px; /* For stacked layout on small screens */
+}
+
+@media (min-width: 1200px) {
+    .container {
+        width: 50%;
+        padding: 32px;
+    }
+
+    .pageTitle {
+        font-size: 28px;
+        text-align: left;
+    }
+
+    .buttonGroup {
+        text-align: right; /* Align buttons to the right on larger screens */
+        margin-top: 24px;
+    }
+
+    .buttonGroup > button {
+        margin-left: 0; /* No extra spacing needed for inline layout */
+        margin-top: 0;
+    }
+}

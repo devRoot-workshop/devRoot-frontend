@@ -3,6 +3,10 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useAuth } from "@/lib/authContext";
+import Header from "@/components/header/Header";
+import InputBox from "@/components/boxes/input/InputBox";
+import styles from "./page.module.css";
+import Button from "@/components/button/Button";
 
 const UploadPage: React.FC = () => {
     const { user } = useAuth();
@@ -28,7 +32,7 @@ const UploadPage: React.FC = () => {
             title: formData.title,
             taskDescription: formData.taskDescription,
             created: formData.created,
-            tagId: formData.tags.map(tag => parseInt(tag.id)),
+            tagId: formData.tags.map((tag) => parseInt(tag.id)),
         };
 
         try {
@@ -49,30 +53,30 @@ const UploadPage: React.FC = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <label>
-                Title:
-                <input
-                    className="text-black"
-                    type="text"
-                    name="title"
-                    value={formData.title}
-                    onChange={handleChange}
+        <div>
+            <Header />
+            <form className={styles.container} onSubmit={handleSubmit}>
+                <h1 className={styles.pageTitle}>Feladat feltöltése</h1>
+                <InputBox 
+                    name="title" 
+                    onChange={handleChange} 
+                    value={formData.title} 
+                    placeholderText="Title"
                 />
-            </label>
-            <br />
-            <label>
-                Task Description:
-                <textarea
-                    className="text-black"
-                    name="taskDescription"
-                    value={formData.taskDescription}
-                    onChange={handleChange}
+                <InputBox 
+                    type="textarea"
+                    name="taskDescription" 
+                    onChange={handleChange} 
+                    value={formData.taskDescription} 
+                    placeholderText="Description"
                 />
-            </label>
-            <br />
-            <button type="submit">Submit</button>
-        </form>
+                <Button type="button" size="small" color="pale">Fájl hozzáadása</Button>
+
+                <div className={styles.buttonGroup}>
+                    <Button type="submit" size="large">Feltöltés</Button>
+                </div>
+            </form>
+        </div>
     );
 };
 
