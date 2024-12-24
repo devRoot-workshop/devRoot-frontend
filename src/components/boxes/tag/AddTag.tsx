@@ -66,7 +66,7 @@ const AddTag: React.FC<AddTagProps> = ({ tags, onAdd }) => {
                         onClick={() => { onAdd(tag.id); toggleDropdown()}}
                         style={{ cursor: 'pointer' }}
                     >
-                        <strong>{tag.name}</strong>
+                        <p>{tag.name}</p>
                         {tag.description && <p>{tag.description}</p>}
                     </div>
                     ))}
