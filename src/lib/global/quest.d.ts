@@ -3,9 +3,5 @@ interface QuestType {
     title: string;
     taskDescription: string;
     created: string;
-    tags: {
-            id: number;
-            name: string;
-            description?: string;
-        }[];
+    tags: TagType[];
 }

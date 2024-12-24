@@ -1,0 +1,46 @@
+.container {
+    position: relative;
+    display: inline-block;
+    z-index: 10000;
+  }
+  
+  .addButton {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 25px;
+    padding: 5px 10px;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .addButton:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  
+  .dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 5px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 10000;
+  }
+  
+.tagItem {
+    margin: 5px 0;
+    color: white;
+}
+  
+.tagItem strong {
+    font-size: 14px;
+}
+  
+.tagItem p {
+    margin: 2px 0 0;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.7);
+}  

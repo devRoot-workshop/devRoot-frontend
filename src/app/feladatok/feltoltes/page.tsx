@@ -9,6 +9,7 @@ import styles from "./page.module.css";
 import Button from "@/components/button/Button";
 import TagContainer from "@/components/boxes/tag/TagContainer";
 import TagComponent from "@/components/boxes/tag/TagComponent";
+import AddTag from "@/components/boxes/tag/AddTag";
 
 const UploadPage: React.FC = () => {
     const { user } = useAuth();
@@ -17,10 +18,16 @@ const UploadPage: React.FC = () => {
         taskDescription: "",
         created: new Date().toISOString().split("T")[0],
         tags: [
-            { id: 1, name: "Tag" },
-            { id: 3, name: "SzilardTag" }
+            { id: 0, name: "Tag" },
+            { id: 2, name: "SzilardTag" }
         ],
     });
+
+    const [fetchedTags, setFetchedTags] = useState<TagType[]>([
+        {id:0,name:"Tag"},
+        {id:1,name:"Gyakorlófeladat"},
+        {id:2,name:"SzilardTag"}
+    ]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -36,6 +43,17 @@ const UploadPage: React.FC = () => {
           tags: prevData.tags.filter((tag) => tag.id !== id),
         }));
     };
+    
+    const handleTagAdd = (id: number) => {
+        const tagToAdd = fetchedTags.find((tag) => tag.id === id);
+        if (tagToAdd && !formData.tags.some((tag) => tag.id === id)) {
+            setFormData((prevData) => ({
+                ...prevData,
+                tags: [...prevData.tags, tagToAdd],
+            }));
+        }
+    };
+    
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -91,6 +109,7 @@ const UploadPage: React.FC = () => {
                             onRemove={handleTagRemove}
                         />
                     ))}
+                    <AddTag onAdd={handleTagAdd} tags={fetchedTags} />
                 </TagContainer>
                 <Button type="button" size="small" color="pale">Fájl hozzáadása</Button>
 
