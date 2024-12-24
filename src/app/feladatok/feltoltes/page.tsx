@@ -7,6 +7,8 @@ import Header from "@/components/header/Header";
 import InputBox from "@/components/boxes/input/InputBox";
 import styles from "./page.module.css";
 import Button from "@/components/button/Button";
+import TagContainer from "@/components/boxes/tag/TagContainer";
+import TagComponent from "@/components/boxes/tag/TagComponent";
 
 const UploadPage: React.FC = () => {
     const { user } = useAuth();
@@ -14,7 +16,10 @@ const UploadPage: React.FC = () => {
         title: "",
         taskDescription: "",
         created: new Date().toISOString().split("T")[0],
-        tags: [{ id: "0" }],
+        tags: [
+            { id: 1, name: "Tag" },
+            { id: 3, name: "SzilardTag" }
+        ],
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -25,6 +30,13 @@ const UploadPage: React.FC = () => {
         }));
     };
 
+    const handleTagRemove = (id: number) => {
+        setFormData((prevData) => ({
+          ...prevData,
+          tags: prevData.tags.filter((tag) => tag.id !== id),
+        }));
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
@@ -32,7 +44,7 @@ const UploadPage: React.FC = () => {
             title: formData.title,
             taskDescription: formData.taskDescription,
             created: formData.created,
-            tagId: formData.tags.map((tag) => parseInt(tag.id)),
+            tagId: formData.tags.map((tag) => tag.id),
         };
 
         try {
@@ -70,6 +82,16 @@ const UploadPage: React.FC = () => {
                     value={formData.taskDescription} 
                     placeholderText="Description"
                 />
+                <TagContainer>
+                    {formData.tags.map((tag) => (
+                        <TagComponent
+                            key={tag.id}
+                            id={tag.id}
+                            text={tag.name}
+                            onRemove={handleTagRemove}
+                        />
+                    ))}
+                </TagContainer>
                 <Button type="button" size="small" color="pale">Fájl hozzáadása</Button>
 
                 <div className={styles.buttonGroup}>
