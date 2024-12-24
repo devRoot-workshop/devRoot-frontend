@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "@/lib/authContext";
 import Header from "@/components/header/Header";
@@ -17,17 +17,29 @@ const UploadPage: React.FC = () => {
         title: "",
         taskDescription: "",
         created: new Date().toISOString().split("T")[0],
-        tags: [
-            { id: 0, name: "Tag" },
-            { id: 2, name: "SzilardTag" }
-        ],
+        tags: [],
     });
 
-    const [fetchedTags, setFetchedTags] = useState<TagType[]>([
-        {id:0,name:"Tag"},
-        {id:1,name:"Gyakorlófeladat"},
-        {id:2,name:"SzilardTag"}
-    ]);
+    const [fetchedTags, setFetchedTags] = useState<TagType[]>([]);
+
+    useEffect(() => {
+        const fetchTags = async () => {
+            try {
+                const response = await axios.get('http://localhost:8080/Tag/GetTags');
+                const tags = response.data.map((tag: { id: number; name: string }) => ({
+                    id: tag.id,
+                    name: tag.name
+                }));
+                setFetchedTags(tags);
+            } catch (error) {
+                console.error("Error fetching tags:", error);
+            }
+        };
+    
+        fetchTags();
+    }, []);
+    
+    
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
