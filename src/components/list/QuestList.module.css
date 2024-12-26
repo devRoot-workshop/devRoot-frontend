@@ -1,0 +1,23 @@
+.container {
+    display: grid;
+    grid-template-columns: 1fr 7fr 2fr;
+}
+
+.header {
+    border-bottom: 1px solid #8A8A8A;
+    color: #8A8A8A;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+}
+
+.cell {
+    padding: 10px 0px;
+}
+
+.cell a:hover {
+    text-decoration: underline;
+}
+
+.status {
+    text-align: center;
+}
