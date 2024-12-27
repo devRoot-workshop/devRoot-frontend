@@ -42,15 +42,47 @@ const quests: QuestType[] = [
 
 const ListPage: React.FC = () => {
     const [searchValue, setSearchValue] = useState<string>("");
+    const [status, setStatus] = useState<string>("all");
+    const [difficulty, setDifficulty] = useState<string>("all");
 
-    return <div>
-        <Header />
-        <div className={styles.container}>
-            <InputBox value={searchValue} placeholderText="Keresés..." onChange={(e) => setSearchValue(e.target.value)} icon={"🔍"} />
-            <br/><br/>
-            <QuestListComponent quests={quests}/>
+    return (
+        <div>
+            <Header />
+            <div className={styles.container}>
+                <div className={styles.optionsContainer}>
+                    <select
+                        name="status"
+                        className={styles.customSelect}
+                        value={status}
+                        onChange={(e) => setStatus(e.target.value)}
+                    >
+                        <option value="all">Minden státusz</option>
+                        <option value="finished">Kész ✅</option>
+                        <option value="unfinished">Megoldatlan ❌</option>
+                    </select>
+                    <select
+                        name="difficulty"
+                        className={styles.customSelect}
+                        value={difficulty}
+                        onChange={(e) => setDifficulty(e.target.value)}
+                    >
+                        <option value="all">Minden nehézség</option>
+                        <option value="easy">Könnyű</option>
+                        <option value="medium">Közepes</option>
+                        <option value="hard">Nehéz</option>
+                    </select>
+                    <InputBox
+                        value={searchValue}
+                        placeholderText="Keresés..."
+                        onChange={(e) => setSearchValue(e.target.value)}
+                        icon={"🔍"}
+                    />
+                </div>
+                <br />
+                <QuestListComponent quests={quests} />
+            </div>
         </div>
-    </div>
-}
+    );
+};
 
 export default ListPage

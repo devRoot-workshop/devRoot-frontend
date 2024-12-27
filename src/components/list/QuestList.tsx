@@ -15,7 +15,7 @@ const QuestListComponent: React.FC<ListComponentProps> = ({ quests }) => {
                 <React.Fragment key={index}>
                     <div className={`${styles.cell} ${styles.status}`}>✅</div>
                     <div className={styles.cell}><a href={"/feladatok/"+quest.id}>{quest.title}</a></div>
-                    <div className={styles.cell}>Nagyon nehéz</div>
+                    <div className={styles.cell}>Nehéz</div>
                 </React.Fragment>
             ))}
         </div>
