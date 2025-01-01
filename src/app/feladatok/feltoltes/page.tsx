@@ -21,6 +21,7 @@ const UploadPage: React.FC = () => {
     });
 
     const [fetchedTags, setFetchedTags] = useState<TagType[]>([]);
+    const [submissionSuccess, setSubmissionSuccess] = useState(false);
 
     useEffect(() => {
         const fetchTags = async () => {
@@ -38,8 +39,6 @@ const UploadPage: React.FC = () => {
     
         fetchTags();
     }, []);
-    
-    
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -65,7 +64,6 @@ const UploadPage: React.FC = () => {
             }));
         }
     };
-    
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -89,10 +87,35 @@ const UploadPage: React.FC = () => {
                 }
             );
             console.log("Response data:", response.data);
+            setSubmissionSuccess(true);
         } catch (error) {
             console.error("Error submitting data:", error);
         }
     };
+
+    const newUpload = () => {
+        setFormData({
+            title: "",
+            taskDescription: "",
+            created: new Date().toISOString().split("T")[0],
+            tags: [],
+        });
+        setSubmissionSuccess(false)
+    }
+
+    if (submissionSuccess) {
+        return (
+            <div>
+                <Header />
+                <div className={styles.container}>
+                    <h1>Feltöltés sikeres!</h1>
+                    <Button type="button" size="large" onClick={newUpload}>
+                        Új feltöltés
+                    </Button>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div>
