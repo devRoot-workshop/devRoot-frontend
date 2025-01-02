@@ -1,52 +1,79 @@
 "use client"
 
 import InputBox from "@/components/boxes/input/InputBox";
-import Header from "@/components/header/Header"
-import QuestListComponent from "@/components/list/QuestList"
-import styles from "./pages.module.css"
-import { useState } from "react";
+import Header from "@/components/header/Header";
+import QuestListComponent from "@/components/list/QuestList";
+import styles from "./pages.module.css";
+import { useEffect, useState } from "react";
+import PaginationBox from "@/components/pagination/PaginationBox";
+import axios from "axios";
+import { useAuth } from "@/lib/authContext";
 
-// mock data -----------------------------
-const quests: QuestType[] = [
-    {
-        id: 1,
-        difficulty: 1,
-        title: "Defeat the Dragon",
-        taskDescription: "Venture to the mountain and slay the dragon terrorizing the village.",
-        created: "2024-12-26",
-        tags: [
-            { id: 1, name: "Adventure", description: "Exciting and risky challenges." },
-            { id: 2, name: "Combat" },
-        ],
-    },
-    {
-        id: 2,
-        difficulty: 0,
-        title: "Gather Herbs",
-        taskDescription: "Collect 10 healing herbs from the forest for the village healer.",
-        created: "2024-12-25",
-        tags: [
-            { id: 3, name: "Collection", description: "Tasks involving gathering items." },
-            { id: 4, name: "Nature" },
-        ],
-    },
-    {
-        id: 3,
-        difficulty: 2,
-        title: "Repair the Bridge",
-        taskDescription: "Fix the broken bridge to reopen the trade route to the neighboring town.",
-        created: "2024-12-24",
-        tags: [
-            { id: 5, name: "Construction", description: "Tasks related to building or repairing." },
-        ],
-    },
-];
-// mock data -----------------------------
+interface QuestType {
+    id: number;
+    title: string;
+    taskDescription: string;
+    difficulty: number;
+    created: string;
+    tags: TagType[];
+}
+
+interface TagType {
+    id: number;
+    name: string;
+    description?: string;
+}
 
 const ListPage: React.FC = () => {
+    const { user: authUser } = useAuth();
+    const [user, setUser] = useState(authUser);
+    const [quests, setQuests] = useState<QuestType[]>([]);
     const [searchValue, setSearchValue] = useState<string>("");
     const [status, setStatus] = useState<string>("all");
     const [difficulty, setDifficulty] = useState<string>("all");
+
+    //OPTIMIZE: client-side caching and loading screen until fetch finishes
+    const fetchQuests = async (page: number) => {
+        if (!user) return;
+        try {
+            const response = await axios.get("http://localhost:8080/Quest/GetQuests", {
+                params: {
+                PageNumber: page,
+                PageSize: 10,
+                },
+                headers: { Authorization: `Bearer ${await user.getIdToken()}` },
+            });
+
+            const quests = response.data.map((quest: QuestType) => ({
+                id: quest.id,
+                title: quest.title,
+                taskDescription: quest.taskDescription,
+                difficulty: quest.difficulty,
+                created: quest.created,
+                tags: quest.tags.map((tag: TagType) => ({
+                id: tag.id,
+                name: tag.name,
+                description: tag.description,
+                })),
+            }));
+
+            setQuests(quests);
+        } catch (error) {
+            console.error("Error fetching quests:", error);
+        }
+    };
+
+    useEffect(() => {
+        if (authUser) setUser(authUser);
+    }, [authUser]);
+
+    useEffect(() => {
+        if (user) fetchQuests(1);
+    }, [user]);
+
+    const onPageChange = (page: number) => {
+        fetchQuests(page);
+    };
 
     return (
         <div>
@@ -82,10 +109,13 @@ const ListPage: React.FC = () => {
                     />
                 </div>
                 <br />
-                <QuestListComponent quests={quests} />
+                    <QuestListComponent quests={quests} />
+                <div className={styles.PaginationBox}>
+                    <PaginationBox onChange={onPageChange} />
+                </div>
             </div>
         </div>
     );
 };
 
-export default ListPage
+export default ListPage;
