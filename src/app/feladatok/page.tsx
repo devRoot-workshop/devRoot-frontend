@@ -10,6 +10,7 @@ import { useState } from "react";
 const quests: QuestType[] = [
     {
         id: 1,
+        difficulty: 1,
         title: "Defeat the Dragon",
         taskDescription: "Venture to the mountain and slay the dragon terrorizing the village.",
         created: "2024-12-26",
@@ -20,6 +21,7 @@ const quests: QuestType[] = [
     },
     {
         id: 2,
+        difficulty: 0,
         title: "Gather Herbs",
         taskDescription: "Collect 10 healing herbs from the forest for the village healer.",
         created: "2024-12-25",
@@ -30,6 +32,7 @@ const quests: QuestType[] = [
     },
     {
         id: 3,
+        difficulty: 2,
         title: "Repair the Bridge",
         taskDescription: "Fix the broken bridge to reopen the trade route to the neighboring town.",
         created: "2024-12-24",
