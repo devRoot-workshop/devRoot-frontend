@@ -6,7 +6,8 @@ import Button from "../button/Button";
 
 export default function Header() {
   const { user, login, logout } = useAuth();
-
+  console.log(user?.getIdToken())
+  console.log(user?.uid)
   return (
     <div className={styles['header-container']}>
       <div className="flex space-x-12">
