@@ -6,7 +6,7 @@
     border-radius: 25px;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.25);
-    padding: 10px;
+    padding: 10px 12px;
     box-sizing: border-box;
     scrollbar-width: thin; 
     scrollbar-color: #888 #f0f0f0; 

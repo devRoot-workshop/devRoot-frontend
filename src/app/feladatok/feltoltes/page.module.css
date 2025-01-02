@@ -30,6 +30,12 @@
     margin-top: 8px; /* For stacked layout on small screens */
 }
 
+.row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 @media (min-width: 1200px) {
     .container {
         width: 50%;

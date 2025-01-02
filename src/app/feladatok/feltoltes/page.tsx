@@ -10,12 +10,14 @@ import Button from "@/components/button/Button";
 import TagContainer from "@/components/boxes/tag/TagContainer";
 import TagComponent from "@/components/boxes/tag/TagComponent";
 import AddTag from "@/components/boxes/tag/AddTag";
+import DropDown from "@/components/dropdown/DropDown";
 
 const UploadPage: React.FC = () => {
     const { user } = useAuth();
     const [formData, setFormData] = useState<QuestType>({
         title: "",
         taskDescription: "",
+        difficulty: 0,
         created: new Date().toISOString().split("T")[0],
         tags: [],
     });
@@ -26,17 +28,17 @@ const UploadPage: React.FC = () => {
     useEffect(() => {
         const fetchTags = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/Tag/GetTags');
+                const response = await axios.get("http://localhost:8080/Tag/GetTags");
                 const tags = response.data.map((tag: { id: number; name: string }) => ({
                     id: tag.id,
-                    name: tag.name
+                    name: tag.name,
                 }));
                 setFetchedTags(tags);
             } catch (error) {
                 console.error("Error fetching tags:", error);
             }
         };
-    
+
         fetchTags();
     }, []);
 
@@ -44,17 +46,24 @@ const UploadPage: React.FC = () => {
         const { name, value } = e.target;
         setFormData((prev) => ({
             ...prev,
-            [name]: value,
+            [name]: name === "difficulty" ? Number(value) : value,
         }));
     };
 
+    const handleDifficultyChange = (value: number) => {
+        setFormData((prev) => ({
+            ...prev,
+            difficulty: value,
+        }));
+    };    
+
     const handleTagRemove = (id: number) => {
         setFormData((prevData) => ({
-          ...prevData,
-          tags: prevData.tags.filter((tag) => tag.id !== id),
+            ...prevData,
+            tags: prevData.tags.filter((tag) => tag.id !== id),
         }));
     };
-    
+
     const handleTagAdd = (id: number) => {
         const tagToAdd = fetchedTags.find((tag) => tag.id === id);
         if (tagToAdd && !formData.tags.some((tag) => tag.id === id)) {
@@ -69,6 +78,7 @@ const UploadPage: React.FC = () => {
         e.preventDefault();
 
         const convertedFormData = {
+            difficulty: formData.difficulty,
             title: formData.title,
             taskDescription: formData.taskDescription,
             created: formData.created,
@@ -77,13 +87,13 @@ const UploadPage: React.FC = () => {
 
         try {
             const response = await axios.post(
-                `http://localhost:8080/Quest/CreateQuest`,
+                "http://localhost:8080/Quest/CreateQuest",
                 convertedFormData,
-                { 
-                    headers: { 
+                {
+                    headers: {
                         Authorization: `Bearer ${await user?.getIdToken()}`,
-                        Accept: 'text/plain'
-                    } 
+                        Accept: "text/plain",
+                    },
                 }
             );
             console.log("Response data:", response.data);
@@ -97,11 +107,12 @@ const UploadPage: React.FC = () => {
         setFormData({
             title: "",
             taskDescription: "",
+            difficulty: 0,
             created: new Date().toISOString().split("T")[0],
             tags: [],
         });
-        setSubmissionSuccess(false)
-    }
+        setSubmissionSuccess(false);
+    };
 
     if (submissionSuccess) {
         return (
@@ -122,34 +133,50 @@ const UploadPage: React.FC = () => {
             <Header />
             <form className={styles.container} onSubmit={handleSubmit}>
                 <h1 className={styles.pageTitle}>Feladat feltöltése</h1>
-                <InputBox 
-                    name="title" 
-                    onChange={handleChange} 
-                    value={formData.title} 
+                <InputBox
+                    name="title"
+                    onChange={handleChange}
+                    value={formData.title}
                     placeholderText="Title"
                 />
-                <InputBox 
+                <InputBox
                     type="textarea"
-                    name="taskDescription" 
-                    onChange={handleChange} 
-                    value={formData.taskDescription} 
+                    name="taskDescription"
+                    onChange={handleChange}
+                    value={formData.taskDescription}
                     placeholderText="Description"
                 />
-                <TagContainer>
-                    {formData.tags.map((tag) => (
-                        <TagComponent
-                            key={tag.id}
-                            id={tag.id}
-                            text={tag.name}
-                            onRemove={handleTagRemove}
-                        />
-                    ))}
-                    <AddTag onAdd={handleTagAdd} tags={fetchedTags} />
-                </TagContainer>
-                <Button type="button" size="small" color="pale">Fájl hozzáadása</Button>
+                <div className={styles.row}>
+                    <DropDown
+                        name="difficulty"
+                        value={formData.difficulty.toString()}    
+                        onChange={(e) => handleDifficultyChange(Number(e.target.value))}
+                        options={[
+                            { value: "0", display: "Könnyű" },
+                            { value: "1", display: "Közepes" },
+                            { value: "2", display: "Nehéz" },
+                        ]}
+                    />
+                    <TagContainer>
+                        {formData.tags.map((tag) => (
+                            <TagComponent
+                                key={tag.id}
+                                id={tag.id}
+                                text={tag.name}
+                                onRemove={handleTagRemove}
+                            />
+                        ))}
+                        <AddTag onAdd={handleTagAdd} tags={fetchedTags} />
+                    </TagContainer>
+                </div>
+                <Button type="button" size="small" color="pale">
+                    Fájl hozzáadása
+                </Button>
 
                 <div className={styles.buttonGroup}>
-                    <Button type="submit" size="large">Feltöltés</Button>
+                    <Button type="submit" size="large">
+                        Feltöltés
+                    </Button>
                 </div>
             </form>
         </div>
