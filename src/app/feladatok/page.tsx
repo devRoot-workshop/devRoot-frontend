@@ -51,9 +51,9 @@ const ListPage: React.FC = () => {
                 difficulty: quest.difficulty,
                 created: quest.created,
                 tags: quest.tags.map((tag: TagType) => ({
-                id: tag.id,
-                name: tag.name,
-                description: tag.description,
+                    id: tag.id,
+                    name: tag.name,
+                    description: tag.description,
                 })),
             }));
 
@@ -79,6 +79,21 @@ const ListPage: React.FC = () => {
         <div>
             <Header />
             <div className={styles.container}>
+                <br/>
+                <QuestListComponent quests={quests} />
+                <div className={styles.PaginationBox}>
+                    <PaginationBox onChange={onPageChange} />
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default ListPage;
+
+/*
+- SEARCH PARAMETER SETTINGS
+
                 <div className={styles.optionsContainer}>
                     <select
                         name="status"
@@ -109,13 +124,4 @@ const ListPage: React.FC = () => {
                     />
                 </div>
                 <br />
-                    <QuestListComponent quests={quests} />
-                <div className={styles.PaginationBox}>
-                    <PaginationBox onChange={onPageChange} />
-                </div>
-            </div>
-        </div>
-    );
-};
-
-export default ListPage;
+ */

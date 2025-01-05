@@ -11,14 +11,24 @@ const difficultyColors = ["#0ccc26", "yellow", "#cc0c16"];
 const QuestListComponent: React.FC<ListComponentProps> = ({ quests }) => {
     return (
         <div className={styles.container}>
-            <div className={styles.header}>Státusz</div>
             <div className={styles.header}>Cím</div>
+            <div className={styles.header}>Címkék</div>
             <div className={styles.header}>Nehézség</div>
             {quests.map((quest, index) => (
                 <React.Fragment key={index}>
-                    <div className={`${styles.cell} ${styles.status}`}>✅</div>
                     <div className={styles.cell}>
                         <a href={`/feladatok/${quest.id}`}>{quest.title}</a>
+                    </div>
+                    <div className={styles.cell}>
+                        {quest.tags.length > 0 ? (
+                            quest.tags.map((tag) => (
+                                <span key={tag.id} className={styles.tag}>
+                                    {tag.name}
+                                </span>
+                            ))
+                        ) : (
+                            <span className={styles.tag}>Nincs címke</span>
+                        )}
                     </div>
                     <div
                         className={styles.cell}
