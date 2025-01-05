@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./descriptionBox.module.css";
+import Link from "next/link";
 
 interface DescriptionBoxProps {
   width: string | number;
@@ -23,9 +24,9 @@ const DescriptionBox: React.FC<DescriptionBoxProps> = ({ width, height, url, chi
   );
 
   return url ? (
-    <a href={url} target="_blank" rel="noopener noreferrer" className={styles.linkWrapper + styles.descriptionBoxHover}>
+    <Link prefetch={false} href={url} className={styles.linkWrapper + styles.descriptionBoxHover}>
       {boxContent}
-    </a>
+    </Link>
   ) : (
     boxContent
   );

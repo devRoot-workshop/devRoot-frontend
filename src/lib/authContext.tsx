@@ -3,6 +3,7 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { User } from "firebase/auth";
 import { onAuthStateChanged, signInWithGoogle, signOutWithGoogle } from "./firebase/auth";
+import Header from "@/components/header/Header";
 
 interface AuthContextValue {
   user: User | null;
@@ -47,6 +48,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   return (
     <AuthContext.Provider value={{ user, loading, login, logout }}>
+      <Header />
       {children}
     </AuthContext.Provider>
   );

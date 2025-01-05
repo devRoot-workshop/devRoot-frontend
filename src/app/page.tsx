@@ -1,12 +1,10 @@
 import Button from '@/components/button/Button';
 import styles from './page.module.css'
-import Header from "@/components/header/Header";
 import DescriptionBox from '@/components/boxes/description/DescriptionBox';
 
 export default function Home() {
   return (
     <div>
-      <Header />
       <div className={styles["hero-background"]} />
 
       <div className={styles["hero-section-container"]}>
@@ -54,15 +52,15 @@ export default function Home() {
           <Button size='small' ghost={true}>Regisztráció</Button>
         </div>
         <div className={styles['categories-list']}>
-          <DescriptionBox width={343} height={209} url='feladatok/0'>
+          <DescriptionBox width={343} height={209} url='feladatok'>
             <h3 className='large-tag-text mb-1'>Nehézségi szint</h3>
             <p className='font-light inapparent'>Kezdő, haladó feladat, vagy középszintű, emelt szintű érettségi...</p>
           </DescriptionBox>
-          <DescriptionBox width={343} height={209} url='feladatok/1'>
+          <DescriptionBox width={343} height={209} url='feladatok'>
             <h3 className='large-tag-text mb-1'>Téma</h3>
             <p className='font-light inapparent'>Algoritmusos feladat, adatbáziskezelés, front-end, back-end...</p>
           </DescriptionBox>
-          <DescriptionBox width={343} height={209} url='feladatok/2'>
+          <DescriptionBox width={343} height={209} url='feladatok'>
             <h3 className='large-tag-text mb-1'>Feladat típusa</h3>
             <p className='font-light inapparent'>Gyakorlófeladat, projektfeladat, vizsgafelkészítő, versenyfeladat...</p>
           </DescriptionBox>

@@ -1,7 +1,6 @@
 "use client"
 
-import InputBox from "@/components/boxes/input/InputBox";
-import Header from "@/components/header/Header";
+//import InputBox from "@/components/boxes/input/InputBox";
 import QuestListComponent from "@/components/list/QuestList";
 import styles from "./pages.module.css";
 import { useEffect, useState } from "react";
@@ -77,7 +76,6 @@ const ListPage: React.FC = () => {
 
     return (
         <div>
-            <Header />
             <div className={styles.container}>
                 <br/>
                 <QuestListComponent quests={quests} />
