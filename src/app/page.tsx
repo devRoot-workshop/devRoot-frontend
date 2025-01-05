@@ -13,7 +13,7 @@ export default function Home() {
           Egy közösség, ahol tanárok és diákok programozási feladatokat oszthatnak meg és használhatnak.
         </h3>
         <div className={'my-7 ' + styles["hero-button-container"]}>
-          <Button>Feladatok</Button>
+          <Button size='large' href='/feladatok'>Feladatok</Button>
           <Button ghost={true}>Regisztráció</Button>
         </div>
       </div>
