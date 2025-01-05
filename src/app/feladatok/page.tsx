@@ -1,12 +1,12 @@
 "use client"
 
-//import InputBox from "@/components/boxes/input/InputBox";
 import QuestListComponent from "@/components/list/QuestList";
 import styles from "./pages.module.css";
 import { useEffect, useState } from "react";
 import PaginationBox from "@/components/pagination/PaginationBox";
 import axios from "axios";
 import { useAuth } from "@/lib/authContext";
+import LoadingSpinner from "@/components/spinner/LoadingSpinner";
 
 interface QuestType {
     id: number;
@@ -30,15 +30,17 @@ const ListPage: React.FC = () => {
     const [searchValue, setSearchValue] = useState<string>("");
     const [status, setStatus] = useState<string>("all");
     const [difficulty, setDifficulty] = useState<string>("all");
+    const [isLoading, setIsLoading] = useState(true);
 
-    //OPTIMIZE: client-side caching and loading screen until fetch finishes
+    //OPTIMIZE: client-side caching
     const fetchQuests = async (page: number) => {
         if (!user) return;
+        setIsLoading(true);
         try {
             const response = await axios.get("http://localhost:8080/Quest/GetQuests", {
                 params: {
-                PageNumber: page,
-                PageSize: 10,
+                    PageNumber: page,
+                    PageSize: 10,
                 },
                 headers: { Authorization: `Bearer ${await user.getIdToken()}` },
             });
@@ -59,6 +61,8 @@ const ListPage: React.FC = () => {
             setQuests(quests);
         } catch (error) {
             console.error("Error fetching quests:", error);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -78,9 +82,12 @@ const ListPage: React.FC = () => {
         <div>
             <div className={styles.container}>
                 <br/>
-                <QuestListComponent quests={quests} />
+                <div className="relative min-h-[200px]">
+                    <QuestListComponent quests={quests} />
+                    {isLoading && <LoadingOverlay />}
+                </div>
                 <div className={styles.PaginationBox}>
-                    <PaginationBox onChange={onPageChange} />
+                    <PaginationBox onChange={onPageChange} isLoading={isLoading} />
                 </div>
             </div>
         </div>
@@ -88,6 +95,16 @@ const ListPage: React.FC = () => {
 };
 
 export default ListPage;
+
+
+const LoadingOverlay = () => {
+  return (
+    <div className="absolute inset-0 backdrop-blur-[2px] transition-opacity duration-300 flex items-center justify-center rounded-lg">
+      <LoadingSpinner />
+    </div>
+  );
+};
+
 
 /*
 - SEARCH PARAMETER SETTINGS
