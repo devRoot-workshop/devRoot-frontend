@@ -123,6 +123,6 @@ body {
 
 @media (max-width: 768px) {
   body {
-    padding-top: 50px;
+    padding-top: calc(65px + 50px); /* header height + top margin + some extra space */
   }
 }
