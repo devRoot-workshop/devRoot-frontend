@@ -119,3 +119,10 @@ body {
 .inapparent {
   color: #BABABA;
 }
+
+
+@media (max-width: 768px) {
+  body {
+    padding-top: 50px;
+  }
+}
