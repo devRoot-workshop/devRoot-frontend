@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "@/lib/authContext";
-import Header from "@/components/header/Header";
 import InputBox from "@/components/boxes/input/InputBox";
 import styles from "./page.module.css";
 import Button from "@/components/button/Button";
@@ -117,7 +116,6 @@ const UploadPage: React.FC = () => {
     if (submissionSuccess) {
         return (
             <div>
-                <Header />
                 <div className={styles.container}>
                     <h1>Feltöltés sikeres!</h1>
                     <Button type="button" size="large" onClick={newUpload}>
@@ -130,7 +128,6 @@ const UploadPage: React.FC = () => {
 
     return (
         <div>
-            <Header />
             <form className={styles.container} onSubmit={handleSubmit}>
                 <h1 className={styles.pageTitle}>Feladat feltöltése</h1>
                 <InputBox
