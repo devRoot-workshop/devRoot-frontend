@@ -1,27 +1,15 @@
 "use client";
 
-import Timer from "@/components/boxes/Timer/Timer";
-import CodeHighlighter from "@/components/boxes/Code/CodeHighlighter";
+import Timer from "@/components/boxes/timer/Timer";
+import CodeHighlighter from "@/components/boxes/code/CodeHighlighter";
 import styles from "./page.module.css";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import axios from "axios";
 import { useAuth } from "@/lib/authContext";
+import { mapToQuestType } from "@/lib/global/functions/quest";
 
-interface QuestType {
-  id: number;
-  title: string;
-  taskDescription: string;
-  created: Date;
-  tags: [{
-    id: string;
-    name: string;
-    description: string;
-    }
-  ];
-}
-
-export default function ExercisePage() {
+export default function QuestPage() {
   const codeSnippet = `
   using System;
   using System.IO;
@@ -49,20 +37,6 @@ export default function ExercisePage() {
   const { user } = useAuth();
   const [quest, setQuest] = useState<QuestType | undefined>();
   const params = useParams<{ id: string }>();
-
-  const mapToQuestType = (data: any): QuestType => {
-    return {
-      id: data.id,
-      title: data.title,
-      taskDescription: data.taskDescription,
-      created: new Date(data.created),
-      tags: (data.tags ?? []).map((tag: any) => ({
-        id: tag.id,
-        name: tag.name,
-        description: tag.description,
-      })),
-    };
-  };
   
   useEffect(() => {
     const fetchData = async () => {
@@ -71,7 +45,7 @@ export default function ExercisePage() {
       try {
         const response = await axios.get(
           `http://localhost:8080/${params.id}/GetQuest`,
-          { headers: { Authorization: `Bearer ${user?.getIdToken()}` } }
+          { headers: { Authorization: `Bearer ${await user?.getIdToken()}` } }
         );
         console.log(response.data)
         const questData: QuestType = mapToQuestType(response.data);
@@ -102,10 +76,10 @@ export default function ExercisePage() {
             <div>
               <pre className={`${styles.console} bg-gray-900 text-green-400 p-4 rounded-lg`}>
                 {`
-  alma
-  banán
-  körte
-  szilva
+                  alma
+                  banán
+                  körte
+                  szilva
                 `}
               </pre>
             </div>

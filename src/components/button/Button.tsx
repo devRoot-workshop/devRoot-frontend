@@ -2,29 +2,31 @@ import React, { FC } from 'react';
 import styles from './button.module.css';
 
 interface ButtonProps {
-  size?: 'small' | 'big';
-  type?: 'normal' | 'pale';
+  size?: 'small' | 'large';
+  color?: 'normal' | 'pale';
+  type?:  "button" | "submit" | "reset" | undefined;
   ghost?: true | false;
   children: React.ReactNode;
   onClick?: () => void;
 }
 
 const Button: FC<ButtonProps> = ({
-  size = 'big',
-  type = 'normal',
+  size = 'large',
+  color = 'normal',
+  type = 'button',
   ghost = false,
   children,
   onClick,
 }) => {
-  const sizeClass = size === 'big' ? styles.big : styles.small;
-  const typeClass = {
+  const sizeClass = size === 'large' ? styles.large : styles.small;
+  const colorClass = {
     normal: styles.normal,
     pale: styles.pale,
-  }[type] || styles.normal;
+  }[color] || styles.normal;
   const ghostClass = ghost ? styles.ghost : "";
 
   return (
-    <button className={`${styles.button} ${sizeClass} ${typeClass} ${ghostClass}`} onClick={onClick}>
+    <button type={type} className={`${styles.button} ${sizeClass} ${colorClass} ${ghostClass}`} onClick={onClick}>
       {children}
     </button>
   );

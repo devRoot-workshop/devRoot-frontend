@@ -1,0 +1,58 @@
+.container {
+    margin: 0 auto;
+    width: 90%;
+    height: 600px;
+    max-width: 850px;
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    justify-content: space-between; /* Space out elements */
+    position: relative; /* Ensure positioning for child elements */
+}
+
+.optionsContainer {
+    gap: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.customSelect {
+    min-width: 200px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 25px;
+    padding: 19px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    text-decoration: none;
+    color: inherit;
+    font-size: 16px;
+    outline: none;
+    cursor: pointer;
+}
+
+.customSelect:focus {
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    outline: none;
+}
+
+.customSelect option {
+    color: #000;
+}
+
+.PaginationBox {
+    margin-top: auto; /* Pushes it to the bottom of the container */
+}
+
+@media (max-width: 768px) {
+    .customSelect {
+        width: 100%;
+    }
+    .optionsContainer {
+        flex-direction: column;
+    }
+}

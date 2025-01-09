@@ -1,0 +1,44 @@
+.container {
+    display: grid;
+    grid-template-columns: 3fr 5fr 2fr;
+    overflow: visible;
+}
+
+.header {
+    border-bottom: 1px solid #8A8A8A;
+    color: #8A8A8A;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+}
+
+.cell {
+    width: 90%;
+    padding: 10px 0px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.cell a:hover {
+    text-decoration: underline;
+}
+
+.status {
+    text-align: center;
+}
+
+.tag {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 25px;
+    margin-left: 5px;
+    padding: 4px 12px;
+}
+
+@media (max-width: 768px) {
+    .container {
+        width: 768px;
+        grid-template-columns: 4fr 4fr 2fr;
+        overflow-x: auto;
+    }
+}

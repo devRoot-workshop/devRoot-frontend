@@ -1,7 +1,7 @@
 import Button from '@/components/button/Button';
 import styles from './page.module.css'
 import Header from "@/components/header/Header";
-import DescriptionBox from '@/components/boxes/description_box/DescriptionBox';
+import DescriptionBox from '@/components/boxes/description/DescriptionBox';
 
 export default function Home() {
   return (

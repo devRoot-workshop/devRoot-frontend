@@ -1,0 +1,33 @@
+.customSelect {
+    min-width: 150px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 25px;
+    padding: 16px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    text-decoration: none;
+    color: inherit;
+    font-size: 16px;
+    outline: none;
+    cursor: pointer;
+}
+
+.customSelect:focus {
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    outline: none;
+}
+
+.customSelect option {
+    color: #000;
+}
+
+@media (max-width: 768px) {
+    .customSelect {
+        width: 100%;
+    }
+}
