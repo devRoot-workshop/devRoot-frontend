@@ -15,12 +15,12 @@ export default function Home() {
         </h3>
         <div className={styles["hero-button-container"]}>
           <Button size='large' href='/feladatok'>Feladatok</Button>
-          <Button ghost={true}>Regisztráció</Button>
+          <Button isRegistrationButton={true} ghost={true}>Regisztráció</Button>
         </div>
       </div>
     
       <div className={styles["about-section-container"]}>
-        <h2 className='subtitle text-center'>Mi az a devRoot?</h2>
+        <h2 className='subtitle text-center' id='about'>Mi az a devRoot?</h2>
 
         <div className={styles["about-section-box-container"]}>
           <DescriptionBox width="100%" height="auto">
@@ -46,7 +46,7 @@ export default function Home() {
         </h2>
         <div className={styles["categories-button-container"]}>
           <Button size='small'>Feladatok</Button>
-          <Button size='small' ghost={true}>Regisztráció</Button>
+          <Button size='small' ghost={true} isRegistrationButton={true}>Regisztráció</Button>
         </div>
         <div className={styles['categories-list']}>
           <DescriptionBox width="100%" height="auto" url='feladatok'>
@@ -73,7 +73,7 @@ export default function Home() {
             programozói közösséghez!
           </h2>
           <div className={styles['cta-button-container']}>
-            <Button>Csatlakozás</Button>
+            <Button isRegistrationButton={true} textIfAuthenticated='Feladatok' hrefIfAuthenticated='/feladatok'>Csatlakozás</Button>
           </div>
         </div>
       </div>
