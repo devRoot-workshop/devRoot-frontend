@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import QuestListComponent from "@/components/list/QuestList";
 import styles from "./pages.module.css";
@@ -25,16 +25,11 @@ interface TagType {
 
 const ListPage: React.FC = () => {
     const { user: authUser } = useAuth();
-    const [user, setUser] = useState(authUser);
     const [quests, setQuests] = useState<QuestType[]>([]);
-    const [searchValue, setSearchValue] = useState<string>("");
-    const [status, setStatus] = useState<string>("all");
-    const [difficulty, setDifficulty] = useState<string>("all");
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
 
-    //OPTIMIZE: client-side caching
     const fetchQuests = async (page: number) => {
-        if (!user) return;
+        if (!authUser) return;
         setIsLoading(true);
         try {
             const response = await axios.get("http://localhost:8080/Quest/GetQuests", {
@@ -42,10 +37,10 @@ const ListPage: React.FC = () => {
                     PageNumber: page,
                     PageSize: 10,
                 },
-                headers: { Authorization: `Bearer ${await user.getIdToken()}` },
+                headers: { Authorization: `Bearer ${await authUser.getIdToken()}` },
             });
 
-            const quests = response.data.map((quest: QuestType) => ({
+            const formattedQuests: QuestType[] = response.data.map((quest: QuestType) => ({
                 id: quest.id,
                 title: quest.title,
                 taskDescription: quest.taskDescription,
@@ -58,7 +53,7 @@ const ListPage: React.FC = () => {
                 })),
             }));
 
-            setQuests(quests);
+            setQuests(formattedQuests);
         } catch (error) {
             console.error("Error fetching quests:", error);
         } finally {
@@ -67,28 +62,18 @@ const ListPage: React.FC = () => {
     };
 
     useEffect(() => {
-        if (authUser) setUser(authUser);
+        if (authUser) fetchQuests(1);
     }, [authUser]);
 
-    useEffect(() => {
-        if (user) fetchQuests(1);
-    }, [user]);
-
-    const onPageChange = (page: number) => {
-        fetchQuests(page);
-    };
-
     return (
-        <div>
-            <div className={styles.container}>
-                <br/>
-                <div className="relative min-h-[200px]">
-                    <QuestListComponent quests={quests} />
-                    {isLoading && <LoadingOverlay />}
-                </div>
-                <div className={styles.PaginationBox}>
-                    <PaginationBox onChange={onPageChange} isLoading={isLoading} />
-                </div>
+        <div className={styles.container}>
+            <br />
+            <div className="relative min-h-[200px]">
+                <QuestListComponent quests={quests} />
+                {isLoading && <LoadingOverlay />}
+            </div>
+            <div className={styles.PaginationBox}>
+                <PaginationBox onChange={fetchQuests} isLoading={isLoading} />
             </div>
         </div>
     );
@@ -96,15 +81,11 @@ const ListPage: React.FC = () => {
 
 export default ListPage;
 
-
-const LoadingOverlay = () => {
-  return (
+const LoadingOverlay: React.FC = () => (
     <div className="absolute inset-0 backdrop-blur-[2px] transition-opacity duration-300 flex items-center justify-center rounded-lg">
-      <LoadingSpinner />
+        <LoadingSpinner />
     </div>
-  );
-};
-
+);
 
 /*
 - SEARCH PARAMETER SETTINGS

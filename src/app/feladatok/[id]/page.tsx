@@ -47,7 +47,6 @@ export default function QuestPage() {
           `http://localhost:8080/Quest/${params.id}/GetQuest`,
           { headers: { Authorization: `Bearer ${await user?.getIdToken()}` } }
         );
-        console.log(response.data)
         const questData: QuestType = mapToQuestType(response.data);
         setQuest(questData);
       } catch (error) {
@@ -56,7 +55,7 @@ export default function QuestPage() {
     };
 
     fetchData();
-  }, []);
+  }, [params.id, quest, user]);
 
   return (
     <div className={styles.exercisePage}>
