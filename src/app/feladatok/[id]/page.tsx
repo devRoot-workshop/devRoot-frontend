@@ -1,12 +1,13 @@
 "use client";
 
-import Timer from "@/components/boxes/Timer/Timer";
-import CodeHighlighter from "@/components/boxes/Code/CodeHighlighter";
+import Timer from "@/components/boxes/timer/Timer";
+import CodeHighlighter from "@/components/boxes/code/CodeHighlighter";
 import styles from "./page.module.css";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import axios from "axios";
 import { useAuth } from "@/lib/authContext";
+import { mapToQuestType } from "@/lib/global/functions/quest";
 import { mapToQuestType } from "@/lib/global/functions/quest";
 
 export default function QuestPage() {
@@ -75,10 +76,10 @@ export default function QuestPage() {
             <div>
               <pre className={`${styles.console} bg-gray-900 text-green-400 p-4 rounded-lg`}>
                 {`
-                  alma
-                  banán
-                  körte
-                  szilva
+                                  alma
+                                  banán
+                                  körte
+                                  szilva
                 `}
               </pre>
             </div>
