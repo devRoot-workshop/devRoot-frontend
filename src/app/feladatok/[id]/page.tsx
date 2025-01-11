@@ -2,7 +2,9 @@
 
 import Timer from "@/components/boxes/Timer/Timer";
 import CodeHighlighter from "@/components/boxes/Code/CodeHighlighter";
+import DifficultyBox from "@/components/boxes/difficultybox/DifficultyBox";
 import styles from "./page.module.css";
+import buttonStyles from "@/components/button/button.module.css";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import axios from "axios";
@@ -10,34 +12,13 @@ import { useAuth } from "@/lib/authContext";
 import { mapToQuestType } from "@/lib/global/functions/quest";
 
 export default function QuestPage() {
-  const codeSnippet = `
-  using System;
-  using System.IO;
-  using System.Linq;
-  
-  class Program {
-    static void Main(string[] args) {
-      string inputFile = "input.txt";
-      string outputFile = "output.txt";
-  
-      try {
-        var words = File.ReadAllLines(inputFile);
-        var sortedWords = words.OrderBy(word => word).ToArray();
-        File.WriteAllLines(outputFile, sortedWords);
-  
-        Console.WriteLine("A szavakat ábécé sorrendbe rendeztük!");
-      } catch (FileNotFoundException) {
-        Console.WriteLine("A bemeneti fájl nem található.");
-      } catch (Exception ex) {
-        Console.WriteLine($"Hiba történt: {ex.Message}");
-      }
-    }
-  }`;
-
   const { user } = useAuth();
   const [quest, setQuest] = useState<QuestType | undefined>();
+  const [codeSnippet, setCodeSnippet] = useState<string>('');
+  const [consoleString, setConsoleString] = useState<string>('');
+  const [isCodeVisible, setIsCodeVisible] = useState<boolean>(false);
   const params = useParams<{ id: string }>();
-  
+
   useEffect(() => {
     const fetchData = async () => {
       if (quest) return;
@@ -47,9 +28,11 @@ export default function QuestPage() {
           `http://localhost:8080/Quest/${params.id}/GetQuest`,
           { headers: { Authorization: `Bearer ${await user?.getIdToken()}` } }
         );
-        console.log(response.data)
+        console.log(response.data);
         const questData: QuestType = mapToQuestType(response.data);
         setQuest(questData);
+        setCodeSnippet(response.data.code);
+        setConsoleString(response.data.console);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -57,6 +40,10 @@ export default function QuestPage() {
 
     fetchData();
   }, []);
+
+  const toggleCodeVisibility = () => {
+    setIsCodeVisible(!isCodeVisible);
+  };
 
   return (
     <div className={styles.exercisePage}>
@@ -70,25 +57,24 @@ export default function QuestPage() {
             <p className={styles.description}>
               {quest?.taskDescription}
             </p>
+            {quest && <DifficultyBox difficulty={quest.difficulty} />}
           </div>
           <div id="console-container">
             <h3 className="mt-4 font-semibold">Console</h3>
             <div>
               <pre className={`${styles.console} bg-gray-900 text-green-400 p-4 rounded-lg`}>
-                {`
-                  alma
-                  banán
-                  körte
-                  szilva
-                `}
+                {consoleString}
               </pre>
             </div>
           </div>
         </section>
 
         <section className={styles.rightPanel}>
-          <h2 className={`text-lg font-bold`}>C# Példa</h2>
-          <div id="solution">
+          <h2 className={`text-lg font-bold`}>Code Example</h2>
+          <button onClick={toggleCodeVisibility} className={`${buttonStyles.button} ${buttonStyles.normal}`}>
+            {isCodeVisible ? 'Hide Code' : 'Show Code'}
+          </button>
+          <div id="solution" className={isCodeVisible ? '' : styles.blurred}>
             <CodeHighlighter code={codeSnippet} language="csharp" />
           </div>
         </section>

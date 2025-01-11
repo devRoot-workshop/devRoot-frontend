@@ -1,0 +1,26 @@
+.difficultyBox {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border: 2px solid #6BBCB6;
+  border-radius: 10px;
+  background-color: #2A3838;
+}
+
+.level {
+  flex: 1;
+  text-align: center;
+  padding: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  color: white;
+}
+
+.level:not(:last-child) {
+  margin-right: 10px;
+}
+
+.active {
+  background-color: #90FFD2;
+  color: black;
+}
