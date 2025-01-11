@@ -28,7 +28,7 @@ export default function QuestPage() {
 
       try {
         const response = await axios.get(
-          `http://localhost:5000/Quest/${params.id}/GetQuest`,
+          `http://localhost:8080/Quest/${params.id}/GetQuest`,
           { headers: { Authorization: `Bearer ${await user?.getIdToken()}` } }
         );
         console.log(response.data);
@@ -45,7 +45,7 @@ export default function QuestPage() {
     };
 
     fetchData();
-  }, []);
+  }, [params.id, quest, user]);
 
   const toggleCodeVisibility = () => {
     setIsCodeVisible(!isCodeVisible);
