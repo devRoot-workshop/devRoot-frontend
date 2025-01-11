@@ -8,7 +8,6 @@ import { useParams } from "next/navigation";
 import axios from "axios";
 import { useAuth } from "@/lib/authContext";
 import { mapToQuestType } from "@/lib/global/functions/quest";
-import { mapToQuestType } from "@/lib/global/functions/quest";
 
 export default function QuestPage() {
   const codeSnippet = `
