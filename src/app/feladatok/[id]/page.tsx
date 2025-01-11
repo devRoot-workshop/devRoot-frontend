@@ -1,7 +1,7 @@
 "use client";
 
-import Timer from "@/components/boxes/timer/Timer";
-import CodeHighlighter from "@/components/boxes/code/CodeHighlighter";
+import Timer from "@/components/boxes/Timer/Timer";
+import CodeHighlighter from "@/components/boxes/Code/CodeHighlighter";
 import styles from "./page.module.css";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
