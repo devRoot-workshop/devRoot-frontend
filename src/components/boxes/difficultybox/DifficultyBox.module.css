@@ -1,10 +1,12 @@
 .difficultyBox {
+  position: relative;
   display: flex;
   justify-content: space-between;
-  padding: 10px;
+  padding: 20px;
   border: 2px solid #6BBCB6;
   border-radius: 10px;
   background-color: #2A3838;
+  color: white;
 }
 
 .level {
@@ -23,4 +25,51 @@
 .active {
   background-color: #90FFD2;
   color: black;
+}
+
+.difficultyLabel {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.sliderContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 10px;
+  background: #6BBCB6;
+  outline: none;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+  border-radius: 5px;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.sliderStops {
+  position: absolute;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.stop {
+  width: 10px;
+  height: 10px;
+  background-color: #90FFD2;
+  border-radius: 50%;
 }

@@ -37,7 +37,7 @@ const ListPage: React.FC = () => {
         if (!user) return;
         setIsLoading(true);
         try {
-            const response = await axios.get("http://localhost:8080/Quest/GetQuests", {
+            const response = await axios.get("http://localhost:5000/Quest/GetQuests", {
                 params: {
                     PageNumber: page,
                     PageSize: 10,

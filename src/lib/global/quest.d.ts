@@ -1,8 +1,9 @@
 interface QuestType {
-    id?: number;
-    title: string;
-    taskDescription: string;
-    difficulty: number;
-    created: string;
-    tags: TagType[];
+    difficulty: number,
+    title: string,
+    taskDescription:  string,
+    code: string,
+    console: string,
+    language: number,
+    tagId: TagType[]
 }

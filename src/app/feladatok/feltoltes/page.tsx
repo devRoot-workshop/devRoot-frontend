@@ -28,7 +28,7 @@ const UploadPage: React.FC = () => {
     useEffect(() => {
         const fetchTags = async () => {
             try {
-                const response = await axios.get("http://localhost:8080/Tag/GetTags");
+                const response = await axios.get("http://localhost:5000/Tag/GetTags");
                 const tags = response.data.map((tag: { id: number; name: string }) => ({
                     id: tag.id,
                     name: tag.name,
@@ -87,7 +87,7 @@ const UploadPage: React.FC = () => {
 
         try {
             const response = await axios.post(
-                "http://localhost:8080/Quest/CreateQuest",
+                "http://localhost:5000/Quest/CreateQuest",
                 convertedFormData,
                 {
                     headers: {
