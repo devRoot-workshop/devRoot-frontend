@@ -21,7 +21,6 @@ export default function QuestPage() {
   const [isCodeVisible, setIsCodeVisible] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const params = useParams<{ id: string }>();
-
   useEffect(() => {
     const fetchData = async () => {
       if (quest) return;
@@ -31,7 +30,6 @@ export default function QuestPage() {
           `http://localhost:8080/Quest/${params.id}/GetQuest`,
           { headers: { Authorization: `Bearer ${await user?.getIdToken()}` } }
         );
-        console.log(response.data);
         const questData: QuestType = mapToQuestType(response.data);
         setQuest(questData);
         setCodeSnippet(response.data.code || '');

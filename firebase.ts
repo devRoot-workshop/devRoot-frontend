@@ -1,7 +1,10 @@
 import { getAuth } from 'firebase/auth';
 import { initializeApp } from "firebase/app";
 
+// !! ---- DEVELOPMENT ONLY ----- !!
+// Comment to read the variables from the system's environment
 require('dotenv').config();
+// !! --------------------------- !!
 
 const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
