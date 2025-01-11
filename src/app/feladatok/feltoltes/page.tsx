@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "@/lib/authContext";
-import Header from "@/components/header/Header";
 import InputBox from "@/components/boxes/input/InputBox";
 import styles from "./page.module.css";
 import Button from "@/components/button/Button";
@@ -11,9 +10,10 @@ import TagContainer from "@/components/boxes/tag/TagContainer";
 import TagComponent from "@/components/boxes/tag/TagComponent";
 import AddTag from "@/components/boxes/tag/AddTag";
 import DropDown from "@/components/dropdown/DropDown";
+import LoadingSpinner from "@/components/spinner/LoadingSpinner";
 
 const UploadPage: React.FC = () => {
-    const { user } = useAuth();
+    const { user, loading } = useAuth();
     const [formData, setFormData] = useState<QuestType>({
         title: "",
         taskDescription: "",
@@ -114,10 +114,13 @@ const UploadPage: React.FC = () => {
         setSubmissionSuccess(false);
     };
 
+    if(loading) {
+        return <LoadingSpinner />
+    }
+
     if (submissionSuccess) {
         return (
             <div>
-                <Header />
                 <div className={styles.container}>
                     <h1>Feltöltés sikeres!</h1>
                     <Button type="button" size="large" onClick={newUpload}>
@@ -127,60 +130,66 @@ const UploadPage: React.FC = () => {
             </div>
         );
     }
-
-    return (
-        <div>
-            <Header />
-            <form className={styles.container} onSubmit={handleSubmit}>
-                <h1 className={styles.pageTitle}>Feladat feltöltése</h1>
-                <InputBox
-                    name="title"
-                    onChange={handleChange}
-                    value={formData.title}
-                    placeholderText="Title"
-                />
-                <InputBox
-                    type="textarea"
-                    name="taskDescription"
-                    onChange={handleChange}
-                    value={formData.taskDescription}
-                    placeholderText="Description"
-                />
-                <div className={styles.row}>
-                    <DropDown
-                        name="difficulty"
-                        value={formData.difficulty.toString()}    
-                        onChange={(e) => handleDifficultyChange(Number(e.target.value))}
-                        options={[
-                            { value: "0", display: "Könnyű" },
-                            { value: "1", display: "Közepes" },
-                            { value: "2", display: "Nehéz" },
-                        ]}
+    if(user) {
+        return (
+            <div>
+                <form className={styles.container} onSubmit={handleSubmit}>
+                    <h1 className={styles.pageTitle}>Feladat feltöltése</h1>
+                    <InputBox
+                        name="title"
+                        onChange={handleChange}
+                        value={formData.title}
+                        placeholderText="Title"
                     />
-                    <TagContainer>
-                        {formData.tags.map((tag) => (
-                            <TagComponent
-                                key={tag.id}
-                                id={tag.id}
-                                text={tag.name}
-                                onRemove={handleTagRemove}
-                            />
-                        ))}
-                        <AddTag onAdd={handleTagAdd} tags={fetchedTags} />
-                    </TagContainer>
-                </div>
-                <Button type="button" size="small" color="pale">
-                    Fájl hozzáadása
-                </Button>
-
-                <div className={styles.buttonGroup}>
-                    <Button type="submit" size="large">
-                        Feltöltés
+                    <InputBox
+                        type="textarea"
+                        name="taskDescription"
+                        onChange={handleChange}
+                        value={formData.taskDescription}
+                        placeholderText="Description"
+                    />
+                    <div className={styles.row}>
+                        <DropDown
+                            name="difficulty"
+                            value={formData.difficulty.toString()}    
+                            onChange={(e) => handleDifficultyChange(Number(e.target.value))}
+                            options={[
+                                { value: "0", display: "Könnyű" },
+                                { value: "1", display: "Közepes" },
+                                { value: "2", display: "Nehéz" },
+                            ]}
+                        />
+                        <TagContainer>
+                            {formData.tags.map((tag) => (
+                                <TagComponent
+                                    key={tag.id}
+                                    id={tag.id}
+                                    text={tag.name}
+                                    onRemove={handleTagRemove}
+                                />
+                            ))}
+                            <AddTag onAdd={handleTagAdd} tags={fetchedTags} />
+                        </TagContainer>
+                    </div>
+                    <Button type="button" size="small" color="pale">
+                        Fájl hozzáadása
                     </Button>
-                </div>
-            </form>
+    
+                    <div className={styles.buttonGroup}>
+                        <Button type="submit" size="large">
+                            Feltöltés
+                        </Button>
+                    </div>
+                </form>
+            </div>
+        );
+    }
+    else {
+        return <div className={styles.signInContainer}>
+            <h1>Jelentkezz be a feltöltéshez!</h1>
         </div>
-    );
+    }
+    
 };
 
 export default UploadPage;

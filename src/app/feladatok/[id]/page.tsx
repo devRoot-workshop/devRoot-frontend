@@ -1,7 +1,7 @@
 "use client";
 
-import Timer from "@/components/boxes/timer/Timer";
-import CodeHighlighter from "@/components/boxes/code/CodeHighlighter";
+import Timer from "@/components/boxes/Timer/Timer";
+import CodeHighlighter from "@/components/boxes/Code/CodeHighlighter";
 import styles from "./page.module.css";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
@@ -44,10 +44,9 @@ export default function QuestPage() {
 
       try {
         const response = await axios.get(
-          `http://localhost:8080/${params.id}/GetQuest`,
+          `http://localhost:8080/Quest/${params.id}/GetQuest`,
           { headers: { Authorization: `Bearer ${await user?.getIdToken()}` } }
         );
-        console.log(response.data)
         const questData: QuestType = mapToQuestType(response.data);
         setQuest(questData);
       } catch (error) {
@@ -56,7 +55,7 @@ export default function QuestPage() {
     };
 
     fetchData();
-  }, []);
+  }, [params.id, quest, user]);
 
   return (
     <div className={styles.exercisePage}>
@@ -76,10 +75,10 @@ export default function QuestPage() {
             <div>
               <pre className={`${styles.console} bg-gray-900 text-green-400 p-4 rounded-lg`}>
                 {`
-                  alma
-                  banán
-                  körte
-                  szilva
+                                  alma
+                                  banán
+                                  körte
+                                  szilva
                 `}
               </pre>
             </div>

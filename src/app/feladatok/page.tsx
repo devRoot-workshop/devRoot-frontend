@@ -1,13 +1,12 @@
-"use client"
+"use client";
 
-import InputBox from "@/components/boxes/input/InputBox";
-import Header from "@/components/header/Header";
 import QuestListComponent from "@/components/list/QuestList";
 import styles from "./pages.module.css";
 import { useEffect, useState } from "react";
 import PaginationBox from "@/components/pagination/PaginationBox";
 import axios from "axios";
 import { useAuth } from "@/lib/authContext";
+import LoadingSpinner from "@/components/spinner/LoadingSpinner";
 
 interface QuestType {
     id: number;
@@ -26,25 +25,22 @@ interface TagType {
 
 const ListPage: React.FC = () => {
     const { user: authUser } = useAuth();
-    const [user, setUser] = useState(authUser);
     const [quests, setQuests] = useState<QuestType[]>([]);
-    const [searchValue, setSearchValue] = useState<string>("");
-    const [status, setStatus] = useState<string>("all");
-    const [difficulty, setDifficulty] = useState<string>("all");
+    const [isLoading, setIsLoading] = useState(false);
 
-    //OPTIMIZE: client-side caching and loading screen until fetch finishes
     const fetchQuests = async (page: number) => {
-        if (!user) return;
+        if (!authUser) return;
+        setIsLoading(true);
         try {
             const response = await axios.get("http://localhost:8080/Quest/GetQuests", {
                 params: {
-                PageNumber: page,
-                PageSize: 10,
+                    PageNumber: page,
+                    PageSize: 10,
                 },
-                headers: { Authorization: `Bearer ${await user.getIdToken()}` },
+                headers: { Authorization: `Bearer ${await authUser.getIdToken()}` },
             });
 
-            const quests = response.data.map((quest: QuestType) => ({
+            const formattedQuests: QuestType[] = response.data.map((quest: QuestType) => ({
                 id: quest.id,
                 title: quest.title,
                 taskDescription: quest.taskDescription,
@@ -57,39 +53,39 @@ const ListPage: React.FC = () => {
                 })),
             }));
 
-            setQuests(quests);
+            setQuests(formattedQuests);
         } catch (error) {
             console.error("Error fetching quests:", error);
+        } finally {
+            setIsLoading(false);
         }
     };
 
     useEffect(() => {
-        if (authUser) setUser(authUser);
+        if (authUser) fetchQuests(1);
     }, [authUser]);
 
-    useEffect(() => {
-        if (user) fetchQuests(1);
-    }, [user]);
-
-    const onPageChange = (page: number) => {
-        fetchQuests(page);
-    };
-
     return (
-        <div>
-            <Header />
-            <div className={styles.container}>
-                <br/>
+        <div className={styles.container}>
+            <br />
+            <div className="relative min-h-[200px]">
                 <QuestListComponent quests={quests} />
-                <div className={styles.PaginationBox}>
-                    <PaginationBox onChange={onPageChange} />
-                </div>
+                {isLoading && <LoadingOverlay />}
+            </div>
+            <div className={styles.PaginationBox}>
+                <PaginationBox onChange={fetchQuests} isLoading={isLoading} />
             </div>
         </div>
     );
 };
 
 export default ListPage;
+
+const LoadingOverlay: React.FC = () => (
+    <div className="absolute inset-0 backdrop-blur-[2px] transition-opacity duration-300 flex items-center justify-center rounded-lg">
+        <LoadingSpinner />
+    </div>
+);
 
 /*
 - SEARCH PARAMETER SETTINGS

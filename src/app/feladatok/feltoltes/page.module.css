@@ -36,6 +36,10 @@
     gap: 10px;
 }
 
+.signInContainer h1 {
+    text-align: center;
+}
+
 @media (min-width: 1200px) {
     .container {
         width: 50%;
@@ -57,3 +61,4 @@
         margin-top: 0;
     }
 }
+

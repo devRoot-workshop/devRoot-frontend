@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./QuestList.module.css";
+import Link from "next/link";
 
 interface ListComponentProps {
     quests: QuestType[];
@@ -17,7 +18,7 @@ const QuestListComponent: React.FC<ListComponentProps> = ({ quests }) => {
             {quests.map((quest, index) => (
                 <React.Fragment key={index}>
                     <div className={styles.cell}>
-                        <a href={`/feladatok/${quest.id}`}>{quest.title}</a>
+                        <Link href={`/feladatok/${quest.id}`}>{quest.title}</Link>
                     </div>
                     <div className={styles.cell}>
                         {quest.tags.length > 0 ? (

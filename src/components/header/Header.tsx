@@ -1,38 +1,35 @@
-"use client"
+"use client";
 
-import styles from './Header.module.css'
+import React from "react";
+import styles from "./Header.module.css";
 import { useAuth } from "@/lib/authContext";
 import Button from "../button/Button";
+import Link from "next/link";
 
-export default function Header() {
+function Header() {
   const { user, login, logout } = useAuth();
   return (
-    <div className={styles['header-container']}>
+    <div className={styles["header-container"]}>
       <div className="flex space-x-12">
-        <a href="/feladatok" className={styles['header-element']}>Feladatok</a>
-        <a href="/kategoriak" className={styles['header-element']}>Kategóriák</a>
+        <Link prefetch={false} href="/" className={styles["header-element"]}>
+          Kezdőlap
+        </Link>
+        <Link prefetch={false} href="/feladatok" className={styles["header-element"]}>
+          Feladatok
+        </Link>
       </div>
+
 
       <div>
         {user ? (
           <div>
-            <Button
-              size="small"
-              color="pale"
-              ghost={false}
-              onClick={logout}
-            >
+            <Button size="small" color="pale" ghost={false} onClick={logout}>
               Kijelentkezés
             </Button>
           </div>
         ) : (
           <div>
-            <Button
-              size="small"
-              color="pale"
-              ghost={false}
-              onClick={login}
-            >
+            <Button size="small" color="pale" ghost={false} onClick={login}>
               Regisztráció
             </Button>
           </div>
@@ -41,3 +38,5 @@ export default function Header() {
     </div>
   );
 }
+
+export default Header;

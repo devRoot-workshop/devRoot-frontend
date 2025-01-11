@@ -1,6 +1,11 @@
+.container {
+    position: relative;
+    padding: 0 1rem;
+}
+  
 .hero-background {
     position: absolute;
-    top: 0px;
+    top: -500px;
     left: 0;
     width: 100%;
     background: 
@@ -12,61 +17,66 @@
     mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
     z-index: -1;
 }
-
+  
 .hero-section-container {
     position: relative;
     z-index: 1;
     text-align: center;
-    padding: 80px 0px 0px;
+    padding: 5rem 0 0;
 }
   
 .hero-button-container {
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 25px;
-}
-
-.about-section-container {
-    margin-top: 175px;
-}
-
-.about-section-box-container {
-    margin-top: 15px;
-    justify-content: center;
-    display: flex;
-    gap: 10px;
-}
-
-.about-section-box-container > div {
-    display: flex;
-    gap: 10px;
     flex-direction: column;
-    justify-content: center; /* Center the boxes horizontally */
+    align-items: stretch;
+    gap: 1rem;
+    margin: 1.75rem 0;
 }
-
-.categories-section-container {
-    margin-top: 225px;
+  
+.about-section-container {
+    margin-top: 8rem;
 }
-
-.categories-button-container {
-    margin: 25px auto 30px auto;
-    max-width: 1050px;
+  
+.about-section-box-container {
+    margin-top: 1rem;
     display: flex;
-    flex-direction: row;
-    gap: 10px;
+    flex-direction: column;
+    gap: 1rem;
 }
-
+  
+.categories-section-container {
+    margin-top: 8rem;
+}
+  
+.categoryTitle {
+    font-size: 28px;
+    text-align: left;
+    line-height: 1.25;
+    max-width: 64rem;
+    margin: 0 auto;
+}
+  
+.desktopLineBreak {
+    display: none;
+}
+  
+.categories-button-container {
+    margin: 1.75rem auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 64rem;
+}
+  
 .categories-list {
     display: flex;
-    gap: 10px;
-    flex-direction: row;
-    justify-content: center; /* Center the boxes horizontally */
+    flex-direction: column;
+    gap: 1rem;
+    justify-content: center;
 }
-
+  
 .cta-section-container {
-    margin-top: 100px;
+    margin-top: 6rem;
     position: relative;
     min-height: 400px;
     display: flex;
@@ -74,7 +84,7 @@
     justify-content: center;
     align-items: center;
 }
-
+  
 .cta-background {
     position: absolute;
     bottom: 0;
@@ -82,14 +92,118 @@
     width: 100%;
     height: 100%;
     background-image: url('/tree.png');
-    background-size:auto;
+    background-size: auto;
     background-position: center;
     background-repeat: no-repeat;
     z-index: 1;
 }
-
-.cta-button-container {
-    margin: 25px auto 0px auto;
-    display: flex;
-    justify-content: center; /* Center the boxes horizontally */
+  
+.ctaContent {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    padding: 0 1rem;
 }
+  
+.cta-button-container {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: center;
+}
+    
+.aboutRightBoxes {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+  
+@media (min-width: 768px) {
+    .categoryTitle {
+        font-size: 36px;
+    }
+
+    .hero-section-container {
+        padding: 8rem 0 0;
+    }
+  
+    .hero-button-container {
+        flex-direction: row;
+        justify-content: center;
+        gap: 1.5rem;
+    }
+  
+    .categories-section-container {
+        margin-top: 14rem;
+    }
+  
+    .desktopLineBreak {
+        display: block;
+    }
+  
+    .categories-button-container {
+        flex-direction: row;
+    }
+  
+    .categories-list {
+        gap: 0.625rem;
+    }
+  }
+  
+@media (min-width: 1024px) {
+    .about-section-container {
+        margin-top: 11rem;
+    }
+  
+    .about-section-box-container {
+        flex-direction: row;
+        justify-content: center;
+        gap: 0.625rem;
+    }
+  
+    .hero-section-container {
+        padding: 80px 0 0;
+    }
+  
+    .hero-button-container {
+        gap: 25px;
+    }
+  
+    .about-section-container {
+        max-width: 1050px;
+        margin: 175px auto 0 auto;
+    }
+  
+    .about-section-box-container {
+        margin-top: 15px;
+        justify-content: center;
+        display: flex;
+        gap: 10px;
+    }
+  
+    .categories-section-container {
+        max-width: 1050px;
+        margin: 175px auto 0 auto;
+    }
+  
+    .categories-button-container {
+        margin: 25px auto 30px auto;
+        max-width: 1050px;
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+    }
+  
+    .categories-list {
+        gap: 10px;
+        flex-direction: row;
+    }
+  
+    .cta-section-container {
+        margin-top: 100px;
+    }
+  
+    .cta-button-container {
+        margin: 25px auto 0 auto;
+    }
+}
+  
