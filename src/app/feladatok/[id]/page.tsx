@@ -20,7 +20,7 @@ export async function generateStaticParams() {
     try {
         const quests = await fetchQuests();
         return quests.map((quest) => ({
-            id: quest.id.toString()
+            id: quest.id.toString(),
         }));
     } catch (error) {
         console.error('Error generating static params:', error);
@@ -28,13 +28,10 @@ export async function generateStaticParams() {
     }
 }
 
-interface Props {
-    params: {
-        id: string; 
-    };
-}
+type Params = Promise<{ id: string }>
 
-export default async function QuestParent({ params }: Props) {
+export default async function QuestParent(props: { params: Params }) {
+    const params = await props.params;
     const quest = await fetchQuest(params.id);
     return <QuestPage quest={quest} />;
 }
