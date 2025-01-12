@@ -7,26 +7,6 @@
     color: #bababa;
 }
 
-#console-container{
-    font-family: Fira Code, Consolas, Ubuntu mono,monospace;
-    background-color: #212222;
-    border-radius: 15px;
-    padding: 10px;
-    padding-top: 10px;
-    width: 80%;
-    margin: 20px;
-}
-.console {
-    font-family: Fira Code, Consolas, Ubuntu mono,monospace;
-    background-color: #101313;
-    color: #ededed;
-    padding: 10px;
-    border: #ededed solid;
-    border-bottom-left-radius: 12px;
-    border-bottom-right-radius: 12px;
-    margin-top: 10px;
-    text-align: left,;
-}
 .leftPanel {
     background-color: #2c2c2c ;
     color: #ffffff;
@@ -67,19 +47,6 @@
     float: center;
     max-height: 400px; /* Adjust as needed */
     overflow: auto;
-}
-.toggleButton {
-  margin: 10px 0;
-  padding: 5px 10px;
-  background-color: #90FFD2;
-  border-color: #90FFD2 !important;
-  color: black;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.toggleButton:hover {
-  background-color: #80e7c2;
 }
 
 .blurred {
