@@ -10,17 +10,21 @@ import TagContainer from "@/components/boxes/tag/TagContainer";
 import TagComponent from "@/components/boxes/tag/TagComponent";
 import AddTag from "@/components/boxes/tag/AddTag";
 import DropDown from "@/components/dropdown/DropDown";
-import LoadingSpinner from "@/components/spinner/LoadingSpinner";
 
 const UploadPage: React.FC = () => {
-    const { user, loading } = useAuth();
+    const { user } = useAuth();
     const [formData, setFormData] = useState<QuestType>({
+        id: 0,
         title: "",
         taskDescription: "",
         difficulty: 0,
-        created: new Date().toISOString().split("T")[0],
+        created: new Date().toISOString(), 
+        code: "",
+        console: "",
+        language: 0,
         tags: [],
     });
+    
 
     const [fetchedTags, setFetchedTags] = useState<TagType[]>([]);
     const [submissionSuccess, setSubmissionSuccess] = useState(false);
@@ -105,18 +109,18 @@ const UploadPage: React.FC = () => {
 
     const newUpload = () => {
         setFormData({
+            id: 0,
             title: "",
             taskDescription: "",
             difficulty: 0,
-            created: new Date().toISOString().split("T")[0],
+            created: new Date().toISOString(), 
+            code: "",
+            console: "",
+            language: 0,
             tags: [],
         });
         setSubmissionSuccess(false);
     };
-
-    if(loading) {
-        return <LoadingSpinner />
-    }
 
     if (submissionSuccess) {
         return (
@@ -130,66 +134,59 @@ const UploadPage: React.FC = () => {
             </div>
         );
     }
-    if(user) {
-        return (
-            <div>
-                <form className={styles.container} onSubmit={handleSubmit}>
-                    <h1 className={styles.pageTitle}>Feladat feltöltése</h1>
-                    <InputBox
-                        name="title"
-                        onChange={handleChange}
-                        value={formData.title}
-                        placeholderText="Title"
+
+    return (
+        <div>
+            <form className={styles.container} onSubmit={handleSubmit}>
+                <h1 className={styles.pageTitle}>Feladat feltöltése</h1>
+                <InputBox
+                    name="title"
+                    onChange={handleChange}
+                    value={formData.title}
+                    placeholderText="Title"
+                />
+                <InputBox
+                    type="textarea"
+                    name="taskDescription"
+                    onChange={handleChange}
+                    value={formData.taskDescription}
+                    placeholderText="Description"
+                />
+                <div className={styles.row}>
+                    <DropDown
+                        name="difficulty"
+                        value={formData.difficulty.toString()}    
+                        onChange={(e) => handleDifficultyChange(Number(e.target.value))}
+                        options={[
+                            { value: "0", display: "Könnyű" },
+                            { value: "1", display: "Közepes" },
+                            { value: "2", display: "Nehéz" },
+                        ]}
                     />
-                    <InputBox
-                        type="textarea"
-                        name="taskDescription"
-                        onChange={handleChange}
-                        value={formData.taskDescription}
-                        placeholderText="Description"
-                    />
-                    <div className={styles.row}>
-                        <DropDown
-                            name="difficulty"
-                            value={formData.difficulty.toString()}    
-                            onChange={(e) => handleDifficultyChange(Number(e.target.value))}
-                            options={[
-                                { value: "0", display: "Könnyű" },
-                                { value: "1", display: "Közepes" },
-                                { value: "2", display: "Nehéz" },
-                            ]}
-                        />
-                        <TagContainer>
-                            {formData.tags.map((tag) => (
-                                <TagComponent
-                                    key={tag.id}
-                                    id={tag.id}
-                                    text={tag.name}
-                                    onRemove={handleTagRemove}
-                                />
-                            ))}
-                            <AddTag onAdd={handleTagAdd} tags={fetchedTags} />
-                        </TagContainer>
-                    </div>
-                    <Button type="button" size="small" color="pale">
-                        Fájl hozzáadása
+                    <TagContainer>
+                        {formData.tags.map((tag) => (
+                            <TagComponent
+                                key={tag.id}
+                                id={tag.id}
+                                text={tag.name}
+                                onRemove={handleTagRemove}
+                            />
+                        ))}
+                        <AddTag onAdd={handleTagAdd} tags={fetchedTags} />
+                    </TagContainer>
+                </div>
+                <Button type="button" size="small" color="pale">
+                    Fájl hozzáadása
+                </Button>
+
+                <div className={styles.buttonGroup}>
+                    <Button type="submit" size="large">
+                        Feltöltés
                     </Button>
-    
-                    <div className={styles.buttonGroup}>
-                        <Button type="submit" size="large">
-                            Feltöltés
-                        </Button>
-                    </div>
-                </form>
-            </div>
-        );
-    }
-    else {
-        return <div className={styles.signInContainer}>
-            <h1>Jelentkezz be a feltöltéshez!</h1>
+                </div>
+            </form>
         </div>
-    }
-    
+    );
 };
 
 export default UploadPage;
