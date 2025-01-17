@@ -9,6 +9,17 @@ import LoadingSpinner from "@/components/spinner/LoadingSpinner";
 import styles from "./pages.module.css";
 import InputBox from "@/components/boxes/input/InputBox";
 import DropDown from "@/components/dropdown/DropDown";
+import TagContainer from "@/components/boxes/tag/TagContainer";
+import TagComponent from "@/components/boxes/tag/TagComponent";
+import AddTag from "@/components/boxes/tag/AddTag";
+
+interface FetchParams {
+    PageNumber: number;
+    PageSize: number;
+    SearchQuery: string;
+    SortDifficulty?: string | number;
+    SortTags?: number[];
+}
 
 const DEBOUNCE_DELAY = 500;
 
@@ -20,7 +31,9 @@ const ListPage: React.FC = () => {
     const [searchValue, setSearchValue] = useState<string>("");
     const [debouncedSearchValue, setDebouncedSearchValue] = useState<string>("");
     const [difficulty, setDifficulty] = useState<number>(0);
-    const [language, setLanguage] = useState<number>(0);
+
+    const [tags, setTags] = useState<TagType[]>([]);
+    const [fetchedTags, setFetchedTags] = useState<TagType[]>([]);
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -34,24 +47,39 @@ const ListPage: React.FC = () => {
         async (page: number) => {
             if (!user) return;
             setIsLoading(true);
-            console.log({
+            const tagIds = tags.length > 0 ? tags.map((tag) => tag.id) : null;
+
+            const params: FetchParams = {
                 PageNumber: page,
                 PageSize: 10,
                 SearchQuery: debouncedSearchValue,
                 SortDifficulty: difficulty,
-                Language: language,
-            });
+            };
+
+            if (tagIds !== null) {
+                params.SortTags = tagIds;
+            }
+
+            console.log(params);
+
             try {
                 const response = await axios.get("http://localhost:8080/Quest/GetQuests", {
-                    params: {
-                        PageNumber: page,
-                        PageSize: 10,
-                        SearchQuery: debouncedSearchValue,
-                        SortDifficulty: difficulty,
-                        SortLanguage: language,
+                    params,
+                    paramsSerializer: {
+                        serialize: (params) => {
+                            const queryString = new URLSearchParams();
+                            for (const key in params) {
+                                if (Array.isArray(params[key])) {
+                                    queryString.append(key, params[key].join(','));
+                                } else {
+                                    queryString.append(key, params[key]);
+                                }
+                            }
+                            return queryString.toString();
+                        },
                     },
-                    headers: { Authorization: `Bearer ${await user.getIdToken()}` },
                 });
+                console.log(response.request)
 
                 const quests = response.data.map((quest: QuestType) => ({
                     id: quest.id,
@@ -73,7 +101,7 @@ const ListPage: React.FC = () => {
                 setIsLoading(false);
             }
         },
-        [user, difficulty, debouncedSearchValue, language]
+        [user, difficulty, debouncedSearchValue, tags]
     );
 
     useEffect(() => {
@@ -88,6 +116,34 @@ const ListPage: React.FC = () => {
         fetchQuests(page);
     };
 
+    useEffect(() => {
+        const fetchTags = async () => {
+            try {
+                const response = await axios.get("http://localhost:8080/Tag/GetTags");
+                const tags = response.data.map((tag: { id: number; name: string }) => ({
+                    id: tag.id,
+                    name: tag.name,
+                }));
+                setFetchedTags(tags);
+            } catch (error) {
+                console.error("Error fetching tags:", error);
+            }
+        };
+
+        fetchTags();
+    }, []);
+
+    const handleTagRemove = (id: number) => {
+        setTags(prevTags => prevTags.filter(tag => tag.id !== id));
+    };
+
+    const handleTagAdd = (id: number) => {
+        const tagToAdd = fetchedTags.find((tag) => tag.id === id);
+        if (tagToAdd && !tags.some((tag) => tag.id === id)) {
+            setTags(prevTags => [...prevTags, tagToAdd]);
+        }
+    };
+
     return (
         <div>
             <div className={styles.container}>
@@ -97,33 +153,34 @@ const ListPage: React.FC = () => {
                         value={difficulty.toString()}
                         onChange={(e) => setDifficulty(Number(e.target.value))}
                         options={[
-                            { value: 0, display: "All Difficulties" },
-                            { value: 1, display: "Easy" },
-                            { value: 2, display: "Medium" },
-                            { value: 3, display: "Hard" },
+                            { value: 0, display: "Minden nehézség" },
+                            { value: 1, display: "Könnyű" },
+                            { value: 2, display: "Közepes" },
+                            { value: 3, display: "Nehéz" },
                         ]}
                     />
-                    <DropDown
-                        name="language"
-                        value={language.toString()}
-                        onChange={(e) => setLanguage(Number(e.target.value))}
-                        options={[
-                            { value: 0, display: "All Languages" },
-                            { value: 1, display: "Python" },
-                            { value: 2, display: "C#" },
-                            { value: 3, display: "Next.js" },
-                            { value: 4, display: "Java" },
-                            { value: 5, display: "C++" },
-                            { value: 6, display: "C" },
-                        ]}
-                    />
+
+                    <TagContainer>
+                        {tags.map((tag) => (
+                            <TagComponent
+                                key={tag.id}
+                                id={tag.id}
+                                text={tag.name}
+                                onRemove={handleTagRemove}
+                            />
+                        ))}
+                        <AddTag onAdd={handleTagAdd} tags={fetchedTags} />
+                    </TagContainer>
+                </div>
+                <div className={styles.optionsContainer}>
                     <InputBox
-                        value={searchValue}
-                        placeholderText="Search..."
-                        onChange={(e) => setSearchValue(e.target.value)}
-                        icon={"🔍"}
+                            value={searchValue}
+                            placeholderText="Keresés..."
+                            onChange={(e) => setSearchValue(e.target.value)}
+                            icon={"🔍"}
                     />
                 </div>
+
                 <br />
                 <div className="relative min-h-[200px]">
                     <QuestListComponent quests={quests} />
