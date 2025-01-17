@@ -31,9 +31,7 @@ const ListPage: React.FC = () => {
     const [searchValue, setSearchValue] = useState<string>("");
     const [debouncedSearchValue, setDebouncedSearchValue] = useState<string>("");
     const [difficulty, setDifficulty] = useState<number>(0);
-
     const [tags, setTags] = useState<TagType[]>([]);
-    const [fetchedTags, setFetchedTags] = useState<TagType[]>([]);
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -116,33 +114,7 @@ const ListPage: React.FC = () => {
         fetchQuests(page);
     };
 
-    useEffect(() => {
-        const fetchTags = async () => {
-            try {
-                const response = await axios.get("http://localhost:8080/Tag/GetTags");
-                const tags = response.data.map((tag: { id: number; name: string }) => ({
-                    id: tag.id,
-                    name: tag.name,
-                }));
-                setFetchedTags(tags);
-            } catch (error) {
-                console.error("Error fetching tags:", error);
-            }
-        };
 
-        fetchTags();
-    }, []);
-
-    const handleTagRemove = (id: number) => {
-        setTags(prevTags => prevTags.filter(tag => tag.id !== id));
-    };
-
-    const handleTagAdd = (id: number) => {
-        const tagToAdd = fetchedTags.find((tag) => tag.id === id);
-        if (tagToAdd && !tags.some((tag) => tag.id === id)) {
-            setTags(prevTags => [...prevTags, tagToAdd]);
-        }
-    };
 
     return (
         <div>
@@ -166,10 +138,10 @@ const ListPage: React.FC = () => {
                                 key={tag.id}
                                 id={tag.id}
                                 text={tag.name}
-                                onRemove={handleTagRemove}
+                                setTags={setTags}
                             />
                         ))}
-                        <AddTag onAdd={handleTagAdd} tags={fetchedTags} />
+                        <AddTag setTags={setTags} tags={tags} />
                     </TagContainer>
                 </div>
                 <div className={styles.optionsContainer}>

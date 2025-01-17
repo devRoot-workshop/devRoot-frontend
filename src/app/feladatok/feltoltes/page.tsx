@@ -13,7 +13,7 @@ import DropDown from "@/components/dropdown/DropDown";
 
 const UploadPage: React.FC = () => {
     const { user } = useAuth();
-    const [formData, setFormData] = useState<QuestType>({
+    const [formData, setFormData] = useState<Partial<QuestType>>({
         id: 0,
         title: "",
         taskDescription: "",
@@ -22,29 +22,10 @@ const UploadPage: React.FC = () => {
         code: "",
         console: "",
         language: 0,
-        tags: [],
     });
-    
+    const [tags, setTags] = useState<TagType[]>([]);
 
-    const [fetchedTags, setFetchedTags] = useState<TagType[]>([]);
     const [submissionSuccess, setSubmissionSuccess] = useState(false);
-
-    useEffect(() => {
-        const fetchTags = async () => {
-            try {
-                const response = await axios.get("http://localhost:8080/Tag/GetTags");
-                const tags = response.data.map((tag: { id: number; name: string }) => ({
-                    id: tag.id,
-                    name: tag.name,
-                }));
-                setFetchedTags(tags);
-            } catch (error) {
-                console.error("Error fetching tags:", error);
-            }
-        };
-
-        fetchTags();
-    }, []);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -59,23 +40,6 @@ const UploadPage: React.FC = () => {
             ...prev,
             difficulty: value,
         }));
-    };    
-
-    const handleTagRemove = (id: number) => {
-        setFormData((prevData) => ({
-            ...prevData,
-            tags: prevData.tags.filter((tag) => tag.id !== id),
-        }));
-    };
-
-    const handleTagAdd = (id: number) => {
-        const tagToAdd = fetchedTags.find((tag) => tag.id === id);
-        if (tagToAdd && !formData.tags.some((tag) => tag.id === id)) {
-            setFormData((prevData) => ({
-                ...prevData,
-                tags: [...prevData.tags, tagToAdd],
-            }));
-        }
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -86,7 +50,7 @@ const UploadPage: React.FC = () => {
             title: formData.title,
             taskDescription: formData.taskDescription,
             created: formData.created,
-            tagId: formData.tags.map((tag) => tag.id),
+            tagId: tags.map((tag) => tag.id),
         };
 
         try {
@@ -142,20 +106,20 @@ const UploadPage: React.FC = () => {
                 <InputBox
                     name="title"
                     onChange={handleChange}
-                    value={formData.title}
+                    value={formData.title!}
                     placeholderText="Title"
                 />
                 <InputBox
                     type="textarea"
                     name="taskDescription"
                     onChange={handleChange}
-                    value={formData.taskDescription}
+                    value={formData.taskDescription!}
                     placeholderText="Description"
                 />
                 <div className={styles.row}>
                     <DropDown
                         name="difficulty"
-                        value={formData.difficulty.toString()}    
+                        value={formData.difficulty!.toString()}    
                         onChange={(e) => handleDifficultyChange(Number(e.target.value))}
                         options={[
                             { value: "0", display: "Könnyű" },
@@ -164,15 +128,15 @@ const UploadPage: React.FC = () => {
                         ]}
                     />
                     <TagContainer>
-                        {formData.tags.map((tag) => (
+                        {tags.map((tag) => (
                             <TagComponent
                                 key={tag.id}
                                 id={tag.id}
                                 text={tag.name}
-                                onRemove={handleTagRemove}
+                                setTags={setTags}
                             />
                         ))}
-                        <AddTag onAdd={handleTagAdd} tags={fetchedTags} />
+                        <AddTag setTags={setTags} tags={tags} />
                     </TagContainer>
                 </div>
                 <Button type="button" size="small" color="pale">

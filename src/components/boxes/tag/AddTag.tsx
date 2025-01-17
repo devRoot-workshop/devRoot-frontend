@@ -1,13 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import styles from './AddTag.module.css';
+import axios from 'axios';
 
 interface AddTagProps {
     tags: TagType[];
-    onAdd: (id: number) => void;
+    setTags: React.Dispatch<React.SetStateAction<TagType[]>>;
 }
 
-const AddTag: React.FC<AddTagProps> = ({ tags, onAdd }) => {
+const AddTag: React.FC<AddTagProps> = ({ tags, setTags }) => {
     const [isDropdownVisible, setDropdownVisible] = useState(false);
     const [dropdownPosition, setDropdownPosition] = useState<{ top: number; left: number }>({
         top: 0,
@@ -16,6 +17,8 @@ const AddTag: React.FC<AddTagProps> = ({ tags, onAdd }) => {
     const [showAbove, setShowAbove] = useState(false);
     const buttonRef = useRef<HTMLButtonElement | null>(null);
     const dropdownRef = useRef<HTMLDivElement | null>(null);
+
+    const [fetchedTags, setFetchedTags] = useState<TagType[]>([]);
 
     const calculatePosition = () => {
         if (!buttonRef.current || !dropdownRef.current) return;
@@ -71,6 +74,31 @@ const AddTag: React.FC<AddTagProps> = ({ tags, onAdd }) => {
         }
     }, [isDropdownVisible]);
 
+    const handleTagAdd = (id: number) => {
+        const tagToAdd = fetchedTags.find((tag) => tag.id === id);
+        if (tagToAdd && !tags.some((tag) => tag.id === id)) {
+            setTags(prevTags => [...prevTags, tagToAdd]);
+        }
+    };
+
+    useEffect(() => {
+        const fetchTags = async () => {
+            try {
+                const response = await axios.get("http://localhost:8080/Tag/GetTags");
+                const tags = response.data.map((tag: { id: number; name: string }) => ({
+                    id: tag.id,
+                    name: tag.name,
+                }));
+                setFetchedTags(tags);
+            } catch (error) {
+                console.error("Error fetching tags:", error);
+            }
+        };
+
+        fetchTags();
+
+    }, []);
+
     return (
         <>
             <button
@@ -93,11 +121,11 @@ const AddTag: React.FC<AddTagProps> = ({ tags, onAdd }) => {
                             left: dropdownPosition.left,
                         }}
                     >
-                        {tags.map((tag) => (
+                        {fetchedTags.map((tag) => (
                             <div
                                 key={tag.id}
                                 className={styles.tagItem}
-                                onClick={() => { onAdd(tag.id); toggleDropdown(); }}
+                                onClick={() => { handleTagAdd(tag.id); toggleDropdown(); }}
                                 style={{ cursor: 'pointer' }}
                             >
                                 <p>{tag.name}</p>
