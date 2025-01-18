@@ -46,22 +46,20 @@ const ListPage: React.FC = () => {
             if (!user) return;
             setIsLoading(true);
             const tagIds = tags.length > 0 ? tags.map((tag) => tag.id) : null;
-
+    
             const params: FetchParams = {
                 PageNumber: page,
                 PageSize: 10,
-                SearchQuery: debouncedSearchValue,
-                SortDifficulty: difficulty,
+                SearchQuery: debouncedSearchValue || '',
+                SortDifficulty: difficulty || 0,
             };
-
-            if (tagIds !== null) {
+    
+            if (tagIds && tagIds.length > 0) {
                 params.SortTags = tagIds;
             }
-
-            console.log(params);
-
+    
             try {
-                const response = await axios.get("http://localhost:8080/Quest/GetQuests", {
+                const response = await axios.get("/api/quests/getQuests", {
                     params,
                     paramsSerializer: {
                         serialize: (params) => {
@@ -69,16 +67,15 @@ const ListPage: React.FC = () => {
                             for (const key in params) {
                                 if (Array.isArray(params[key])) {
                                     queryString.append(key, params[key].join(','));
-                                } else {
-                                    queryString.append(key, params[key]);
+                                } else if (params[key] !== null && params[key] !== undefined) {
+                                    queryString.append(key, params[key].toString());
                                 }
                             }
                             return queryString.toString();
                         },
                     },
                 });
-                console.log(response.request)
-
+    
                 const quests = response.data.map((quest: QuestType) => ({
                     id: quest.id,
                     title: quest.title,
@@ -91,7 +88,7 @@ const ListPage: React.FC = () => {
                         description: tag.description,
                     })),
                 }));
-
+    
                 setQuests(quests);
             } catch (error) {
                 console.error("Error fetching quests:", error);

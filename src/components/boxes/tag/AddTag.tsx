@@ -95,10 +95,10 @@ const AddTag: React.FC<AddTagProps> = ({ tags, setTags }) => {
     const fetchTags = async (query: string) => {
         setIsLoading(true);
         try {
-            const response = await axios.get(`http://localhost:8080/Tag/GetTags`, {
+            const response = await axios.get('/api/tag/getTags', {
                 params: {
-                    searchQuery: query
-                }
+                    searchQuery: query,
+                },
             });
             const tags = response.data.map((tag: { id: number; name: string }) => ({
                 id: tag.id,
@@ -106,7 +106,7 @@ const AddTag: React.FC<AddTagProps> = ({ tags, setTags }) => {
             }));
             setFetchedTags(tags);
         } catch (error) {
-            console.error("Error fetching tags:", error);
+            console.error('Error fetching tags:', error);
         } finally {
             setIsLoading(false);
         }
