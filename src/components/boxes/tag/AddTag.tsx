@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import styles from './AddTag.module.css';
 import axios from 'axios';
 import LoadingSpinner from '@/components/spinner/LoadingSpinner';
-import { domain } from '@/lib/global/global';
+import { domain, secure } from '@/lib/global/global';
 
 interface AddTagProps {
     tags: TagType[];
@@ -93,7 +93,7 @@ const AddTag: React.FC<AddTagProps> = ({ tags, setTags }) => {
     const fetchTags = async (query: string) => {
         setIsLoading(true);
         try {
-            const response = await axios.get(`http://${domain}:8080/Tag/GetTags`, { params: { searchQuery: query } });
+            const response = await axios.get(`http${secure ? 's' : ''}://${domain}:8080/Tag/GetTags`, { params: { searchQuery: query } });
             const tags = response.data.map((tag: { id: number; name: string }) => ({
                 id: tag.id,
                 name: tag.name,
