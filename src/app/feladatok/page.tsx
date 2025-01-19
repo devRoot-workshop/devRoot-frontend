@@ -4,7 +4,6 @@ import { useCallback, useEffect, useState } from "react";
 import QuestListComponent from "@/components/list/QuestList";
 import PaginationBox from "@/components/pagination/PaginationBox";
 import axios from "axios";
-import { useAuth } from "@/lib/authContext";
 import LoadingSpinner from "@/components/spinner/LoadingSpinner";
 import styles from "./pages.module.css";
 import InputBox from "@/components/boxes/input/InputBox";
@@ -25,8 +24,6 @@ interface FetchParams {
 const DEBOUNCE_DELAY = 500;
 
 const ListPage: React.FC = () => {
-    const { user: authUser } = useAuth();
-    const [user, setUser] = useState(authUser);
     const [quests, setQuests] = useState<QuestType[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [searchValue, setSearchValue] = useState<string>("");
@@ -99,12 +96,8 @@ const ListPage: React.FC = () => {
                 setIsLoading(false);
             }
         },
-        [user, difficulty, debouncedSearchValue, tags]
+        [difficulty, debouncedSearchValue, tags]
     );
-
-    useEffect(() => {
-        if (authUser) setUser(authUser);
-    }, [authUser]);
 
     useEffect(() => {
         fetchQuests(1);

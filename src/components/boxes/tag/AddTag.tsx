@@ -31,24 +31,24 @@ const AddTag: React.FC<AddTagProps> = ({ tags, setTags }) => {
         const buttonRect = buttonRef.current.getBoundingClientRect();
         const dropdownHeight = dropdownRef.current.offsetHeight;
         const windowHeight = window.innerHeight;
+
         const spaceBelow = windowHeight - buttonRect.bottom;
         const spaceAbove = buttonRect.top;
-        
+
         const shouldShowAbove = spaceBelow < dropdownHeight && spaceAbove > spaceBelow;
         setShowAbove(shouldShowAbove);
 
         setDropdownPosition({
             left: buttonRect.left + window.scrollX,
-            top: shouldShowAbove 
-                ? buttonRect.top + window.scrollY - dropdownHeight 
-                : buttonRect.bottom + window.scrollY
+            top: shouldShowAbove
+                ? buttonRect.top + window.scrollY - dropdownHeight
+                : buttonRect.bottom + window.scrollY,
         });
     };
 
     const toggleDropdown = () => {
         setDropdownVisible((prev) => {
             if (!prev) {
-                // Reset search when opening
                 setSearchQuery('');
                 fetchTags('');
             }
@@ -59,7 +59,6 @@ const AddTag: React.FC<AddTagProps> = ({ tags, setTags }) => {
     useEffect(() => {
         if (isDropdownVisible) {
             calculatePosition();
-            // Focus the input when dropdown opens
             inputRef.current?.focus();
 
             window.addEventListener('resize', calculatePosition);
@@ -67,17 +66,15 @@ const AddTag: React.FC<AddTagProps> = ({ tags, setTags }) => {
 
             const handleClickOutside = (event: MouseEvent) => {
                 if (!buttonRef.current || !dropdownRef.current) return;
-                
                 const target = event.target as Node;
-                
-                if (!buttonRef.current.contains(target) && 
-                    !dropdownRef.current.contains(target)) {
+
+                if (!buttonRef.current.contains(target) && !dropdownRef.current.contains(target)) {
                     setDropdownVisible(false);
                 }
             };
 
             document.addEventListener('mousedown', handleClickOutside);
-            
+
             return () => {
                 document.removeEventListener('mousedown', handleClickOutside);
                 window.removeEventListener('resize', calculatePosition);
@@ -89,31 +86,26 @@ const AddTag: React.FC<AddTagProps> = ({ tags, setTags }) => {
     const handleTagAdd = (id: number) => {
         const tagToAdd = fetchedTags.find((tag) => tag.id === id);
         if (tagToAdd && !tags.some((tag) => tag.id === id)) {
-            setTags(prevTags => [...prevTags, tagToAdd]);
+            setTags((prevTags) => [...prevTags, tagToAdd]);
         }
     };
 
     const fetchTags = async (query: string) => {
         setIsLoading(true);
         try {
-            const response = await axios.get(`http://${domain}:8080/Tag/GetTags`, {
-                params: {
-                    searchQuery: query
-                }
-            });
+            const response = await axios.get(`http://${domain}:8080/Tag/GetTags`, { params: { searchQuery: query } });
             const tags = response.data.map((tag: { id: number; name: string }) => ({
                 id: tag.id,
                 name: tag.name,
             }));
             setFetchedTags(tags);
         } catch (error) {
-            console.error("Error fetching tags:", error);
+            console.error('Error fetching tags:', error);
         } finally {
             setIsLoading(false);
         }
     };
 
-    // Debounce search
     useEffect(() => {
         const timer = setTimeout(() => {
             fetchTags(searchQuery);
@@ -137,7 +129,7 @@ const AddTag: React.FC<AddTagProps> = ({ tags, setTags }) => {
                 ReactDOM.createPortal(
                     <div
                         ref={dropdownRef}
-                        className={styles.dropdown}
+                        className={`${styles.dropdown} ${showAbove ? styles.showAbove : ''}`}
                         style={{
                             position: 'absolute',
                             top: dropdownPosition.top,
@@ -154,10 +146,12 @@ const AddTag: React.FC<AddTagProps> = ({ tags, setTags }) => {
                                     <div
                                         key={tag.id}
                                         className={styles.tagItem}
-                                        onClick={() => { handleTagAdd(tag.id); toggleDropdown(); }}
+                                        onClick={() => {
+                                            handleTagAdd(tag.id);
+                                            toggleDropdown();
+                                        }}
                                     >
                                         <p>{tag.name}</p>
-                                        {tag.description && <p>{tag.description}</p>}
                                     </div>
                                 ))
                             )}

@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useAuth } from "@/lib/authContext";
 import InputBox from "@/components/boxes/input/InputBox";
