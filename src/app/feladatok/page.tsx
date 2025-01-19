@@ -43,7 +43,6 @@ const ListPage: React.FC = () => {
 
     const fetchQuests = useCallback(
         async (page: number) => {
-            if (!user) return;
             setIsLoading(true);
             const tagIds = tags.length > 0 ? tags.map((tag) => tag.id) : null;
 
@@ -107,8 +106,8 @@ const ListPage: React.FC = () => {
     }, [authUser]);
 
     useEffect(() => {
-        if (user) fetchQuests(1);
-    }, [user, fetchQuests]);
+        fetchQuests(1);
+    }, [fetchQuests]);
 
     const onPageChange = (page: number) => {
         fetchQuests(page);

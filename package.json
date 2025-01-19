@@ -4,8 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
+    "devecske": "next dev --turbopack --port 80",
     "build": "next build",
     "start": "next start",
+    "startocska": "next start --port 80",
     "lint": "next lint"
   },
   "dependencies": {
