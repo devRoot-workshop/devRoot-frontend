@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Quick Start
 
-## Getting Started
+To install all the required dependencies run:
 
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```sh
+make install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+or on windows:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bat
+.\setup.ps1 install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+To build and run the application in development mode:
 
-## Learn More
+```sh
+make run_dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+or on windows:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bat
+.\setup.ps1 run_dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+And for production mode run:
 
-## Deploy on Vercel
+```sh
+make build run_prod
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+or on windows:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bat
+.\setup.ps1 build run_prod
+```
+
+These commands will run the frontend (and build it for production).
+
+To build into a docker container run:
+
+```sh
+make docker
+```
+
+On windows:
+
+```bat
+.\setup.ps1 docker
+```
+
+## Available Targets
+
+- `install`: Installs all the dependencies required by the application
+- `build`: Builds the nextjs application
+- `run_dev`: Runs the application in development mode
+- `run_prod`: Runs the application in production mode
+- `docker`: Builds and runs the docker container
