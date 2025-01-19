@@ -6,8 +6,8 @@ interface ListComponentProps {
     quests: QuestType[];
 }
 
-const difficultyLabels = ["Könnyű", "Közepes", "Nehéz"];
-const difficultyColors = ["#0ccc26", "yellow", "#cc0c16"];
+const difficultyLabels = ["", "Könnyű", "Közepes", "Nehéz"];
+const difficultyColors = ["", "#0ccc26", "yellow", "#cc0c16"];
 
 const QuestListComponent: React.FC<ListComponentProps> = ({ quests }) => {
     return (

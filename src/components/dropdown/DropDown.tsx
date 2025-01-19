@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './DropDown.module.css';
 
 interface Option {
-    value: string;
+    value: any;
     display: string;
 }
 
