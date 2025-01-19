@@ -10,6 +10,7 @@ import TagContainer from "@/components/boxes/tag/TagContainer";
 import TagComponent from "@/components/boxes/tag/TagComponent";
 import AddTag from "@/components/boxes/tag/AddTag";
 import DropDown from "@/components/dropdown/DropDown";
+import { domain } from "@/lib/global/global";
 
 const UploadPage: React.FC = () => {
     const { user } = useAuth();
@@ -55,7 +56,7 @@ const UploadPage: React.FC = () => {
 
         try {
             const response = await axios.post(
-                "http://localhost:8080/Quest/CreateQuest",
+                `http://${domain}:8080/Quest/CreateQuest`,
                 convertedFormData,
                 {
                     headers: {

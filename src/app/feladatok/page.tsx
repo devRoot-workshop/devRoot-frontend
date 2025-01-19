@@ -12,6 +12,7 @@ import DropDown from "@/components/dropdown/DropDown";
 import TagContainer from "@/components/boxes/tag/TagContainer";
 import TagComponent from "@/components/boxes/tag/TagComponent";
 import AddTag from "@/components/boxes/tag/AddTag";
+import { domain } from "@/lib/global/global";
 
 interface FetchParams {
     PageNumber: number;
@@ -60,7 +61,7 @@ const ListPage: React.FC = () => {
             console.log(params);
 
             try {
-                const response = await axios.get("http://localhost:8080/Quest/GetQuests", {
+                const response = await axios.get(`http://${domain}:8080/Quest/GetQuests`, {
                     params,
                     paramsSerializer: {
                         serialize: (params) => {
