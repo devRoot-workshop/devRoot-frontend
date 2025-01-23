@@ -31,6 +31,9 @@ const ListPage: React.FC = () => {
     const [difficulty, setDifficulty] = useState<number>(0);
     const [tags, setTags] = useState<TagType[]>([]);
 
+    const [orderBy, setOrderBy] = useState<"Title" | "Tags" | "Difficulty" | "CreationDate">("Title");
+    const [orderDirection, setOrderDirection] = useState<"asc" | "desc">("desc");
+
     useEffect(() => {
         const timer = setTimeout(() => {
             setDebouncedSearchValue(searchValue);
@@ -55,8 +58,6 @@ const ListPage: React.FC = () => {
                 params.SortTags = tagIds;
             }
 
-            console.log(params);
-
             try {
                 const response = await axios.get(`http${secure ? 's' : ''}://${domain}:${port}/Quest/GetQuests`, {
                     params,
@@ -74,9 +75,8 @@ const ListPage: React.FC = () => {
                         },
                     },
                 });
-                console.log(response.request)
 
-                const quests = response.data.map((quest: QuestType) => ({
+                const quests = response.data.items.map((quest: QuestType) => ({
                     id: quest.id,
                     title: quest.title,
                     taskDescription: quest.taskDescription,
@@ -148,7 +148,7 @@ const ListPage: React.FC = () => {
 
                 <br />
                 <div className="relative min-h-[200px]">
-                    <QuestListComponent quests={quests} />
+                    <QuestListComponent quests={quests} orderBy={orderBy} setOrderBy={setOrderBy} orderDirection={orderDirection} setOrderDirection={setOrderDirection}/>
                     {isLoading && <LoadingOverlay />}
                 </div>
                 <div className={styles.PaginationBox}>

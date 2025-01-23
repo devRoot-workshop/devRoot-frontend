@@ -4,17 +4,54 @@ import Link from "next/link";
 
 interface ListComponentProps {
     quests: QuestType[];
+    orderBy: "Title" | "Tags" | "Difficulty" | "CreationDate";
+    setOrderBy: (key: "Title" | "Tags" | "Difficulty" | "CreationDate") => void;
+    orderDirection: 'asc' | 'desc';
+    setOrderDirection: (direction: 'asc' | 'desc') => void;
 }
 
 const difficultyLabels = ["", "Könnyű", "Közepes", "Nehéz"];
 const difficultyColors = ["", "#0ccc26", "yellow", "#cc0c16"];
 
-const QuestListComponent: React.FC<ListComponentProps> = ({ quests }) => {
+const QuestListComponent: React.FC<ListComponentProps> = ({ 
+    quests, 
+    orderBy, 
+    setOrderBy,
+    orderDirection,
+    setOrderDirection
+}) => {
+    const handleHeaderClick = (key: "Title" | "Tags" | "Difficulty" | "CreationDate") => {
+        if (orderBy === key) {
+            setOrderDirection(orderDirection === 'desc' ? 'asc' : 'desc');
+        } else {
+            setOrderBy(key);
+            setOrderDirection('desc');
+        }
+    };
+
     return (
         <div className={styles.container}>
-            <div className={styles.header}>Cím</div>
-            <div className={styles.header}>Címkék</div>
-            <div className={styles.header}>Nehézség</div>
+            <div 
+                className={`${styles.header} ${orderBy === "Title" ? styles.selectedHeader : ''}`}
+                onClick={() => handleHeaderClick("Title")}
+                style={{ cursor: 'pointer' }}
+            >
+                Cím {orderBy === "Title" && (orderDirection === 'desc' ? '▲' : '▼')}
+            </div>
+            <div 
+                className={`${styles.header} ${orderBy === "Tags" ? styles.selectedHeader : ''}`}
+                onClick={() => handleHeaderClick("Tags")}
+                style={{ cursor: 'pointer' }}
+            >
+                Címkék {orderBy === "Tags" && (orderDirection === 'desc' ? '▲' : '▼')}
+            </div>
+            <div 
+                className={`${styles.header} ${orderBy === "Difficulty" ? styles.selectedHeader : ''}`}
+                onClick={() => handleHeaderClick("Difficulty")}
+                style={{ cursor: 'pointer' }}
+            >
+                Nehézség {orderBy === "Difficulty" && (orderDirection === 'desc' ? '▲' : '▼')}
+            </div>
             {quests.map((quest, index) => (
                 <React.Fragment key={index}>
                     <div className={styles.cell}>
