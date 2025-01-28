@@ -6,12 +6,18 @@ interface ListComponentProps {
     quests: QuestType[];
     orderBy: "Title" | "Tags" | "Difficulty" | "CreationDate";
     setOrderBy: (key: "Title" | "Tags" | "Difficulty" | "CreationDate") => void;
-    orderDirection: 'asc' | 'desc';
-    setOrderDirection: (direction: 'asc' | 'desc') => void;
+    orderDirection: 'Ascending' | 'Descending';
+    setOrderDirection: (direction: 'Ascending' | 'Descending') => void;
 }
 
 const difficultyLabels = ["", "Könnyű", "Közepes", "Nehéz"];
 const difficultyColors = ["", "#0ccc26", "yellow", "#cc0c16"];
+
+const difficultyMapping: { [key: string]: number } = {
+    "Easy": 1,
+    "Normal": 2,
+    "Hard": 3,
+};
 
 const QuestListComponent: React.FC<ListComponentProps> = ({ 
     quests, 
@@ -22,60 +28,64 @@ const QuestListComponent: React.FC<ListComponentProps> = ({
 }) => {
     const handleHeaderClick = (key: "Title" | "Tags" | "Difficulty" | "CreationDate") => {
         if (orderBy === key) {
-            setOrderDirection(orderDirection === 'desc' ? 'asc' : 'desc');
+            setOrderDirection(orderDirection === 'Descending' ? 'Ascending' : 'Descending');
         } else {
             setOrderBy(key);
-            setOrderDirection('desc');
+            setOrderDirection('Ascending');
         }
     };
 
     return (
         <div className={styles.container}>
             <div 
-                className={`${styles.header} ${orderBy === "Title" ? styles.selectedHeader : ''}`}
+                className={styles.header} 
                 onClick={() => handleHeaderClick("Title")}
                 style={{ cursor: 'pointer' }}
             >
-                Cím {orderBy === "Title" && (orderDirection === 'desc' ? '▲' : '▼')}
+                Cím {orderBy === "Title" && (orderDirection === 'Ascending' ? '▼' : '▲')}
             </div>
             <div 
-                className={`${styles.header} ${orderBy === "Tags" ? styles.selectedHeader : ''}`}
+                className={styles.header}
                 onClick={() => handleHeaderClick("Tags")}
                 style={{ cursor: 'pointer' }}
             >
-                Címkék {orderBy === "Tags" && (orderDirection === 'desc' ? '▲' : '▼')}
+                Címkék {orderBy === "Tags" && (orderDirection === 'Ascending' ? '▼' : '▲')}
             </div>
             <div 
-                className={`${styles.header} ${orderBy === "Difficulty" ? styles.selectedHeader : ''}`}
+                className={styles.header}
                 onClick={() => handleHeaderClick("Difficulty")}
                 style={{ cursor: 'pointer' }}
             >
-                Nehézség {orderBy === "Difficulty" && (orderDirection === 'desc' ? '▲' : '▼')}
+                Nehézség {orderBy === "Difficulty" && (orderDirection === 'Ascending' ? '▼' : '▲')}
             </div>
-            {quests.map((quest, index) => (
-                <React.Fragment key={index}>
-                    <div className={styles.cell}>
-                        <Link href={`/feladatok/${quest.id}`}>{quest.title}</Link>
-                    </div>
-                    <div className={styles.cell}>
-                        {quest.tags.length > 0 ? (
-                            quest.tags.map((tag) => (
-                                <span key={tag.id} className={styles.tag}>
-                                    {tag.name}
-                                </span>
-                            ))
-                        ) : (
-                            <span className={styles.tag}>Nincs címke</span>
-                        )}
-                    </div>
-                    <div
-                        className={styles.cell}
-                        style={{ color: difficultyColors[quest.difficulty] || "white" }}
-                    >
-                        {difficultyLabels[quest.difficulty] || "???"}
-                    </div>
-                </React.Fragment>
-            ))}
+            {quests.map((quest, index) => {
+                const difficultyNumber = difficultyMapping[quest.difficulty] || 0;
+
+                return (
+                    <React.Fragment key={index}>
+                        <div className={styles.cell}>
+                            <Link href={`/feladatok/${quest.id}`}>{quest.title}</Link>
+                        </div>
+                        <div className={styles.cell}>
+                            {quest.tags.length > 0 ? (
+                                quest.tags.map((tag) => (
+                                    <span key={tag.id} className={styles.tag}>
+                                        {tag.name}
+                                    </span>
+                                ))
+                            ) : (
+                                <span className={styles.tag}>Nincs címke</span>
+                            )}
+                        </div>
+                        <div
+                            className={styles.cell}
+                            style={{ color: difficultyColors[difficultyNumber] || "white" }}
+                        >
+                            {difficultyLabels[difficultyNumber] || "???"}
+                        </div>
+                    </React.Fragment>
+                );
+            })}
         </div>
     );
 };

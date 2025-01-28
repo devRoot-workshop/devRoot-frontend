@@ -14,14 +14,16 @@ import AddTag from "@/components/boxes/tag/AddTag";
 import { domain, port, secure } from "@/lib/global/global";
 
 interface FetchParams {
-    PageNumber: number;
-    PageSize: number;
-    SearchQuery: string;
-    SortDifficulty?: string | number;
-    SortTags?: number[];
+    pageNumber: number;
+    pageSize: number;
+    searchQuery: string;
+    sortDifficulty?: string | number;
+    sortTags?: number[];
+    orderBy?: string;
+    orderDirection?: string;
 }
 
-const DEBOUNCE_DELAY = 500;
+const DEBOUNCE_DELAY = 450;
 
 const ListPage: React.FC = () => {
     const [quests, setQuests] = useState<QuestType[]>([]);
@@ -32,7 +34,7 @@ const ListPage: React.FC = () => {
     const [tags, setTags] = useState<TagType[]>([]);
 
     const [orderBy, setOrderBy] = useState<"Title" | "Tags" | "Difficulty" | "CreationDate">("Title");
-    const [orderDirection, setOrderDirection] = useState<"asc" | "desc">("desc");
+    const [orderDirection, setOrderDirection] = useState<"Ascending" | "Descending">("Ascending");
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -48,14 +50,16 @@ const ListPage: React.FC = () => {
             const tagIds = tags.length > 0 ? tags.map((tag) => tag.id) : null;
 
             const params: FetchParams = {
-                PageNumber: page,
-                PageSize: 10,
-                SearchQuery: debouncedSearchValue,
-                SortDifficulty: difficulty,
+                pageNumber: page,
+                pageSize: 10,
+                searchQuery: debouncedSearchValue,
+                sortDifficulty: difficulty,
+                orderBy: orderBy,
+                orderDirection: orderDirection
             };
 
             if (tagIds !== null) {
-                params.SortTags = tagIds;
+                params.sortTags = tagIds;
             }
 
             try {
@@ -96,7 +100,7 @@ const ListPage: React.FC = () => {
                 setIsLoading(false);
             }
         },
-        [difficulty, debouncedSearchValue, tags]
+        [difficulty, debouncedSearchValue, tags, orderBy, orderDirection]
     );
 
     useEffect(() => {
