@@ -27,6 +27,7 @@ const DEBOUNCE_DELAY = 450;
 
 const ListPage: React.FC = () => {
     const [quests, setQuests] = useState<QuestType[]>([]);
+    const [totalPages, setTotalPages] = useState<number>(0);
     const [isLoading, setIsLoading] = useState(true);
     const [searchValue, setSearchValue] = useState<string>("");
     const [debouncedSearchValue, setDebouncedSearchValue] = useState<string>("");
@@ -92,7 +93,9 @@ const ListPage: React.FC = () => {
                         description: tag.description,
                     })),
                 }));
-
+                
+                console.log(response.data.totalPages)
+                setTotalPages(response.data.totalPages);
                 setQuests(quests);
             } catch (error) {
                 console.error("Error fetching quests:", error);
@@ -156,7 +159,7 @@ const ListPage: React.FC = () => {
                     {isLoading && <LoadingOverlay />}
                 </div>
                 <div className={styles.PaginationBox}>
-                    <PaginationBox onChange={onPageChange} isLoading={isLoading} />
+                    <PaginationBox totalPages={totalPages} onChange={onPageChange} isLoading={isLoading} />
                 </div>
             </div>
         </div>
