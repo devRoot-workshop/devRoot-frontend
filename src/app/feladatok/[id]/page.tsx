@@ -1,7 +1,8 @@
+import { domain, port, secure } from "@/lib/global/global";
 import QuestPage from "./QuestPage";
 
 async function fetchQuests(): Promise<QuestType[]> {
-    const response = await fetch("http://localhost:8080/Quest/GetQuests");
+    const response = await fetch(`http${secure ? 's' : ''}://${domain}:${port}/Quest/GetQuests`);
     if (!response.ok) {
         throw new Error(`Failed to fetch quests: ${response.statusText}`);
     }
@@ -9,7 +10,7 @@ async function fetchQuests(): Promise<QuestType[]> {
 }
 
 async function fetchQuest(id: string): Promise<QuestType> {
-    const response = await fetch(`http://localhost:8080/Quest/${id}/GetQuest`);
+    const response = await fetch(`http${secure ? 's' : ''}://${domain}:${port}/Quest/${id}/GetQuest`);
     if (!response.ok) {
         throw new Error(`Failed to fetch quest: ${response.statusText}`);
     }

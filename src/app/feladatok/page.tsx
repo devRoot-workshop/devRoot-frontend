@@ -1,33 +1,87 @@
-"use client"
+"use client";
 
 import { useCallback, useEffect, useState } from "react";
 import QuestListComponent from "@/components/list/QuestList";
 import PaginationBox from "@/components/pagination/PaginationBox";
 import axios from "axios";
-import { useAuth } from "@/lib/authContext";
 import LoadingSpinner from "@/components/spinner/LoadingSpinner";
 import styles from "./pages.module.css";
+import InputBox from "@/components/boxes/input/InputBox";
+import DropDown from "@/components/dropdown/DropDown";
+import TagContainer from "@/components/boxes/tag/TagContainer";
+import TagComponent from "@/components/boxes/tag/TagComponent";
+import AddTag from "@/components/boxes/tag/AddTag";
+import { domain, port, secure } from "@/lib/global/global";
+
+interface FetchParams {
+    pageNumber: number;
+    pageSize: number;
+    searchQuery: string;
+    sortDifficulty?: string | number;
+    sortTags?: number[];
+    orderBy?: string;
+    orderDirection?: string;
+}
+
+const DEBOUNCE_DELAY = 450;
 
 const ListPage: React.FC = () => {
-    const { user: authUser } = useAuth();
-    const [user, setUser] = useState(authUser);
     const [quests, setQuests] = useState<QuestType[]>([]);
+    const [totalPages, setTotalPages] = useState<number>(0);
     const [isLoading, setIsLoading] = useState(true);
+    const [searchValue, setSearchValue] = useState<string>("");
+    const [debouncedSearchValue, setDebouncedSearchValue] = useState<string>("");
+    const [difficulty, setDifficulty] = useState<number>(0);
+    const [tags, setTags] = useState<TagType[]>([]);
+
+    const [orderBy, setOrderBy] = useState<"Title" | "Tags" | "Difficulty" | "CreationDate">("Title");
+    const [orderDirection, setOrderDirection] = useState<"Ascending" | "Descending">("Ascending");
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setDebouncedSearchValue(searchValue);
+        }, DEBOUNCE_DELAY);
+
+        return () => clearTimeout(timer);
+    }, [searchValue]);
 
     const fetchQuests = useCallback(
         async (page: number) => {
-            if (!user) return;
             setIsLoading(true);
+            const tagIds = tags.length > 0 ? tags.map((tag) => tag.id) : null;
+
+            const params: FetchParams = {
+                pageNumber: page,
+                pageSize: 10,
+                searchQuery: debouncedSearchValue,
+                sortDifficulty: difficulty,
+                orderBy: orderBy,
+                orderDirection: orderDirection
+            };
+
+            if (tagIds !== null) {
+                params.sortTags = tagIds;
+            }
+
             try {
-                const response = await axios.get("http://localhost:8080/Quest/GetQuests", {
-                    params: {
-                        PageNumber: page,
-                        PageSize: 10,
+                const response = await axios.get(`http${secure ? 's' : ''}://${domain}:${port}/Quest/GetQuests`, {
+                    params,
+                    paramsSerializer: {
+                        serialize: (params) => {
+                            const queryString = new URLSearchParams();
+                            for (const key in params) {
+                                if (Array.isArray(params[key])) {
+                                    queryString.append(key, params[key].join(','));
+                                } else {
+                                    queryString.append(key, params[key]);
+                                }
+                            }
+                            return queryString.toString();
+                        },
                     },
-                    headers: { Authorization: `Bearer ${await user.getIdToken()}` },
                 });
 
-                const quests = response.data.map((quest: QuestType) => ({
+                const quests = response.data.items.map((quest: QuestType) => ({
                     id: quest.id,
                     title: quest.title,
                     taskDescription: quest.taskDescription,
@@ -39,7 +93,9 @@ const ListPage: React.FC = () => {
                         description: tag.description,
                     })),
                 }));
-
+                
+                console.log(response.data.totalPages)
+                setTotalPages(response.data.totalPages);
                 setQuests(quests);
             } catch (error) {
                 console.error("Error fetching quests:", error);
@@ -47,31 +103,63 @@ const ListPage: React.FC = () => {
                 setIsLoading(false);
             }
         },
-        [user]
+        [difficulty, debouncedSearchValue, tags, orderBy, orderDirection]
     );
 
     useEffect(() => {
-        if (authUser) setUser(authUser);
-    }, [authUser]);
-
-    useEffect(() => {
-        if (user) fetchQuests(1);
-    }, [user, fetchQuests]);
+        fetchQuests(1);
+    }, [fetchQuests]);
 
     const onPageChange = (page: number) => {
         fetchQuests(page);
     };
 
+
+
     return (
         <div>
             <div className={styles.container}>
+                <div className={styles.optionsContainer}>
+                    <DropDown
+                        name="difficulty"
+                        value={difficulty.toString()}
+                        onChange={(e) => setDifficulty(Number(e.target.value))}
+                        options={[
+                            { value: 0, display: "Minden nehézség" },
+                            { value: 1, display: "Könnyű" },
+                            { value: 2, display: "Közepes" },
+                            { value: 3, display: "Nehéz" },
+                        ]}
+                    />
+
+                    <TagContainer>
+                        {tags.map((tag) => (
+                            <TagComponent
+                                key={tag.id}
+                                id={tag.id}
+                                text={tag.name}
+                                setTags={setTags}
+                            />
+                        ))}
+                        <AddTag setTags={setTags} tags={tags} />
+                    </TagContainer>
+                </div>
+                <div className={styles.optionsContainer}>
+                    <InputBox
+                            value={searchValue}
+                            placeholderText="Keresés..."
+                            onChange={(e) => setSearchValue(e.target.value)}
+                            icon={"🔍"}
+                    />
+                </div>
+
                 <br />
                 <div className="relative min-h-[200px]">
-                    <QuestListComponent quests={quests} />
+                    <QuestListComponent quests={quests} orderBy={orderBy} setOrderBy={setOrderBy} orderDirection={orderDirection} setOrderDirection={setOrderDirection}/>
                     {isLoading && <LoadingOverlay />}
                 </div>
                 <div className={styles.PaginationBox}>
-                    <PaginationBox onChange={onPageChange} isLoading={isLoading} />
+                    <PaginationBox totalPages={totalPages} onChange={onPageChange} isLoading={isLoading} />
                 </div>
             </div>
         </div>
@@ -87,39 +175,3 @@ const LoadingOverlay = () => {
         </div>
     );
 };
-
-
-/*
-- SEARCH PARAMETER SETTINGS
-
-                <div className={styles.optionsContainer}>
-                    <select
-                        name="status"
-                        className={styles.customSelect}
-                        value={status}
-                        onChange={(e) => setStatus(e.target.value)}
-                    >
-                        <option value="all">Minden státusz</option>
-                        <option value="finished">Kész ✅</option>
-                        <option value="unfinished">Megoldatlan ❌</option>
-                    </select>
-                    <select
-                        name="difficulty"
-                        className={styles.customSelect}
-                        value={difficulty}
-                        onChange={(e) => setDifficulty(e.target.value)}
-                    >
-                        <option value="all">Minden nehézség</option>
-                        <option value="easy">Könnyű</option>
-                        <option value="medium">Közepes</option>
-                        <option value="hard">Nehéz</option>
-                    </select>
-                    <InputBox
-                        value={searchValue}
-                        placeholderText="Keresés..."
-                        onChange={(e) => setSearchValue(e.target.value)}
-                        icon={"🔍"}
-                    />
-                </div>
-                <br />
- */
