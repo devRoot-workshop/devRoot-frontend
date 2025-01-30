@@ -3,11 +3,21 @@ import QuestPage from "./QuestPage";
 
 async function fetchQuests(): Promise<QuestType[]> {
     const response = await fetch(`http${secure ? 's' : ''}://${domain}:${port}/Quest/GetQuests`);
+    
     if (!response.ok) {
         throw new Error(`Failed to fetch quests: ${response.statusText}`);
     }
-    return response.json();
+    
+    const data = (await response.json()).items;
+    console.log("Fetched quests data:", data);
+
+    if (!Array.isArray(data)) {
+        throw new Error("API did not return an array");
+    }
+
+    return data;
 }
+
 
 async function fetchQuest(id: string): Promise<QuestType> {
     const response = await fetch(`http${secure ? 's' : ''}://${domain}:${port}/Quest/${id}/GetQuest`);
