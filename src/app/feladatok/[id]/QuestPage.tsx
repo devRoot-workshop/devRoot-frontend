@@ -1,8 +1,6 @@
 import Timer from "@/components/boxes/Timer/Timer";
-import CodeBox from "@/components/boxes/Code/CodeBox";
 import DifficultyBox from "@/components/boxes/difficultybox/DifficultyBox";
 import styles from "./page.module.css";
-import { mapLanguageToString } from "@/lib/global/functions/language";
 import ConsoleDisplay from "@/components/boxes/console/Console";
 
 interface QuestPageProps {
@@ -26,17 +24,18 @@ export default function QuestPage({ quest }: QuestPageProps) {
             </div>
           
             <ConsoleDisplay text={quest.console}/> 
-          
-        </section>
-
-        <section className={styles.rightPanel}>
-          <h2 className={`text-lg font-bold`}>Code Example {mapLanguageToString(quest.language)}</h2>
-          <CodeBox code={quest.code} language={mapLanguageToString(quest.language)}/>
-        </section>
+        </section>        
       </main>
     </div>
   );
 }
+
+/*
+<section className={styles.rightPanel}>
+          <h2 className={`text-lg font-bold`}>Code Example {mapLanguageToString(quest.language)}</h2>
+          <CodeBox code={quest.code} language={mapLanguageToString(quest.language)}/>
+</section>
+*/
 
 /*
 
