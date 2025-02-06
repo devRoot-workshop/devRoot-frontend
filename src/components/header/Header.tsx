@@ -8,6 +8,7 @@ import Link from "next/link";
 
 function Header() {
   const { user, login, logout } = useAuth();
+  console.log(user?.getIdToken())
   return (
     <div className={styles["header-container"]}>
       <div className="flex space-x-12">

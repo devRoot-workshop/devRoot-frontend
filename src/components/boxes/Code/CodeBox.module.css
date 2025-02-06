@@ -16,23 +16,3 @@
   filter: none;
   opacity: 1;
 }
-
-.codeBlurred {
-  filter: blur(7.5px);
-  opacity: 0.6;
-  pointer-events: none; /* Prevent user interaction when blurred */
-}
-
-.toggleButton {
-  margin: 10px 0;
-  padding: 5px 10px;
-  background-color: #90ffd2;
-  border-color: #90ffd2 !important;
-  color: black;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.toggleButton:hover {
-  background-color: #80e7c2;
-}

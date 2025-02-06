@@ -1,0 +1,82 @@
+.title {
+  font-weight: 400;
+  font-size: 32px;
+}
+.questInformation {
+  color: #B9B9B9;
+  font-weight: 300;
+  font-size: 13px;
+}
+.questData, .questTextData {
+  margin-bottom: 20px;
+}
+
+.questContainer {
+    border: 2px solid rgba(255, 255, 255, 0.25);
+    border-radius: 8px;
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #FFFFFF05;
+  }
+  
+  .tabHeader {
+    display: flex;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.25);
+  }
+
+.tabHeader > :first-child.activeTab {
+  border-top-left-radius: 6px;
+  border-top-right-radius: 0;
+}
+
+.tabHeader > :last-child.activeTab {
+  border-top-left-radius: 0;
+  border-top-right-radius: 6px;
+}
+  
+  .tab, .activeTab {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+  
+  .activeTab {
+    background-color: rgba(255, 255, 255, 0.25);
+    font-weight: bold;
+  }
+  
+  .questContent, .solutionsContent {
+    padding: 20px;
+    height: 500px;
+    overflow-y: auto;
+  }
+  
+  .questTextData {
+    white-space: pre-line;
+    max-height: 200px;
+    margin-bottom: 35px;
+  }
+  
+  .tagContainer {
+    display: flex;
+    gap: 10px;
+    margin: 10px 0;
+  }
+  
+  .codeTabHeader {
+    display: flex;
+    margin-bottom: 10px;
+  }
+  
+  .codeTab, .activeCodeTab {
+    padding: 10px;
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+  
+  .activeCodeTab {
+    border-bottom: 2px solid white;
+  }
