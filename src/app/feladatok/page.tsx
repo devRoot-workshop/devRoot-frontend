@@ -8,10 +8,10 @@ import LoadingSpinner from "@/components/spinner/LoadingSpinner";
 import styles from "./pages.module.css";
 import InputBox from "@/components/boxes/input/InputBox";
 import DropDown from "@/components/dropdown/DropDown";
-import TagContainer from "@/components/boxes/tag/TagContainer";
 import TagComponent from "@/components/boxes/tag/TagComponent";
 import AddTag from "@/components/boxes/tag/AddTag";
 import { domain, port, secure } from "@/lib/global/global";
+import Container from "@/components/boxes/container/Container";
 
 interface FetchParams {
     pageNumber: number;
@@ -132,7 +132,7 @@ const ListPage: React.FC = () => {
                         ]}
                     />
 
-                    <TagContainer>
+                    <Container padding={"10px 12px"}>
                         {tags.map((tag) => (
                             <TagComponent
                                 key={tag.id}
@@ -142,7 +142,7 @@ const ListPage: React.FC = () => {
                             />
                         ))}
                         <AddTag setTags={setTags} tags={tags} />
-                    </TagContainer>
+                    </Container>
                 </div>
                 <div className={styles.optionsContainer}>
                     <InputBox

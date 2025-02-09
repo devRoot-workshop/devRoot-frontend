@@ -5,12 +5,12 @@ import { useAuth } from "@/lib/authContext";
 import InputBox from "@/components/boxes/input/InputBox";
 import styles from "./page.module.css";
 import Button from "@/components/button/Button";
-import TagContainer from "@/components/boxes/tag/TagContainer";
 import TagComponent from "@/components/boxes/tag/TagComponent";
 import AddTag from "@/components/boxes/tag/AddTag";
 import DropDown from "@/components/dropdown/DropDown";
 import { domain, port, secure } from "@/lib/global/global";
-import ExampleCodeContainer from "./exampleCodeBox/ExampleCodeBox";
+import DescriptionBox from "@/components/boxes/description/DescriptionBox";
+import Container from "@/components/boxes/container/Container";
 
 interface QuestType {
     id: number;
@@ -161,6 +161,8 @@ const UploadPage: React.FC = () => {
                         value={formData.taskDescription!}
                         placeholderText="Leírás"
                     />
+                    <br/>
+                    <p className="tag-text">Címkék</p>
                     <div className={styles.row}>
                         <DropDown
                             name="difficulty"
@@ -172,7 +174,7 @@ const UploadPage: React.FC = () => {
                                 { value: "2", display: "Nehéz" },
                             ]}
                         />
-                        <TagContainer>
+                        <Container padding="10px 12px">
                             {tags.map((tag) => (
                                 <TagComponent
                                     key={tag.id}
@@ -182,14 +184,43 @@ const UploadPage: React.FC = () => {
                                 />
                             ))}
                             <AddTag setTags={setTags} tags={tags} />
-                        </TagContainer>
+                        </Container>
                     </div>
                 </form>
             )}
             {activeTab === 'Megoldások' && (
                 <div className={styles.formContainer}>
-                    <h1 className={styles.pageTitle}>Megoldások</h1>
-                    a
+                    <h1 className={styles.pageTitle}>Példák</h1>
+                    <p className="tag-text">Konzol kimenet példa</p>
+                    <InputBox
+                        type="textarea"
+                        name="console"
+                        onChange={handleChange}
+                        value={formData.taskDescription!}
+                        placeholderText={"BEMENET: XY\nKIMENET: YX"}
+                    />
+                    <br/>
+                    <p className="tag-text">Kód megoldás példák</p>
+                    <Container padding="25px" direction="vertical" alignment="start">
+                        <InputBox
+                            type="textarea"
+                            name="exampleCode"
+                            onChange={handleChange}
+                            value={formData.title!}
+                            placeholderText="Kód"
+                        />
+                        <DropDown
+                            name="Language"
+                            value={"NextJS"}
+                            onChange={(e) => handleDifficultyChange(Number(e.target.value))}
+                            options={[
+                                { value: "0", display: "NextJS" },
+                                { value: "1", display: "Java" },
+                                { value: "2", display: "C++" },
+                            ]}
+                        />
+                        <Button size="small" color="pale">Hozzáadás</Button>
+                    </Container>
                 </div>
             )}
         </div>
