@@ -1,10 +1,13 @@
 .container {
-    margin: 0 auto;
-    width: 90%;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.25);
-    border-radius: 25px;
-    padding: 24px;
+    border-radius: 8px;
+    max-width: 850px;
+    margin: 0 auto;
+}
+
+.formContainer {
+    border-radius: 0px 0px 25px 25px;
     position: relative;
 }
 
@@ -15,19 +18,19 @@
     margin-bottom: 16px;
 }
 
-.container > * {
+.formContainer > * {
     display: block;
     margin-bottom: 12px;
 }
 
 .buttonGroup {
-    text-align: center; /* Center buttons on smaller screens */
+    text-align: center;
     margin-top: 16px;
 }
 
 .buttonGroup > button {
-    margin-left: 8px; /* Ensure spacing between buttons */
-    margin-top: 8px; /* For stacked layout on small screens */
+    margin-left: 8px;
+    margin-top: 8px;
 }
 
 .row {
@@ -40,9 +43,97 @@
     text-align: center;
 }
 
+.tabHeader {
+    margin: 0 auto;
+    display: flex;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.tabHeader > :first-child.activeTab {
+    border-top-left-radius: 6px;
+    border-top-right-radius: 0;
+}
+
+.tabHeader > :last-child.activeTab {
+    border-top-left-radius: 0;
+    border-top-right-radius: 6px;
+}
+
+.tab,
+.activeTab {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.activeTab {
+    background-color: rgba(255, 255, 255, 0.25);
+    font-weight: bold;
+}
+
+.title {
+    font-weight: 400;
+    font-size: 32px;
+}
+
+.questInformation {
+    color: #B9B9B9;
+    font-weight: 300;
+    font-size: 13px;
+}
+
+.questData,
+.questTextData {
+    margin-bottom: 20px;
+}
+
+.questContainer {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 8px;
+    margin: 0 auto;
+}
+
+.questContent,
+.solutionsContent {
+    padding: 20px;
+    height: 75vh;
+    overflow-y: auto;
+}
+
+.questTextData {
+    white-space: pre-line;
+    max-height: 200px;
+    margin-bottom: 35px;
+}
+
+.tagContainer {
+    display: flex;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.codeTabHeader {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.codeTab,
+.activeCodeTab {
+    padding: 10px;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.activeCodeTab {
+    border-bottom: 2px solid white;
+}
+
 @media (min-width: 1200px) {
-    .container {
-        width: 50%;
+    .formContainer {
         padding: 32px;
     }
 
@@ -52,12 +143,12 @@
     }
 
     .buttonGroup {
-        text-align: right; /* Align buttons to the right on larger screens */
+        text-align: right;
         margin-top: 24px;
     }
 
     .buttonGroup > button {
-        margin-left: 0; /* No extra spacing needed for inline layout */
+        margin-left: 0;
         margin-top: 0;
     }
 }
