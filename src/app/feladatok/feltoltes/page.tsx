@@ -27,7 +27,6 @@ const UploadPage: React.FC = () => {
     const [activeTab, setActiveTab] = useState("Feladat");
     const [currentCode, setCurrentCode] = useState("");
     const [currentLanguage, setCurrentLanguage] = useState("python");
-
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         setFormData(prev => ({
@@ -72,7 +71,8 @@ const UploadPage: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        const questData: QuestType = {
+        
+        const requestData = {
             id: 0,
             title: formData.title || "",
             taskDescription: formData.taskDescription || "",
@@ -81,13 +81,13 @@ const UploadPage: React.FC = () => {
             difficulty: formData.difficulty || 0,
             availableLanguages: formData.availableLanguages || [],
             created: new Date().toISOString(),
-            tags: tags
+            tagId: tags.map(tag => tag.id)
         };
-
+    
         try {
             const response = await axios.post(
                 `http${secure ? "s" : ""}://${domain}:${port}/Quest/CreateQuest`,
-                questData,
+                requestData,
                 {
                     headers: {
                         Authorization: `Bearer ${await user?.getIdToken()}`,
