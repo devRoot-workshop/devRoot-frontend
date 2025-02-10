@@ -26,9 +26,9 @@ interface FetchParams {
 const DEBOUNCE_DELAY = 450;
 
 const ListPage: React.FC = () => {
+    const [isLoading, setIsLoading] = useState(true);
     const [quests, setQuests] = useState<QuestType[]>([]);
     const [totalPages, setTotalPages] = useState<number>(0);
-    const [isLoading, setIsLoading] = useState(true);
     const [searchValue, setSearchValue] = useState<string>("");
     const [debouncedSearchValue, setDebouncedSearchValue] = useState<string>("");
     const [difficulty, setDifficulty] = useState<number>(0);
@@ -47,6 +47,7 @@ const ListPage: React.FC = () => {
 
     const fetchQuests = useCallback(
         async (page: number) => {
+            setQuests([])
             setIsLoading(true);
             const tagIds = tags.length > 0 ? tags.map((tag) => tag.id) : null;
 
@@ -170,7 +171,7 @@ export default ListPage;
 
 const LoadingOverlay = () => {
     return (
-        <div className="absolute inset-0 backdrop-blur-[2px] transition-opacity duration-300 flex items-center justify-center rounded-lg">
+        <div className="absolute inset-0 transition-opacity duration-300 flex items-center justify-center rounded-lg">
             <LoadingSpinner />
         </div>
     );
