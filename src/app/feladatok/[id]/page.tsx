@@ -35,6 +35,8 @@ async function fetchQuest(id: string): Promise<QuestType> {
     availableLanguages: data.availableLanguages || [],
     created: data.created || new Date().toISOString().split("T")[0],
     tags,
+    upvotes: data.upvotes,
+    downvotes: data.downvotes
   };
 }
 

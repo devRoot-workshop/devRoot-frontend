@@ -7,5 +7,8 @@ interface QuestType {
     difficulty: number,
     availableLanguages: string[],
     created: string,
-    tags: TagType[]
+    tags: TagType[],
+    
+    upvotes: number,
+    downvotes: number
 }

@@ -17,6 +17,7 @@
     border-radius: 8px;
     max-width: 850px;
     margin: 0 auto;
+    margin-bottom: 50px;
   }
   
   .tabHeader {
@@ -49,13 +50,10 @@
   
   .questContent, .solutionsContent {
     padding: 20px;
-    height: 75vh;
-    overflow-y: auto;
   }
   
   .questTextData {
     white-space: pre-line;
-    max-height: 200px;
     margin-bottom: 35px;
   }
   

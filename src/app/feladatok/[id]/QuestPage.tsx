@@ -5,6 +5,7 @@ import styles from './QuestPage.module.css';
 import ConsoleDisplay from '@/components/boxes/console/Console';
 import TagComponent from '@/components/boxes/tag/TagComponent';
 import CodeBox from '@/components/boxes/Code/CodeBox';
+import VoteButton from '@/components/vote/Vote';
 
 interface QuestPageProps {
   quest: QuestType;
@@ -55,6 +56,7 @@ export default function QuestPage({ quest }: QuestPageProps) {
           </div>
           <p className={styles.questTextData}>{quest.taskDescription}</p>
           <ConsoleDisplay text={quest.console}></ConsoleDisplay>
+          <VoteButton upvotes={quest.upvotes} downvotes={quest.downvotes} questId={quest.id} userVoted={false}/>
         </div>
       )}
 
