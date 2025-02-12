@@ -2,6 +2,7 @@
 import React, { useState } from 'react'
 import styles from './Vote.module.css'
 import { domain, port, secure } from "@/lib/global/global"
+import { useAuth } from '@/lib/authContext'
 
 interface VoteButtonProps {
   upvotes: number
@@ -11,6 +12,7 @@ interface VoteButtonProps {
 }
 
 const VoteButton: React.FC<VoteButtonProps> = ({ upvotes, downvotes, userVoted, questId }) => {
+  const { user } = useAuth();
   const [score, setScore] = useState<number>(upvotes - downvotes)
   const [voted, setVoted] = useState<boolean>(userVoted)
 
@@ -19,7 +21,7 @@ const VoteButton: React.FC<VoteButtonProps> = ({ upvotes, downvotes, userVoted, 
     try {
       const response = await fetch(`http${secure ? "s" : ""}://${domain}:${port}/Vote/Vote`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${await user?.getIdToken()}` },
         body: JSON.stringify({ type, for: "Quest", id: questId })
       })
       if (response.ok) {
