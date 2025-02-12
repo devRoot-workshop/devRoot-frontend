@@ -11,58 +11,27 @@ interface QuestPageProps {
 
 export default function QuestPage({ quest }: QuestPageProps) {
   return (
-    <div className={styles.exercisePage}>
+    <div className="min-h-screen bg-gray-100 p-4">
       <Timer />
 
-      <main>
-        <section className={styles.leftPanel}>
-            <div>
-                <h2 className={styles.title}>{quest.title}</h2>
-                <br />
-                <p className={styles.description}>
-                    {quest.taskDescription}
-                </p>
-                <DifficultyBox difficulty={quest.difficulty} />
-            </div>
-          
-            <ConsoleDisplay text={quest.console}/> 
-          
+      <main className="flex flex-col md:flex-row gap-4">
+        <section className="flex-1 p-4 bg-white rounded-lg shadow-md">
+          <div>
+            <h2 className="text-2xl font-bold">{quest.title}</h2>
+            <br />
+            <p className="text-gray-700">{quest.taskDescription}</p>
+            <DifficultyBox difficulty={quest.difficulty} />
+          </div>
+          <ConsoleDisplay text={quest.console} />
         </section>
 
-        <section className={styles.rightPanel}>
-          <h2 className={`text-lg font-bold`}>Code Example {mapLanguageToString(quest.language)}</h2>
-          <CodeBox code={quest.code} language={mapLanguageToString(quest.language)}/>
+        <section className="flex-1 p-4 bg-white rounded-lg shadow-md">
+          <h2 className="text-lg font-bold">
+            Code Example {mapLanguageToString(quest.language)}
+          </h2>
+          <CodeBox code={quest.code} language={mapLanguageToString(quest.language)} />
         </section>
       </main>
     </div>
   );
 }
-
-/*
-
-          {quest.code ? (
-            <>
-              <CodeBox code={quest.code} language={mapLanguageToString(quest.language)}/>
-            </>
-          ) : (
-            <div>
-              <h3>Logical Exercise</h3>
-              <form>
-                <label htmlFor="answer">Write the correct answer:</label>
-                <input 
-                  type="text" 
-                  id="answer" 
-                  name="answer" 
-                  className={styles.inputBox} 
-                />
-                <button 
-                  type="submit" 
-                  className={`${buttonStyles.button} ${buttonStyles.normal}`}
-                >
-                  Submit
-                </button>
-              </form>
-            </div>
-          )}
-
-*/
