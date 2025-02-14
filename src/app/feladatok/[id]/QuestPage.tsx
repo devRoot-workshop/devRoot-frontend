@@ -56,7 +56,7 @@ export default function QuestPage({ quest }: QuestPageProps) {
           </div>
           <p className={styles.questTextData}>{quest.taskDescription}</p>
           <ConsoleDisplay text={quest.console}></ConsoleDisplay>
-          <VoteButton upvotes={quest.upvotes} downvotes={quest.downvotes} questId={quest.id} userVoted={false}/>
+          <VoteButton votes={quest.votes} questId={quest.id} userVoted={false}/>
         </div>
       )}
 

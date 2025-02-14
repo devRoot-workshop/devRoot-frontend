@@ -5,15 +5,14 @@ import { domain, port, secure } from "@/lib/global/global"
 import { useAuth } from '@/lib/authContext'
 
 interface VoteButtonProps {
-  upvotes: number
-  downvotes: number
+  votes: number
   userVoted: boolean
   questId: number
 }
 
-const VoteButton: React.FC<VoteButtonProps> = ({ upvotes, downvotes, userVoted, questId }) => {
+const VoteButton: React.FC<VoteButtonProps> = ({votes, userVoted, questId }) => {
   const { user } = useAuth();
-  const [score, setScore] = useState<number>(upvotes - downvotes)
+  const [score, setScore] = useState<number>(votes)
   const [voted, setVoted] = useState<boolean>(userVoted)
 
   const handleVote = async (type: "UpVote" | "DownVote") => {
@@ -22,7 +21,7 @@ const VoteButton: React.FC<VoteButtonProps> = ({ upvotes, downvotes, userVoted, 
       const response = await fetch(`http${secure ? "s" : ""}://${domain}:${port}/Vote/Vote`, {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${await user?.getIdToken()}` },
-        body: JSON.stringify({ type, for: "Quest", id: questId })
+        body: JSON.stringify({ type, for: "Quest", voteid: questId })
       })
       if (response.ok) {
         setScore(type === "UpVote" ? score + 1 : score - 1)

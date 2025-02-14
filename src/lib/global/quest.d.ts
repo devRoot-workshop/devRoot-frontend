@@ -9,6 +9,5 @@ interface QuestType {
     created: string,
     tags: TagType[],
     
-    upvotes: number,
-    downvotes: number
+    votes: number
 }

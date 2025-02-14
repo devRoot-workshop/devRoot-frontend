@@ -1,10 +1,16 @@
 import QuestPage from "./QuestPage";
 import { domain, port, secure } from "@/lib/global/global";
 
+
+
 async function fetchQuest(id: string): Promise<QuestType> {
   const response = await fetch(
     `http${secure ? "s" : ""}://${domain}:${port}/Quest/${id}/GetQuest`,
-    { cache: 'no-store' }
+    
+    {
+      cache: 'no-store',
+      /** headers: { "Content-Type": "application/json", Authorization: `Bearer ${await user?.getIdToken()}` } */
+     }
   );
   
   if (!response.ok) {
@@ -35,8 +41,7 @@ async function fetchQuest(id: string): Promise<QuestType> {
     availableLanguages: data.availableLanguages || [],
     created: data.created || new Date().toISOString().split("T")[0],
     tags,
-    upvotes: data.upvotes,
-    downvotes: data.downvotes
+    votes: data.votes || 0,
   };
 }
 
