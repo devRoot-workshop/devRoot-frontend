@@ -1,11 +1,15 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import styles from './QuestPage.module.css';
 import ConsoleDisplay from '@/components/boxes/console/Console';
 import TagComponent from '@/components/boxes/tag/TagComponent';
 import CodeBox from '@/components/boxes/Code/CodeBox';
 import VoteButton from '@/components/vote/Vote';
+import { domain, port, secure } from '@/lib/global/global';
+import { useAuth } from '@/lib/authContext';
+import LoadingSpinner from '@/components/spinner/LoadingSpinner';
 
 interface QuestPageProps {
   quest: QuestType;
@@ -16,13 +20,39 @@ export default function QuestPage({ quest }: QuestPageProps) {
     return <div>No quest data available</div>;
   }
 
+  const { user, loading } = useAuth();
   const [activeTab, setActiveTab] = useState('Feladat');
   const [activeCodeTab, setActiveCodeTab] = useState(() => 
     quest.exampleCodes && quest.exampleCodes.length > 0 
       ? quest.exampleCodes[0].language 
       : ''
   );
-  
+  const [userVote, setUserVote] = useState<'UpVote' | 'DownVote' | 'none'>('none');
+  const [isVoteLoaded, setIsVoteLoaded] = useState(false);
+
+  useEffect(() => {
+    if (!loading) {
+      const fetchUserVote = async () => {
+        try {
+          const response = await axios.get(`http${secure ? 's' : ''}://${domain}:${port}/Vote/GetUserVotes`, {
+            params: { For: 'Quest', VoteId: quest.id },
+            headers: { "Content-Type": "application/json", Authorization: `Bearer ${await user?.getIdToken()}` },
+          });
+          
+          if(response.data.length > 0) {
+            setUserVote(response.data[0].type);
+          }
+
+          setIsVoteLoaded(true); // Set isVoteLoaded to true once the data is fetched
+        } catch (error) {
+          console.error('Error fetching user vote:', error);
+          setIsVoteLoaded(true); // Ensure isVoteLoaded is set to true even if there's an error
+        }
+      };
+      fetchUserVote();
+    }
+  }, [quest.id, loading, user]);
+
   return (
     <div className={styles.questContainer}>
       <div className={styles.tabHeader}>
@@ -56,7 +86,11 @@ export default function QuestPage({ quest }: QuestPageProps) {
           </div>
           <p className={styles.questTextData}>{quest.taskDescription}</p>
           <ConsoleDisplay text={quest.console}></ConsoleDisplay>
-          <VoteButton votes={quest.votes} questId={quest.id} userVoted={false}/>
+          {isVoteLoaded ? (
+            <VoteButton votes={quest.votes} questId={quest.id} userVoted={userVote}/>
+          ) : (
+            <LoadingSpinner />
+          )}
         </div>
       )}
 
