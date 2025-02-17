@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "@/lib/authContext";
 import InputBox from "@/components/boxes/input/InputBox";
@@ -11,9 +11,10 @@ import AddTag from "@/components/boxes/tag/AddTag";
 import DropDown from "@/components/dropdown/DropDown";
 import { domain, port, secure } from "@/lib/global/global";
 import Container from "@/components/boxes/container/Container";
+import LoadingSpinner from "@/components/spinner/LoadingSpinner";
 
 const UploadPage: React.FC = () => {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   const [formData, setFormData] = useState<Partial<QuestType>>({
     title: "",
     taskDescription: "",
@@ -35,6 +36,35 @@ const UploadPage: React.FC = () => {
     exampleCodes?: string;
     tags?: string;
   }>({});
+  const [roles, setRoles] = useState<string[] | null>(null);
+  const [roleLoading, setRoleLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchRoles() {
+      if (!user) {
+        setRoleLoading(false);
+        return;
+      }
+      try {
+        const token = await user.getIdToken();
+        const response = await axios.get(
+          `http${secure ? "s" : ""}://${domain}:${port}/Role/GetUserRoleTypes`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              Accept: "application/json"
+            }
+          }
+        );
+        setRoles(response.data);
+      } catch (error) {
+        console.error(error);
+        setRoles([]);
+      }
+      setRoleLoading(false);
+    }
+    fetchRoles();
+  }, [user]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -150,6 +180,20 @@ const UploadPage: React.FC = () => {
     setSubmissionSuccess(false);
     setErrors({});
   };
+
+
+  if (loading || roleLoading || roles === null) {
+    return <LoadingSpinner />;
+  }
+  
+  if (!user) {
+    return <h1 className="title-description">Jelentkezz be a feladat feltöltéshez!</h1>;
+  }
+  
+  if (!roles.includes("QuestCreator")) {
+    return <h1 className="title-description">Nincs jogod a feladatok feltöltésére.</h1>;
+  }
+  
 
   if (submissionSuccess) {
     return (
