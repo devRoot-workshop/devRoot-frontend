@@ -20,7 +20,7 @@ const UploadPage: React.FC = () => {
     taskDescription: "",
     exampleCodes: [],
     console: "",
-    difficulty: 0,
+    difficulty: 1,
     availableLanguages: [],
     tags: []
   });
@@ -172,7 +172,7 @@ const UploadPage: React.FC = () => {
       taskDescription: "",
       exampleCodes: [],
       console: "",
-      difficulty: 0,
+      difficulty: 1,
       availableLanguages: [],
       tags: []
     });
