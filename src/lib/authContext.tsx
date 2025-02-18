@@ -4,7 +4,6 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 import { User } from "firebase/auth";
 import { onAuthStateChanged, signInWithGoogle, signOutWithGoogle } from "./firebase/auth";
 import Header from "@/components/header/Header";
-import { log } from "console";
 
 interface AuthContextValue {
   user: User | null;

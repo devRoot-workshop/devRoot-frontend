@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import hljs from "highlight.js";
 import "highlight.js/styles/atom-one-dark.css"; // Import a theme
 import styles from "./CodeBox.module.css"; // Import the CSS module
