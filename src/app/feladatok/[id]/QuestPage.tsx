@@ -1,20 +1,97 @@
-import Timer from "@/components/boxes/Timer/Timer";
-import CodeBox from "@/components/boxes/Code/CodeBox";
-import DifficultyBox from "@/components/boxes/difficultybox/DifficultyBox";
-import styles from "./page.module.css";
-import { mapLanguageToString } from "@/lib/global/functions/language";
-import ConsoleDisplay from "@/components/boxes/console/Console";
+'use client';
+
+import { useState } from 'react';
+import styles from './QuestPage.module.css';
+import ConsoleDisplay from '@/components/boxes/console/Console';
+import TagComponent from '@/components/boxes/tag/TagComponent';
+import CodeBox from '@/components/boxes/Code/CodeBox';
 
 interface QuestPageProps {
   quest: QuestType;
 }
 
 export default function QuestPage({ quest }: QuestPageProps) {
-  return (
-    <div className={styles.exercisePage}>
-      <Timer />
+  if (!quest) {
+    return <div>No quest data available</div>;
+  }
 
-      <main>
+  const [activeTab, setActiveTab] = useState('Feladat');
+  const [activeCodeTab, setActiveCodeTab] = useState(() => 
+    quest.exampleCodes && quest.exampleCodes.length > 0 
+      ? quest.exampleCodes[0].language 
+      : ''
+  );
+  
+  return (
+    <div className={styles.questContainer}>
+      <div className={styles.tabHeader}>
+        <button 
+          className={activeTab === 'Feladat' ? styles.activeTab : styles.tab}
+          onClick={() => setActiveTab('Feladat')}
+        >
+          Feladat
+        </button>
+        <button 
+          className={activeTab === 'Megoldások' ? styles.activeTab : styles.tab}
+          onClick={() => setActiveTab('Megoldások')}
+        >
+          Megoldások
+        </button>
+      </div>
+
+      {activeTab === 'Feladat' && (
+        <div className={styles.questContent}>
+          <div className={styles.questData}>
+            <h1 className={styles.title}>{quest.title}</h1>
+            <p className={styles.questInformation}>{quest.difficulty} | {quest.created} | {quest.availableLanguages?.join(', ') || "Bármilyen nyelvre"}</p>
+            
+            <div className={styles.tagContainer}>
+              {quest.tags.map((tag) => (
+                <div key={tag.name}>
+                  <TagComponent id={tag.id} text={tag.name}></TagComponent>
+                </div>
+              ))}
+            </div>
+          </div>
+          <p className={styles.questTextData}>{quest.taskDescription}</p>
+          <ConsoleDisplay text={quest.console}></ConsoleDisplay>
+        </div>
+      )}
+
+      {activeTab === 'Megoldások' && (
+        <div className={styles.solutionsContent}>
+          {quest.exampleCodes && quest.exampleCodes.length > 0 ? (
+            <>
+              <div className={styles.codeTabHeader}>
+                {quest.exampleCodes.map((example) => (
+                  <button 
+                    key={example.id}
+                    className={activeCodeTab === example.language ? styles.activeCodeTab : styles.codeTab}
+                    onClick={() => setActiveCodeTab(example.language)}
+                  >
+                    {example.language}
+                  </button>
+                ))}
+              </div>
+              {quest.exampleCodes.map((example) => (
+                activeCodeTab === example.language && (
+                  <div key={example.id}>
+                    <CodeBox code={example.code} language={example.language}/>
+                  </div>
+                )
+              ))}
+            </>
+          ) : (
+            <div>Nincsenek megtekinthető megoldások.</div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+/*
+<main>
         <section className={styles.leftPanel}>
             <div>
                 <h2 className={styles.title}>{quest.title}</h2>
@@ -26,17 +103,16 @@ export default function QuestPage({ quest }: QuestPageProps) {
             </div>
           
             <ConsoleDisplay text={quest.console}/> 
-          
-        </section>
+        </section>        
+      </main>
+*/
 
-        <section className={styles.rightPanel}>
+/*
+<section className={styles.rightPanel}>
           <h2 className={`text-lg font-bold`}>Code Example {mapLanguageToString(quest.language)}</h2>
           <CodeBox code={quest.code} language={mapLanguageToString(quest.language)}/>
-        </section>
-      </main>
-    </div>
-  );
-}
+</section>
+*/
 
 /*
 

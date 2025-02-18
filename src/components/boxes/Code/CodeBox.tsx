@@ -16,7 +16,6 @@ interface CodeBoxProps {
 
 const CodeBox: React.FC<CodeBoxProps> = ({ code, language }) => {
   const codeRef = useRef<HTMLElement>(null);
-  const [isCodeVisible, setIsCodeVisible] = useState(false);
 
   useEffect(() => {
     if (codeRef.current) {
@@ -24,29 +23,16 @@ const CodeBox: React.FC<CodeBoxProps> = ({ code, language }) => {
     }
   }, [code, language]);
 
-  const toggleCodeVisibility = () => {
-    setIsCodeVisible((prev) => !prev);
-  };
 
   return (
-    <div className={styles.codeBoxContainer}>
-      <button
-        onClick={toggleCodeVisibility}
-        className={`${styles.toggleButton}`}
+    <div
+        className={`${styles.codeContainer}`}
       >
-        {isCodeVisible ? "Hide Code" : "Show Code"}
-      </button>
-      <div
-        className={`${styles.codeContainer} ${
-          isCodeVisible ? styles.codeVisible : styles.codeBlurred
-        }`}
-      >
-        <pre>
-          <code ref={codeRef} className={language}>
-            {code}
-          </code>
-        </pre>
-      </div>
+      <pre>
+        <code ref={codeRef} className={language}>
+          {code}
+        </code>
+      </pre>
     </div>
   );
 };

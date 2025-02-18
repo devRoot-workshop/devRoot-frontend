@@ -2,10 +2,10 @@ interface QuestType {
     id: number,
     title: string,
     taskDescription: string,
-    created: string,
-    difficulty: number,
-    code: string,
+    exampleCodes: ExampleCodeType[],
     console: string,
-    language: number,
+    difficulty: number,
+    availableLanguages: string[],
+    created: string,
     tags: TagType[]
 }
