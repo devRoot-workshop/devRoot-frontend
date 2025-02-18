@@ -101,6 +101,23 @@ const UploadPage: React.FC = () => {
             console.error("Error submitting data:", error);
         }
     };
+    try {
+      const response = await axios.post(
+        `http${secure ? "s" : ""}://${domain}:${port}/Quest/CreateQuest`,
+        requestData,
+        {
+          headers: {
+            Authorization: `Bearer ${await user?.getIdToken()}`,
+            Accept: "text/plain",
+          },
+        }
+      );
+      console.log("Response data:", response.data);
+      setSubmissionSuccess(true);
+    } catch (error) {
+      console.error("Error submitting data:", error);
+    }
+  };
 
     const newUpload = () => {
         setFormData({
@@ -133,6 +150,20 @@ const UploadPage: React.FC = () => {
         );
     }
 
+  if (loading || roleLoading || roles === null) {
+    return <LoadingSpinner />;
+  }
+  
+  if (!user) {
+    return <h1 className="title-description">Jelentkezz be a feladat feltöltéshez!</h1>;
+  }
+  
+  if (!roles.includes("QuestCreator")) {
+    return <h1 className="title-description">Nincs jogod a feladatok feltöltésére.</h1>;
+  }
+  
+
+  if (submissionSuccess) {
     return (
         <div className={styles.container}>
             <div className={styles.tabHeader}>
@@ -278,7 +309,9 @@ const UploadPage: React.FC = () => {
                 </div>
             </form>
         </div>
-    );
+      </form>
+    </div>
+  );
 };
 
 export default UploadPage;

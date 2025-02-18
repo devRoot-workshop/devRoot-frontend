@@ -1,5 +1,6 @@
-install:
+clean-install:
 	@echo "Installing all the dependencies for the nextjs application..."
+	@sudo rm -rf ./node_modules
 	@sudo npm install
 
 build:
