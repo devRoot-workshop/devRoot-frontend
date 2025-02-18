@@ -9,7 +9,7 @@ export default function ConsoleDisplay({ text }: ConsoleDisplayProps) {
     
     return (
       <div className={styles.consoleContainer}>
-        <h3 className="mt-4 font-semibold">Kimenet</h3>
+        <h3 className="font-semibold">Kimenet</h3>
         <pre className="bg-gray-900 text-green-400 p-4 rounded-lg">
             {text}
         </pre>
