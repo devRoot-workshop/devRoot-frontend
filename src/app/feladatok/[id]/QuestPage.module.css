@@ -12,16 +12,16 @@
 }
 
 .questContainer {
-    border: 2px solid rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.25);
     border-radius: 8px;
     max-width: 850px;
     margin: 0 auto;
-    background-color: #FFFFFF05;
   }
   
   .tabHeader {
     display: flex;
-    border-bottom: 2px solid rgba(255, 255, 255, 0.25);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
   }
 
 .tabHeader > :first-child.activeTab {

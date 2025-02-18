@@ -1,0 +1,28 @@
+.container {
+    align-items: center;
+    display: flex;
+    overflow-x: auto;
+    width: 100%;
+    border-radius: 25px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-sizing: border-box;
+    scrollbar-width: thin; 
+    scrollbar-color: #888 transparent; 
+    gap: 10px;
+    white-space: nowrap;
+  }
+  
+  .container > * {
+    flex-shrink: 0;
+  }
+  
+  .container::-webkit-scrollbar {
+    height: 6px;
+  }
+  
+  .container::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 10px;
+  }
+  

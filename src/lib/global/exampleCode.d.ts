@@ -1,5 +1,5 @@
 interface ExampleCodeType {
-    id: number,
+    id?: number,
     language: string,
     code: string
 }

@@ -4,7 +4,7 @@ import React, { FC } from 'react';
 import styles from './TagComponent.module.css';
 
 interface TagComponentProps {
-  id: number;
+  id?: number;
   text: string;
   setTags?: React.Dispatch<React.SetStateAction<TagType[]>>;
 }
