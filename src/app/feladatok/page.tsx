@@ -53,7 +53,7 @@ const ListPage: React.FC = () => {
 
             const params: FetchParams = {
                 pageNumber: page,
-                pageSize: 10,
+                pageSize: 15,
                 searchQuery: debouncedSearchValue,
                 sortDifficulty: difficulty,
                 orderBy: orderBy,
@@ -155,13 +155,16 @@ const ListPage: React.FC = () => {
                 </div>
 
                 <br />
-                <div className="relative min-h-[200px]">
+                <>
                     <QuestListComponent quests={quests} orderBy={orderBy} setOrderBy={setOrderBy} orderDirection={orderDirection} setOrderDirection={setOrderDirection}/>
-                    {isLoading && <LoadingOverlay />}
-                </div>
-                <div className={styles.PaginationBox}>
-                    <PaginationBox totalPages={totalPages} onChange={onPageChange} isLoading={isLoading} />
-                </div>
+                    {isLoading && 
+                        <>
+                            <div className="mb-48"/>
+                            <LoadingOverlay /> 
+                        </>
+                    }
+                </>
+                <PaginationBox totalPages={totalPages} onChange={onPageChange} isLoading={isLoading} />
             </div>
         </div>
     );
