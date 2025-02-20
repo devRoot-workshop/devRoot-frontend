@@ -191,7 +191,10 @@ const UploadPage: React.FC = () => {
   }
   
   if (!roles.includes("QuestCreator")) {
-    return <h1 className="title-description">Nincs jogod a feladatok feltöltésére.</h1>;
+    return <>
+        <h1 className="title-description">Nincs jogod a feladatok feltöltésére.</h1>
+        <p className="tag-text text-center">Amennyiben szeretnél hozzájárulni a feladatok listájához, írj nekünk egy email-t!</p>
+    </>;
   }
   
 

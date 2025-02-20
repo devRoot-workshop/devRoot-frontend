@@ -42,6 +42,7 @@
     color: white;
     display: flex;
     align-items: center;
+    cursor: pointer;
 }
 
 .header-element:hover {

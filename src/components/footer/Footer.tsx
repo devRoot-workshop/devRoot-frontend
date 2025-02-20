@@ -5,7 +5,7 @@ import styles from './Footer.module.css';
 const Footer: React.FC = () => {
   return (
     <div className={styles.contactSection}>
-      <p>Email: <a href="mailto:info@devroot.hu">info@devroot.hu</a></p>
+      <p>Email: <a href="mailto:contactdevroot@gmail.com">contactdevroot@gmail.com</a></p>
       <div className={styles.iconLinks}>
         <a href="https://discord.gg/d9n7wydkHu" target="_blank" rel="noopener noreferrer">
           <FaDiscord size={32} />
