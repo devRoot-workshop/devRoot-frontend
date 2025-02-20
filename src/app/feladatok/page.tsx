@@ -95,7 +95,6 @@ const ListPage: React.FC = () => {
                     })),
                 }));
                 
-                console.log(response.data.totalPages)
                 setTotalPages(response.data.totalPages);
                 setQuests(quests);
             } catch (error) {
