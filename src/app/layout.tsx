@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "../lib/authContext";
+import Footer from "@/components/footer/Footer";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -64,15 +65,20 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="hu">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} antialiased dark`}
+        className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} antialiased dark flex flex-col min-h-screen`}
       >
-        <AuthProvider>{children}</AuthProvider>
+        <AuthProvider>
+          <main className="flex-grow">{children}</main>
+        </AuthProvider>
+        <div className="mt-6">
+          <Footer />
+        </div>
       </body>
     </html>
   );
