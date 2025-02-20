@@ -1,4 +1,4 @@
-require('dotenv').config();
+import 'dotenv/config';
 
 const domain = process.env.NEXT_PUBLIC_DOMAIN;
 const secure = process.env.NEXT_PUBLIC_SECURE === 'true';
