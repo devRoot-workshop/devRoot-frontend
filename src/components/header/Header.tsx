@@ -3,7 +3,7 @@ import styles from "./Header.module.css";
 import { useAuth } from "@/lib/authContext";
 import Button from "../button/Button";
 import Link from "next/link";
-import { FaUserCircle, FaUpload, FaSignOutAlt, FaBars } from "react-icons/fa";
+import { FaUpload, FaSignOutAlt, FaBars } from "react-icons/fa";
 
 const Header: React.FC = () => {
   const { user, login, logout } = useAuth();
