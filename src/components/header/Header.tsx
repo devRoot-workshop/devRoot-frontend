@@ -1,64 +1,121 @@
-"use client";
-
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import styles from "./Header.module.css";
 import { useAuth } from "@/lib/authContext";
 import Button from "../button/Button";
 import Link from "next/link";
-import { FaUserCircle, FaUpload, FaSignOutAlt } from "react-icons/fa";
+import { FaUserCircle, FaUpload, FaSignOutAlt, FaBars } from "react-icons/fa";
 
 const Header: React.FC = () => {
   const { user, login, logout } = useAuth();
-  const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setDropdownOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
 
   return (
-    <div className={styles["header-container"]}>
-      <div className="flex space-x-12">
-        <Link prefetch={false} href="/" className={styles["header-element"]}>
+    <div className={`${styles["header-wrapper"]} ${mobileMenuOpen ? styles["menu-open"] : ""}`}>
+      <div className={styles["header-container"]}>
+        <Link prefetch={false} href="/" className={styles["header-logo"]}>
+          devRoot
+        </Link>
+
+        {/* Desktop Navigation */}
+        <div className={styles.headerElements}>
+          <Link prefetch={false} href="/" className={styles["header-element"]}>
+            Kezdőlap
+          </Link>
+          <Link prefetch={false} href="/feladatok" className={styles["header-element"]}>
+            Feladatok
+          </Link>
+        </div>
+
+        {/* Mobile Hamburger Button */}
+        <div className={styles["mobile-menu-button"]} onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+          <FaBars size={24} />
+        </div>
+
+        {/* Desktop User Menu */}
+        <div className={`${styles["header-user-container"]} ${styles.desktop}`}>
+          {user ? (
+            <div className={styles["user-profile"]}>
+              <Link
+                prefetch={false}
+                href="/feladatok/feltoltes"
+                className={styles["header-element"]}
+              >
+                <FaUpload className={styles["header-icon"]} />
+                Feltöltés
+              </Link>
+              <div
+                className={styles["header-element"]}
+                onClick={logout}
+              >
+                <FaSignOutAlt className={styles["header-icon"]} />
+                Kijelentkezés
+              </div>
+            </div>
+          ) : (
+            <Button
+              size="small"
+              color="pale"
+              ghost={false}
+              onClick={login}
+              className={styles.loginButton}
+            >
+              Bejelentkezés
+            </Button>
+          )}
+        </div>
+      </div>
+
+      {/* Mobile Menu */}
+      <div className={`${styles["mobile-menu"]} ${mobileMenuOpen ? styles.open : ""}`}>
+        <Link
+          prefetch={false}
+          href="/"
+          className={styles["mobile-menu-item"]}
+          onClick={() => setMobileMenuOpen(false)}
+        >
           Kezdőlap
         </Link>
-        <Link prefetch={false} href="/feladatok" className={styles["header-element"]}>
+        <Link
+          prefetch={false}
+          href="/feladatok"
+          className={styles["mobile-menu-item"]}
+          onClick={() => setMobileMenuOpen(false)}
+        >
           Feladatok
         </Link>
-      </div>
-      <div className={styles["header-user-container"]} ref={dropdownRef}>
         {user ? (
-          <div className={styles["user-dropdown"]}>
-            <FaUserCircle
-              size={48}
-              className={styles["user-icon"]}
-              onClick={() => setDropdownOpen(!dropdownOpen)}
-            />
-            {dropdownOpen && (
-              <div className={styles["dropdown-menu"]}>
-                <Link
-                  prefetch={false}
-                  href="/feladatok/feltoltes"
-                  className={styles["dropdown-item"]}
-                >
-                  <FaUpload className={styles["dropdown-icon"]} />
-                  Feltöltés
-                </Link>
-                <div className={styles["dropdown-item"]} onClick={logout}>
-                  <FaSignOutAlt className={styles["dropdown-icon"]} />
-                  Kijelentkezés
-                </div>
-              </div>
-            )}
-          </div>
+          <>
+            <Link
+              prefetch={false}
+              href="/feladatok/feltoltes"
+              className={styles["mobile-menu-item"]}
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <FaUpload className={styles["menu-icon"]} />
+              Feltöltés
+            </Link>
+            <div
+              className={styles["mobile-menu-item"]}
+              onClick={() => {
+                logout();
+                setMobileMenuOpen(false);
+              }}
+            >
+              <FaSignOutAlt className={styles["menu-icon"]} />
+              Kijelentkezés
+            </div>
+          </>
         ) : (
-          <Button size="small" color="pale" ghost={false} onClick={login}>
+          <Button
+            size="small"
+            color="pale"
+            ghost={false}
+            onClick={() => {
+              login();
+              setMobileMenuOpen(false);
+            }}
+            className={styles.mobileLoginButton}
+          >
             Bejelentkezés
           </Button>
         )}
