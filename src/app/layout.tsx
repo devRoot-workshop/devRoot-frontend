@@ -22,8 +22,44 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "devRoot - Kezdőlap",
-  description: "Egy közösség, ahol tanárok és diákok programozási feladatokat oszthatnak meg és használhatnak.",
+  title: "devRoot",
+  description: "Közösen írjuk a jövőd kódját!",
+  keywords: [
+    "Programming learning platform",
+    "Informatics exercises",
+    "Coding challenges",
+    "Hungarian programming courses",
+    "Algorithm practice",
+    "Web development",
+    "Linux operations",
+  ],
+  openGraph: {
+    title: "devRoot",
+    description: "Közösen írjuk a jövőd kódját!",
+    url: "https://devroot.hu",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "devRoot Open Graph Image",
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "devRoot",
+    description: "Közösen írjuk a jövőd kódját!",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "devRoot Twitter Image",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
@@ -32,7 +68,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="hu">
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} antialiased dark`}
       >

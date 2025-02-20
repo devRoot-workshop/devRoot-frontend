@@ -17,9 +17,6 @@ const Header: React.FC = () => {
             devRoot
           </Link>
           <div className={styles.headerElements}>          
-            <Link prefetch={false} href="/" className={styles["header-element"]}>
-              Kezdőlap
-            </Link>
             <Link prefetch={false} href="/feladatok" className={styles["header-element"]}>
               Feladatok
             </Link>
@@ -67,14 +64,6 @@ const Header: React.FC = () => {
 
       {/* Mobile Menu */}
       <div className={`${styles["mobile-menu"]} ${mobileMenuOpen ? styles.open : ""}`}>
-        <Link
-          prefetch={false}
-          href="/"
-          className={styles["mobile-menu-item"]}
-          onClick={() => setMobileMenuOpen(false)}
-        >
-          Kezdőlap
-        </Link>
         <Link
           prefetch={false}
           href="/feladatok"
