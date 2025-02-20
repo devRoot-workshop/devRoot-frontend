@@ -22,6 +22,12 @@
     background: #1a1a1a85;
 }
 
+.header-left-container {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+}
+
 .header-logo {
     font-size: 1.2rem;
     font-weight: 600;
@@ -47,6 +53,7 @@
 }
 
 .headerElements {
+    margin-left: 15px;
     display: flex;
     gap: 1.5rem;
 }

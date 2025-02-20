@@ -12,18 +12,18 @@ const Header: React.FC = () => {
   return (
     <div className={`${styles["header-wrapper"]} ${mobileMenuOpen ? styles["menu-open"] : ""}`}>
       <div className={styles["header-container"]}>
-        <Link prefetch={false} href="/" className={styles["header-logo"]}>
-          devRoot
-        </Link>
-
-        {/* Desktop Navigation */}
-        <div className={styles.headerElements}>
-          <Link prefetch={false} href="/" className={styles["header-element"]}>
-            Kezdőlap
+        <div className={styles["header-left-container"]}>
+          <Link prefetch={false} href="/" className={styles["header-logo"]}>
+            devRoot
           </Link>
-          <Link prefetch={false} href="/feladatok" className={styles["header-element"]}>
-            Feladatok
-          </Link>
+          <div className={styles.headerElements}>          
+            <Link prefetch={false} href="/" className={styles["header-element"]}>
+              Kezdőlap
+            </Link>
+            <Link prefetch={false} href="/feladatok" className={styles["header-element"]}>
+              Feladatok
+            </Link>
+          </div>
         </div>
 
         {/* Mobile Hamburger Button */}
