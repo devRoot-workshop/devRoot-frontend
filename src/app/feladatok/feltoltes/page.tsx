@@ -279,6 +279,16 @@ const UploadPage: React.FC = () => {
             {errors.tags && (
               <div className={styles.errorMessage}>{errors.tags}</div>
             )}
+            <div className={styles.buttonGroup}>
+                <Button 
+                    type="button" 
+                    size="large"
+                    color="pale"
+                    onClick={() => setActiveTab("Megoldások")}
+                >
+                    Folytatás
+                </Button>
+            </div>
           </>
         )}
         {activeTab === "Megoldások" && (
@@ -358,13 +368,13 @@ const UploadPage: React.FC = () => {
                 )}
               </div>
             </Container>
+            <div className={styles.buttonGroup}>
+                <Button type="submit" size="large">
+                    Feltöltés
+                </Button>
+            </div>
           </>
         )}
-        <div className={styles.buttonGroup}>
-          <Button type="submit" size="large">
-            Feltöltés
-          </Button>
-        </div>
       </form>
     </div>
   );
