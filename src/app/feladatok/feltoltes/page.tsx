@@ -18,6 +18,7 @@ const UploadPage: React.FC = () => {
   const [formData, setFormData] = useState<Partial<QuestType>>({
     title: "",
     taskDescription: "",
+    pseudoCode: "",
     exampleCodes: [],
     console: "",
     difficulty: 1,
@@ -141,6 +142,7 @@ const UploadPage: React.FC = () => {
       id: 0,
       title: formData.title || "",
       taskDescription: formData.taskDescription || "",
+      pseudoCode: formData.pseudoCode || "",
       exampleCodes: formData.exampleCodes || [],
       console: formData.console || "",
       difficulty: formData.difficulty || 0,
@@ -159,7 +161,6 @@ const UploadPage: React.FC = () => {
           },
         }
       );
-      // console.log("Response data:", response.data);
       setSubmissionSuccess(true);
     } catch (error) {
       console.error("Error submitting data:", error);
@@ -170,6 +171,7 @@ const UploadPage: React.FC = () => {
     setFormData({
       title: "",
       taskDescription: "",
+      pseudoCode: "",
       exampleCodes: [],
       console: "",
       difficulty: 1,
@@ -180,7 +182,6 @@ const UploadPage: React.FC = () => {
     setSubmissionSuccess(false);
     setErrors({});
   };
-
 
   if (loading || roleLoading || roles === null) {
     return <LoadingSpinner />;
@@ -197,7 +198,6 @@ const UploadPage: React.FC = () => {
     </>;
   }
   
-
   if (submissionSuccess) {
     return (
       <div className={styles.container}>
@@ -251,6 +251,13 @@ const UploadPage: React.FC = () => {
               value={formData.taskDescription!}
               placeholderText="Leírás"
             />
+            <InputBox
+              type="textarea"
+              name="pseudoCode"
+              onChange={handleChange}
+              value={formData.pseudoCode!}
+              placeholderText="Pseudo kód (opcionális)"
+            />
             {errors.taskDescription && (
               <div className={styles.errorMessage}>{errors.taskDescription}</div>
             )}
@@ -283,14 +290,14 @@ const UploadPage: React.FC = () => {
               <div className={styles.errorMessage}>{errors.tags}</div>
             )}
             <div className={styles.buttonGroup}>
-                <Button 
-                    type="button" 
-                    size="large"
-                    color="pale"
-                    onClick={() => setActiveTab("Megoldások")}
-                >
-                    Folytatás
-                </Button>
+              <Button 
+                type="button" 
+                size="large"
+                color="pale"
+                onClick={() => setActiveTab("Megoldások")}
+              >
+                Folytatás
+              </Button>
             </div>
           </>
         )}
@@ -372,9 +379,9 @@ const UploadPage: React.FC = () => {
               </div>
             </Container>
             <div className={styles.buttonGroup}>
-                <Button type="submit" size="large">
-                    Feltöltés
-                </Button>
+              <Button type="submit" size="large">
+                Feltöltés
+              </Button>
             </div>
           </>
         )}

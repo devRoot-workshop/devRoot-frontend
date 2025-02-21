@@ -5,6 +5,7 @@ export const mapToQuestType = (data: QuestType): QuestType => {
     taskDescription: data.taskDescription,
     exampleCodes: data.exampleCodes ?? [],
     console: data.console,
+    pseudoCode: data.pseudoCode,
     difficulty: data.difficulty,
     availableLanguages: data.availableLanguages,
     created: data.created,

@@ -52,8 +52,8 @@ export default function QuestPage({ quest }: QuestPageProps) {
       fetchUserVote();
     }
   }, [quest, loading, user]);
-
-  if (!quest) return <div>No quest data available</div>;
+  
+  if (quest.title === null) return <h1 className="title-description">Feladat nem található.</h1>;
 
   return (
     <div className={styles.questContainer}>
@@ -88,7 +88,9 @@ export default function QuestPage({ quest }: QuestPageProps) {
             </div>
           </div>
           <p className={styles.questTextData}>{quest.taskDescription}</p>
-          <ConsoleDisplay text={quest.console} />
+          {quest.pseudoCode != "" ? <ConsoleDisplay title={"Pseudo kód"} text={quest.pseudoCode} /> : <></>}
+          <div className={"mt-6"}></div>
+          <ConsoleDisplay title={"Kimenet"} text={quest.console} />
           {isVoteLoaded ? (
             <VoteButton votes={quest.votes} questId={quest.id} userVoted={userVote} />
           ) : (
