@@ -159,7 +159,6 @@ const UploadPage: React.FC = () => {
           },
         }
       );
-      console.log("Response data:", response.data);
       setSubmissionSuccess(true);
     } catch (error) {
       console.error("Error submitting data:", error);

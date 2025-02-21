@@ -52,8 +52,8 @@ export default function QuestPage({ quest }: QuestPageProps) {
       fetchUserVote();
     }
   }, [quest, loading, user]);
-
-  if (!quest) return <div>No quest data available</div>;
+  
+  if (quest.title === null) return <h1 className="title-description">Feladat nem található.</h1>;
 
   return (
     <div className={styles.questContainer}>
