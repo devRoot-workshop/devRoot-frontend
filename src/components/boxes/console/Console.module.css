@@ -1,5 +1,21 @@
-.consoleContainer{
-    font-family: Fira Code, Consolas, Ubuntu mono,monospace;
-    background-color: #212222;
+.consoleContainer {
+    font-family: Fira Code, Consolas, Ubuntu mono, monospace;
+    background-color: #171422;
     border-radius: 15px;
-}
+    overflow-x: auto;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .consoleContainer pre {
+    width: 100%;
+    text-overflow: ellipsis;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  
+  .title {
+    background-color: rgb(32, 32, 32);
+    font-weight: bold;
+  }
+  
