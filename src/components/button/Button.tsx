@@ -16,6 +16,7 @@ interface ButtonProps {
   children: React.ReactNode;
   onClick?: () => void;
   href?: string;
+  className?: string;
 }
 
 const Button: FC<ButtonProps> = ({
@@ -29,6 +30,7 @@ const Button: FC<ButtonProps> = ({
   href,
   children,
   onClick,
+  className = "",
 }) => {
   const { user, login } = useAuth();
   const sizeClass = size === 'large' ? styles.large : styles.small;
@@ -39,22 +41,23 @@ const Button: FC<ButtonProps> = ({
   const ghostClass = ghost ? styles.ghost : "";
 
   function onRegistrationClick() {
-    if(!user) {
+    if (!user) {
       login();
     }
   }
 
-  //if this is a registration button while the user is signed in, yet no text and href were given when its a registration button,
-  if(isRegistrationButton && user && textIfAuthenticated == null && hrefIfAuthenticated == null) return <></>
+  if (isRegistrationButton && user && textIfAuthenticated == null && hrefIfAuthenticated == null) return <></>;
+
+  const combinedClassName = `${styles.button} ${sizeClass} ${colorClass} ${ghostClass} ${className}`.trim();
 
   return href ? (
-    <Link className={`${styles.button} ${sizeClass} ${colorClass} ${ghostClass}`}href={hrefIfAuthenticated ?? href} passHref>
+    <Link className={combinedClassName} href={hrefIfAuthenticated ?? href} passHref>
       {user && textIfAuthenticated ? textIfAuthenticated : children}
     </Link>
   ) : (
     <button
       type={type}
-      className={`${styles.button} ${sizeClass} ${colorClass} ${ghostClass}`}
+      className={combinedClassName}
       onClick={isRegistrationButton ? onRegistrationClick : onClick}
     >
       {user && textIfAuthenticated ? textIfAuthenticated : children}

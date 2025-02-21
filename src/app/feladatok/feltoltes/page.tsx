@@ -20,7 +20,7 @@ const UploadPage: React.FC = () => {
     taskDescription: "",
     exampleCodes: [],
     console: "",
-    difficulty: 0,
+    difficulty: 1,
     availableLanguages: [],
     tags: []
   });
@@ -172,7 +172,7 @@ const UploadPage: React.FC = () => {
       taskDescription: "",
       exampleCodes: [],
       console: "",
-      difficulty: 0,
+      difficulty: 1,
       availableLanguages: [],
       tags: []
     });
@@ -191,7 +191,10 @@ const UploadPage: React.FC = () => {
   }
   
   if (!roles.includes("QuestCreator")) {
-    return <h1 className="title-description">Nincs jogod a feladatok feltöltésére.</h1>;
+    return <>
+        <h1 className="title-description">Nincs jogod a feladatok feltöltésére.</h1>
+        <p className="tag-text text-center">Amennyiben szeretnél hozzájárulni a feladatok listájához, írj nekünk egy email-t!</p>
+    </>;
   }
   
 
@@ -279,6 +282,16 @@ const UploadPage: React.FC = () => {
             {errors.tags && (
               <div className={styles.errorMessage}>{errors.tags}</div>
             )}
+            <div className={styles.buttonGroup}>
+                <Button 
+                    type="button" 
+                    size="large"
+                    color="pale"
+                    onClick={() => setActiveTab("Megoldások")}
+                >
+                    Folytatás
+                </Button>
+            </div>
           </>
         )}
         {activeTab === "Megoldások" && (
@@ -358,13 +371,13 @@ const UploadPage: React.FC = () => {
                 )}
               </div>
             </Container>
+            <div className={styles.buttonGroup}>
+                <Button type="submit" size="large">
+                    Feltöltés
+                </Button>
+            </div>
           </>
         )}
-        <div className={styles.buttonGroup}>
-          <Button type="submit" size="large">
-            Feltöltés
-          </Button>
-        </div>
       </form>
     </div>
   );
