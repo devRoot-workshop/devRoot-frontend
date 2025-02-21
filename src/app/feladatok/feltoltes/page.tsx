@@ -12,6 +12,7 @@ import DropDown from "@/components/dropdown/DropDown";
 import { domain, port, secure } from "@/lib/global/global";
 import Container from "@/components/boxes/container/Container";
 import LoadingSpinner from "@/components/spinner/LoadingSpinner";
+import { languages } from "@/lib/global/languages";
 
 const UploadPage: React.FC = () => {
   const { user, loading } = useAuth();
@@ -330,14 +331,7 @@ const UploadPage: React.FC = () => {
                   name="Language"
                   value={currentLanguage}
                   onChange={(e) => setCurrentLanguage(e.target.value)}
-                  options={[
-                    { value: "python", display: "Python" },
-                    { value: "csharp", display: "C#" },
-                    { value: "nextjs", display: "NextJS" },
-                    { value: "java", display: "Java" },
-                    { value: "cpp", display: "C++" },
-                    { value: "c", display: "C" },
-                  ]}
+                  options={languages}
                 />
                 <Button
                   size="small"
