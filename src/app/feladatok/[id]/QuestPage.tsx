@@ -88,7 +88,9 @@ export default function QuestPage({ quest }: QuestPageProps) {
             </div>
           </div>
           <p className={styles.questTextData}>{quest.taskDescription}</p>
-          <ConsoleDisplay text={quest.console} />
+          {quest.pseudoCode != "" ? <ConsoleDisplay title={"Pseudo kód"} text={quest.pseudoCode} /> : <></>}
+          <div className={"mt-6"}></div>
+          <ConsoleDisplay title={"Kimenet"} text={quest.console} />
           {isVoteLoaded ? (
             <VoteButton votes={quest.votes} questId={quest.id} userVoted={userVote} />
           ) : (
