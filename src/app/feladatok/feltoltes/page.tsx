@@ -149,7 +149,7 @@ const UploadPage: React.FC = () => {
       tagId: tags.map((tag) => tag.id),
     };
     try {
-      const response = await axios.post(
+      await axios.post(
         `http${secure ? "s" : ""}://${domain}:${port}/Quest/CreateQuest`,
         requestData,
         {
