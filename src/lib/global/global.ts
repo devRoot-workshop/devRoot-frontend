@@ -1,5 +1,8 @@
-const domain = "localhost"
-const secure = false;
-const port = 8080
+import dotenv from 'dotenv';
+dotenv.config();
 
-export {domain, secure, port}
+const domain = process.env.NEXT_PUBLIC_DOMAIN;
+const secure = process.env.NEXT_PUBLIC_SECURE === 'true';
+const port = process.env.NEXT_PUBLIC_PORT;
+
+export { domain, secure, port };
